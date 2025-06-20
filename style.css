@@ -68,3 +68,16 @@
 .categorie-buttons button:hover {
   background: #0652dd;
 }
+.ajouter-service button {
+  background: #6c5ce7;
+  color: white;
+  padding: 12px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.ajouter-service button:hover {
+  background: #4b4bff;
+}
