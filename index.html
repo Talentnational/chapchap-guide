@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Chap Chap Guide</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #0066cc;
+      color: white;
+      padding: 20px 0;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px 10px;
+    }
+    .category {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 140px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .category:hover {
+      transform: scale(1.05);
+      background: #e6f0ff;
+    }
+    .ajouter {
+      margin: 30px;
+      padding: 15px 25px;
+      font-size: 16px;
+      background: #00cc66;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .ajouter:hover {
+      background: #00994d;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Chap Chap Guide</h1>
+  <p>Trouvez facilement les meilleurs établissements près de chez vous</p>
+</header>
+
+<section class="categories">
+  <div class="category" onclick="alert('Pharmacies bientôt disponibles')">🏥 Pharmacies</div>
+  <div class="category" onclick="alert('Restaurants bientôt disponibles')">🍽️ Restaurants</div>
+  <div class="category" onclick="alert('Hôtels bientôt disponibles')">🏨 Hôtels</div>
+</section>
+
+<a href="ajouter.html">
+  <button class="ajouter">➕ Ajouter mon établissement</button>
+</a>
+
+</body>
+</html>
