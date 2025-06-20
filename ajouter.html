@@ -1,75 +1,127 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Ajouter un établissement - Chap Chap Guide</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ajouter un service</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
       padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      color: #0066cc;
-    }
-    form {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    input, textarea, select {
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
+      margin-top: 5px;
       border: 1px solid #ccc;
+      border-radius: 6px;
     }
+
+    input[type="file"] {
+      padding: 6px;
+    }
+
+    img {
+      margin-top: 10px;
+      max-width: 100%;
+      border-radius: 6px;
+      display: none;
+    }
+
     button {
-      background-color: #00cc66;
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #6c5ce7;
       color: white;
       border: none;
-      padding: 12px 20px;
+      font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
     }
+
     button:hover {
-      background-color: #00994d;
+      background: #4b4bff;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #888;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <h1>Ajouter mon établissement</h1>
-  <p>Remplissez ce formulaire pour apparaître sur Chap Chap Guide</p>
+  <h1>➕ Ajouter un Service</h1>
 
-  <form action="https://formsubmit.co/omacaeldegos@gmail.com" method="POST">
-    <input type="text" name="nom" placeholder="Nom de l’établissement" required>
+  <form action="https://formsubmit.co/TON-EMAIL@gmail.com" method="POST" enctype="multipart/form-data">
     
-    <select name="catégorie" required>
-      <option value="">Choisissez une catégorie</option>
-      <option>Pharmacie</option>
-      <option>Restaurant</option>
-      <option>Hôtel</option>
+    <label for="nom">Nom du service</label>
+    <input type="text" name="nom" required>
+
+    <label for="type">Type de service</label>
+    <select name="type" required>
+      <option value="">-- Sélectionner --</option>
+      <option value="Hôtel">Hôtel</option>
+      <option value="Pharmacie">Pharmacie</option>
+      <option value="Restaurant">Restaurant</option>
     </select>
 
-    <input type="text" name="ville" placeholder="Ville / Quartier" required>
+    <label for="emplacement">Emplacement</label>
+    <input type="text" name="emplacement" required>
 
-    <input type="text" name="whatsapp" placeholder="Numéro WhatsApp" required>
+    <label for="whatsapp">Numéro WhatsApp</label>
+    <input type="text" name="whatsapp" placeholder="ex: 0700000000" required>
 
-    <textarea name="description" placeholder="Décrivez brièvement l’établissement" rows="4"></textarea>
+    <label for="facebook">Page Facebook (facultatif)</label>
+    <input type="text" name="facebook" placeholder="https://facebook.com/tonpage">
 
-    <input type="text" name="photo" placeholder="Lien vers une photo (optionnel)">
+    <label for="photo">Photo du service</label>
+    <input type="file" name="photo" accept="image/*" onchange="previewPhoto(event)" required>
+    <img id="preview" />
 
-    <!-- Redirection vers la page d’accueil après soumission -->
-    <input type="hidden" name="_next" value="https://chapchap-guide.vercel.app/index.html">
-    
-    <button type="submit">Envoyer</button>
+    <input type="hidden" name="_next" value="https://tonsite.vercel.app/merci.html">
+
+    <button type="submit">Soumettre et Payer</button>
+
+    <div class="note">⚠️ Vous serez redirigé après paiement pour validation</div>
   </form>
 
+  <script>
+    function previewPhoto(event) {
+      const reader = new FileReader();
+      reader.onload = function(){
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.style.display = "block";
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+
 </body>
-                                                                                              </html>
-                                                                                              
+</html>
