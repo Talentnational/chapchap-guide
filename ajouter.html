@@ -39,25 +39,6 @@
       border-radius: 6px;
     }
 
-    input[type="file"] {
-      padding: 6px;
-    }
-
-    .preview-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .preview-container img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 6px;
-      display: none;
-    }
-
     button {
       margin-top: 20px;
       width: 100%;
@@ -80,13 +61,47 @@
       color: #888;
       text-align: center;
     }
+
+    /* Grille photo */
+    .photo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .photo-box {
+      width: 100px;
+      height: 100px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #f1f1f1;
+    }
+
+    .photo-box input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <h1>➕ Ajouter un Service</h1>
 
-  <form action="https://formsubmit.co/TON-EMAIL@gmail.com" method="POST" enctype="multipart/form-data">
+  <form action="https://formsubmit.co/omacaeldegos@gmail.com" method="POST" enctype="multipart/form-data">
     
     <label for="nom">Nom du service</label>
     <input type="text" name="nom" required>
@@ -108,11 +123,32 @@
     <label for="facebook">Page Facebook (facultatif)</label>
     <input type="text" name="facebook" placeholder="https://facebook.com/tonpage">
 
-    <label for="photos">Photos (max 6)</label>
-    <input type="file" name="photos[]" accept="image/*" multiple required onchange="previewMultiple(event)">
-    
-    <div class="preview-container" id="preview-container">
-      <!-- Images preview s’afficheront ici -->
+    <label>Photos de votre établissement (max 6)</label>
+    <div class="photo-grid">
+      <div class="photo-box" onclick="triggerInput(0)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 0)">
+        <img id="img0" src=""/>
+      </div>
+      <div class="photo-box" onclick="triggerInput(1)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 1)">
+        <img id="img1" src=""/>
+      </div>
+      <div class="photo-box" onclick="triggerInput(2)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 2)">
+        <img id="img2" src=""/>
+      </div>
+      <div class="photo-box" onclick="triggerInput(3)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 3)">
+        <img id="img3" src=""/>
+      </div>
+      <div class="photo-box" onclick="triggerInput(4)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 4)">
+        <img id="img4" src=""/>
+      </div>
+      <div class="photo-box" onclick="triggerInput(5)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 5)">
+        <img id="img5" src=""/>
+      </div>
     </div>
 
     <input type="hidden" name="_next" value="https://tonsite.vercel.app/merci.html">
@@ -123,21 +159,18 @@
   </form>
 
   <script>
-    function previewMultiple(event) {
-      const files = event.target.files;
-      const container = document.getElementById('preview-container');
-      container.innerHTML = ""; // Vider les anciennes images
+    function triggerInput(index) {
+      document.querySelectorAll('.photo-box input')[index].click();
+    }
 
-      for (let i = 0; i < files.length && i < 6; i++) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = document.createElement("img");
-          img.src = e.target.result;
-          img.style.display = "block";
-          container.appendChild(img);
-        }
-        reader.readAsDataURL(files[i]);
-      }
+    function previewOne(event, index) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const img = document.getElementById('img' + index);
+        img.src = reader.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
   </script>
 
