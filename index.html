@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChapChap Guide</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
   <title>Guide des Services</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
       background: #f7f7f7;
-      position: relative;
+      max-width: 100vw;
+      overflow-x: hidden;
       min-height: 100vh;
     }
+
     h1 {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
+
     #admin-button {
       position: fixed;
       top: 20px;
@@ -39,16 +40,31 @@
       transition: background 0.3s;
       z-index: 1000;
     }
+
     #admin-button:hover {
       background: #0056b3;
     }
+
+    #credit-counter {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #ffc107;
+      color: #000;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 1000;
+    }
+
     #services-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      margin-top: 20px;
+      margin-top: 40px;
     }
+
     .service-card {
       background: white;
       border-radius: 10px;
@@ -57,85 +73,133 @@
       padding: 15px;
       text-align: center;
     }
+
     .service-card img {
       max-width: 100%;
       border-radius: 8px;
       height: 150px;
       object-fit: cover;
     }
+
     .service-card h3 {
       margin: 15px 0 10px;
       color: #333;
     }
+
     .service-card p {
       font-size: 0.9em;
       color: #666;
       min-height: 50px;
     }
+
     .service-card a {
       display: inline-block;
-      margin-top: 15px;
+      margin-top: 10px;
       text-decoration: none;
-      background: #007bff;
+      background: #28a745;
       color: white;
-      padding: 8px 15px;
+      padding: 6px 12px;
       border-radius: 5px;
-      transition: background 0.3s;
     }
+
     .service-card a:hover {
-      background: #0056b3;
+      background: #218838;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 14px;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e64a19;
     }
   </style>
 </head>
 <body>
 
+  <!-- Compteur de crédits -->
+  <div id="credit-counter">Crédits restants : 1</div>
+
+  <!-- Bouton admin -->
   <button id="admin-button" onclick="window.location.href='admin.html'">Accès Admin</button>
 
   <h1>Guide des Services</h1>
 
   <div id="services-container">
-    <!-- Les services s'afficheront ici -->
+    <!-- Exemple de service 1 -->
+    <div class="service-card">
+      <img src="images/hotel1.jpg" alt="Hôtel Prestige">
+      <h3>Hôtel Prestige</h3>
+      <p>Chambres climatisées, zone 4</p>
+
+      <!-- Bouton voir contact -->
+      <button id="btn-1" onclick="voirContact(1)">Voir le contact</button>
+
+      <!-- Contact masqué -->
+      <div id="contact-1" style="display:none;">
+        📞 07 45 12 34 56<br>
+        💬 <a href="https://wa.me/2250745123456" target="_blank">WhatsApp</a><br>
+        🌐 <a href="https://facebook.com/hotel" target="_blank">Page Facebook</a>
+      </div>
+    </div>
+
+    <!-- Exemple de service 2 -->
+    <div class="service-card">
+      <img src="images/resto1.jpg" alt="Restaurant Abidjan">
+      <h3>Restaurant Abidjan</h3>
+      <p>Grillades, rue des Jardins</p>
+
+      <button id="btn-2" onclick="voirContact(2)">Voir le contact</button>
+
+      <div id="contact-2" style="display:none;">
+        📞 01 23 45 67 89<br>
+        💬 <a href="https://wa.me/2250123456789" target="_blank">WhatsApp</a><br>
+        🌐 <a href="https://facebook.com/resto" target="_blank">Page Facebook</a>
+      </div>
+    </div>
+
+    <!-- Tu peux continuer à dupliquer les blocs ci-dessus en changeant les numéros -->
   </div>
 
   <script>
-    function afficherServices() {
-      const services = JSON.parse(localStorage.getItem("services")) || [];
-      const container = document.getElementById("services-container");
-      container.innerHTML = "";
-
-      if(services.length === 0){
-        container.innerHTML = "<p>Aucun service disponible pour le moment.</p>";
-        return;
-      }
-
-      services.forEach(service => {
-        const card = document.createElement("div");
-        card.className = "service-card";
-        card.innerHTML = `
-          <img src="${service.image}" alt="${service.name}" />
-          <h3>${service.name}</h3>
-          <p>${service.description}</p>
-          <a href="${service.lien}" target="_blank">En savoir plus</a>
-        `;
-        container.appendChild(card);
-      });
+    // 1 crédit gratuit à la première visite
+    if (localStorage.getItem("credits") === null) {
+      localStorage.setItem("credits", "1");
     }
 
-    afficherServices();
+    function getCredits() {
+      return parseInt(localStorage.getItem("credits") || "0");
+    }
+
+    function setCredits(n) {
+      localStorage.setItem("credits", n.toString());
+      document.getElementById("credit-counter").innerText = "Crédits restants : " + n;
+    }
+
+    // Mise à jour automatique du compteur au chargement
+    document.addEventListener("DOMContentLoaded", () => {
+      setCredits(getCredits());
+    });
+
+    function voirContact(id) {
+      const credits = getCredits();
+      if (credits > 0) {
+        document.getElementById("contact-" + id).style.display = "block";
+        document.getElementById("btn-" + id).style.display = "none";
+        setCredits(credits - 1);
+      } else {
+        alert("💳 Crédits épuisés. Recharge 100F pour débloquer 3 nouveaux accès.");
+        // Plus tard : rediriger vers une page de paiement
+        // window.location.href = 'paiement.html';
+      }
+    }
   </script>
 
-</body>
-</html>
-  
-  <div class="container">
-    <h1>Bienvenue sur <span>ChapChap Guide</span></h1>
-    <p>Trouvez facilement hôtels, restaurants et pharmacies proches de vous.</p>
-
-    <div class="buttons">
-      <a href="hotels.html" class="btn">🛏️ Hôtels</a>
-      <a href="restaurants.html" class="btn">🍽️ Restaurants</a>
-      <a href="pharmacies.html" class="btn">💊 Pharmacies</a>
-    </div>
-  </div>
 </body>
 </html>
