@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajouter un établissement - Chap Chap Guide</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #0066cc;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #00cc66;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00994d;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ajouter mon établissement</h1>
+  <p>Remplissez ce formulaire pour apparaître sur Chap Chap Guide</p>
+
+  <form action="https://formsubmit.co/omacaeldegos@gmail.com" method="POST">
+    <input type="text" name="nom" placeholder="Nom de l’établissement" required>
+    
+    <select name="catégorie" required>
+      <option value="">Choisissez une catégorie</option>
+      <option>Pharmacie</option>
+      <option>Restaurant</option>
+      <option>Hôtel</option>
+    </select>
+
+    <input type="text" name="ville" placeholder="Ville / Quartier" required>
+
+    <input type="text" name="whatsapp" placeholder="Numéro WhatsApp" required>
+
+    <textarea name="description" placeholder="Décrivez brièvement l’établissement" rows="4"></textarea>
+
+    <input type="text" name="photo" placeholder="Lien vers une photo (optionnel)">
+
+    <!-- Redirection vers la page d’accueil après soumission -->
+    <input type="hidden" name="_next" value="https://chapchap-guide.vercel.app/index.html">
+    
+    <button type="submit">Envoyer</button>
+  </form>
+
+</body>
+                                                                                              </html>
+                                                                                              
