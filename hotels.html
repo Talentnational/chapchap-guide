@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hôtels - ChapChap Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #fff;
+      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
 
+    h1 {
+      color: #6a0dad;
+      text-align: center;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .hotel {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .hotel h3 {
+      margin: 0 0 5px 0;
+      color: #6a0dad;
+    }
+
+    .hotel p {
+      margin: 3px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hôtels disponibles</h1>
+
+  <label for="ville">Filtrer par ville :</label>
+  <select id="ville" onchange="filtrerHotels()">
+    <option value="tous">-- Toutes les villes --</option>
+    <option value="Abidjan">Abidjan</option>
+    <option value="Bouaké">Bouaké</option>
+    <option value="Yamoussoukro">Yamoussoukro</option>
+  </select>
+
+  <div id="liste-hotels">
+    <!-- Les hôtels s’affichent ici -->
+  </div>
+
+  <script>
+    const hotels = [
+      {
+        nom: "Hôtel Ivoire",
+        ville: "Abidjan",
+        adresse: "Cocody Riviera",
+        contact: "+225 07 00 00 00",
+        prix: "50 000 FCFA / nuit"
+      },
+      {
+        nom: "Hôtel Le Prestige",
+        ville: "Bouaké",
+        adresse: "Quartier Commerce",
+        contact: "+225 05 00 11 22",
+        prix: "30 000 FCFA / nuit"
+      },
+      {
+        nom: "Résidence Yako",
+        ville: "Yamoussoukro",
+        adresse: "Zone industrielle",
+        contact: "+225 01 33 44 55",
+        prix: "25 000 FCFA / nuit"
+      },
+      {
+        nom: "Hôtel des Lagunes",
+        ville: "Abidjan",
+        adresse: "Marcory Zone 4",
+        contact: "+225 07 88 77 66",
+        prix: "45 000 FCFA / nuit"
+      }
+    ];
+
+    function afficherHotels(filtre = "tous") {
+      const container = document.getElementById("liste-hotels");
+      container.innerHTML = "";
+
+      const filtresHotels = filtre === "tous"
+        ? hotels
+        : hotels.filter(h => h.ville === filtre);
+
+      if (filtresHotels.length === 0) {
+        container.innerHTML = "<p>Aucun hôtel trouvé.</p>";
+        return;
+      }
+
+      filtresHotels.forEach(hotel => {
+        container.innerHTML += `
+          <div class="hotel">
+            <h3>${hotel.nom}</h3>
+            <p><strong>Ville :</strong> ${hotel.ville}</p>
+            <p><strong>Adresse :</strong> ${hotel.adresse}</p>
+            <p><strong>Contact :</strong> ${hotel.contact}</p>
+            <p><strong>Prix :</strong> ${hotel.prix}</p>
+          </div>
+        `;
+      });
+    }
+
+    function filtrerHotels() {
+      const ville = document.getElementById("ville").value;
+      afficherHotels(ville);
+    }
+
+    // Affichage au chargement
+    afficherHotels();
+  </script>
+
+</body>
+</html>
