@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guide des Services</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Express</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,163 +12,155 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #333;
       padding: 20px;
-      background: #f7f7f7;
-      max-width: 100vw;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    h1 {
       text-align: center;
-      margin-bottom: 30px;
-    }
-
-    #admin-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #007bff;
-      color: white;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: background 0.3s;
-      z-index: 1000;
-    }
-
-    #admin-button:hover {
-      background: #0056b3;
     }
 
     #credit-counter {
       position: fixed;
       top: 20px;
       left: 20px;
-      background: #ffc107;
-      color: #000;
+      background: #00b894;
+      color: white;
       padding: 6px 12px;
-      border-radius: 8px;
+      border-radius: 20px;
       font-weight: bold;
       z-index: 1000;
+      font-size: 14px;
     }
 
-    #services-container {
+    #admin-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #0984e3;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-top: 60px;
+      margin-bottom: 10px;
+    }
+
+    p.tagline {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .services {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      margin-top: 40px;
     }
 
-    .service-card {
+    .card {
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      padding: 20px;
       width: 280px;
-      padding: 15px;
-      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     }
 
-    .service-card img {
-      max-width: 100%;
-      border-radius: 8px;
+    .card img {
+      width: 100%;
       height: 150px;
       object-fit: cover;
+      border-radius: 12px;
     }
 
-    .service-card h3 {
-      margin: 15px 0 10px;
-      color: #333;
+    .card h3 {
+      font-size: 18px;
+      margin: 12px 0 5px;
+      color: #2d3436;
     }
 
-    .service-card p {
-      font-size: 0.9em;
-      color: #666;
-      min-height: 50px;
+    .card p {
+      font-size: 14px;
+      color: #636e72;
     }
 
-    .service-card a {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-      background: #28a745;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 5px;
-    }
-
-    .service-card a:hover {
-      background: #218838;
-    }
-
-    button {
+    .card button {
       margin-top: 15px;
-      padding: 8px 14px;
-      background: #ff5722;
+      background: #fd7e14;
       color: white;
       border: none;
-      border-radius: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #e64a19;
+    .card button:hover {
+      background: #e17000;
+    }
+
+    .card .contact {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
-  <!-- Compteur de crédits -->
+  <!-- Crédit visible -->
   <div id="credit-counter">Crédits restants : 1</div>
 
   <!-- Bouton admin -->
-  <button id="admin-button" onclick="window.location.href='admin.html'">Accès Admin</button>
+  <button id="admin-button" onclick="window.location.href='admin.html'">Admin</button>
 
-  <h1>Guide des Services</h1>
+  <!-- Titre -->
+  <h1>Guide Express</h1>
+  <p class="tagline">Accédez rapidement aux meilleurs hôtels, restos et pharmacies près de vous</p>
 
-  <div id="services-container">
-    <!-- Exemple de service 1 -->
-    <div class="service-card">
+  <!-- Cartes des services -->
+  <div class="services">
+    <div class="card">
       <img src="images/hotel1.jpg" alt="Hôtel Prestige">
       <h3>Hôtel Prestige</h3>
-      <p>Chambres climatisées, zone 4</p>
-
-      <!-- Bouton voir contact -->
+      <p>Zone 4, chambres climatisées</p>
       <button id="btn-1" onclick="voirContact(1)">Voir le contact</button>
-
-      <!-- Contact masqué -->
-      <div id="contact-1" style="display:none;">
+      <div class="contact" id="contact-1" style="display:none;">
         📞 07 45 12 34 56<br>
         💬 <a href="https://wa.me/2250745123456" target="_blank">WhatsApp</a><br>
-        🌐 <a href="https://facebook.com/hotel" target="_blank">Page Facebook</a>
+        🌐 <a href="https://facebook.com/hotel" target="_blank">Facebook</a>
       </div>
     </div>
 
-    <!-- Exemple de service 2 -->
-    <div class="service-card">
-      <img src="images/resto1.jpg" alt="Restaurant Abidjan">
-      <h3>Restaurant Abidjan</h3>
-      <p>Grillades, rue des Jardins</p>
-
+    <div class="card">
+      <img src="images/resto1.jpg" alt="Le Bon Goût">
+      <h3>Le Bon Goût</h3>
+      <p>Grillades à Treichville</p>
       <button id="btn-2" onclick="voirContact(2)">Voir le contact</button>
-
-      <div id="contact-2" style="display:none;">
+      <div class="contact" id="contact-2" style="display:none;">
         📞 01 23 45 67 89<br>
         💬 <a href="https://wa.me/2250123456789" target="_blank">WhatsApp</a><br>
-        🌐 <a href="https://facebook.com/resto" target="_blank">Page Facebook</a>
+        🌐 <a href="https://facebook.com/resto" target="_blank">Facebook</a>
       </div>
     </div>
-
-    <!-- Tu peux continuer à dupliquer les blocs ci-dessus en changeant les numéros -->
   </div>
 
   <script>
-    // 1 crédit gratuit à la première visite
+    // Crédit gratuit à la première visite
     if (localStorage.getItem("credits") === null) {
       localStorage.setItem("credits", "1");
     }
@@ -182,7 +174,6 @@
       document.getElementById("credit-counter").innerText = "Crédits restants : " + n;
     }
 
-    // Mise à jour automatique du compteur au chargement
     document.addEventListener("DOMContentLoaded", () => {
       setCredits(getCredits());
     });
@@ -195,8 +186,6 @@
         setCredits(credits - 1);
       } else {
         alert("💳 Crédits épuisés. Recharge 100F pour débloquer 3 nouveaux accès.");
-        // Plus tard : rediriger vers une page de paiement
-        // window.location.href = 'paiement.html';
       }
     }
   </script>
