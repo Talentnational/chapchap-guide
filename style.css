@@ -49,3 +49,21 @@ p {
   transform: scale(1.05);
   background-color: #8843c3;
 }
+#admin-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #007bff;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background 0.3s;
+  z-index: 1000;
+}
+#admin-button:hover {
+  background: #0056b3;
+}
