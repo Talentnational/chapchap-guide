@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Espace Admin - Services</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    #login-section, #admin-section {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    .service {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+    .service button {
+      background-color: red;
+      color: white;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="login-section">
+  <h2>Connexion Admin</h2>
+  <input type="password" id="password" placeholder="Mot de passe admin">
+  <button onclick="checkPassword()">Se connecter</button>
+  <p id="login-error" style="color:red;"></p>
+</div>
+
+<div id="admin-section" style="display:none;">
+  <h2>Ajouter un service</h2>
+  <input type="text" id="name" placeholder="Nom du service">
+  <textarea id="description" placeholder="Description"></textarea>
+  <input type="text" id="image" placeholder="Lien de l'image">
+  <input type="text" id="lien" placeholder="Lien vers le service">
+  <button onclick="ajouterService()">Ajouter</button>
+
+  <h2>Services existants</h2>
+  <div id="services-list"></div>
+</div>
+
+<script>
+  const motDePasse = "Okpe0778";
+
+  function checkPassword() {
+    const passwordInput = document.getElementById("password").value;
+    if (passwordInput === motDePasse) {
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("admin-section").style.display = "block";
+      afficherServices();
+    } else {
+      document.getElementById("login-error").textContent = "Mot de passe incorrect.";
+    }
+  }
+
+  function ajouterService() {
+    const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
+    const image = document.getElementById("image").value;
+    const lien = document.getElementById("lien").value;
+
+    const nouveauService = { name, description, image, lien };
+    let services = JSON.parse(localStorage.getItem("services")) || [];
+    services.push(nouveauService);
+    localStorage.setItem("services", JSON.stringify(services));
+
+    afficherServices();
+    document.getElementById("name").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("lien").value = "";
+  }
+
+  function afficherServices() {
+    const services = JSON.parse(localStorage.getItem("services")) || [];
+    const container = document.getElementById("services-list");
+    container.innerHTML = "";
+
+    services.forEach((service, index) => {
+      const div = document.createElement("div");
+      div.className = "service";
+      div.innerHTML = `
+        <strong>${service.name}</strong><br>
+        ${service.description}<br>
+        <img src="${service.image}" style="max-width:100px"><br>
+        <a href="${service.lien}" target="_blank">Voir</a><br>
+        <button onclick="supprimerService(${index})">Supprimer</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function supprimerService(index) {
+    let services = JSON.parse(localStorage.getItem("services")) || [];
+    services.splice(index, 1);
+    localStorage.setItem("services", JSON.stringify(services));
+    afficherServices();
+  }
+</script>
+
+</body>
+</html>
+
