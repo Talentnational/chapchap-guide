@@ -10,19 +10,26 @@
       background: #fff;
       color: #333;
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
+      padding: 15px;
     }
 
     h1 {
       color: #6a0dad;
       text-align: center;
+      font-size: 1.8em;
     }
 
-    select {
+    .top-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    select, input[type="text"] {
       width: 100%;
       padding: 10px;
       font-size: 1em;
-      margin-bottom: 20px;
       border-radius: 8px;
       border: 1px solid #ccc;
     }
@@ -35,6 +42,13 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
+    .hotel img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
     .hotel h3 {
       margin: 0 0 5px 0;
       color: #6a0dad;
@@ -43,23 +57,41 @@
     .hotel p {
       margin: 3px 0;
     }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 15px;
+      text-align: center;
+      background-color: #6a0dad;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1em;
+    }
+
+    .back-button:hover {
+      background-color: #8843c3;
+    }
   </style>
 </head>
 <body>
 
   <h1>Hôtels disponibles</h1>
 
-  <label for="ville">Filtrer par ville :</label>
-  <select id="ville" onchange="filtrerHotels()">
-    <option value="tous">-- Toutes les villes --</option>
-    <option value="Abidjan">Abidjan</option>
-    <option value="Bouaké">Bouaké</option>
-    <option value="Yamoussoukro">Yamoussoukro</option>
-  </select>
-
-  <div id="liste-hotels">
-    <!-- Les hôtels s’affichent ici -->
+  <div class="top-bar">
+    <input type="text" id="search" placeholder="Rechercher un hôtel par nom" oninput="filtrerHotels()">
+    <select id="ville" onchange="filtrerHotels()">
+      <option value="tous">-- Toutes les villes --</option>
+      <option value="Abidjan">Abidjan</option>
+      <option value="Bouaké">Bouaké</option>
+      <option value="Yamoussoukro">Yamoussoukro</option>
+    </select>
   </div>
+
+  <div id="liste-hotels"></div>
+
+  <a href="index.html" class="back-button">← Retour à l’accueil</a>
 
   <script>
     const hotels = [
@@ -68,47 +100,54 @@
         ville: "Abidjan",
         adresse: "Cocody Riviera",
         contact: "+225 07 00 00 00",
-        prix: "50 000 FCFA / nuit"
+        prix: "50 000 FCFA / nuit",
+        image: "https://via.placeholder.com/400x200?text=Hôtel+Ivoire"
       },
       {
         nom: "Hôtel Le Prestige",
         ville: "Bouaké",
         adresse: "Quartier Commerce",
         contact: "+225 05 00 11 22",
-        prix: "30 000 FCFA / nuit"
+        prix: "30 000 FCFA / nuit",
+        image: "https://via.placeholder.com/400x200?text=Le+Prestige"
       },
       {
         nom: "Résidence Yako",
         ville: "Yamoussoukro",
         adresse: "Zone industrielle",
         contact: "+225 01 33 44 55",
-        prix: "25 000 FCFA / nuit"
+        prix: "25 000 FCFA / nuit",
+        image: "https://via.placeholder.com/400x200?text=Résidence+Yako"
       },
       {
         nom: "Hôtel des Lagunes",
         ville: "Abidjan",
         adresse: "Marcory Zone 4",
         contact: "+225 07 88 77 66",
-        prix: "45 000 FCFA / nuit"
+        prix: "45 000 FCFA / nuit",
+        image: "https://via.placeholder.com/400x200?text=Hôtel+Lagunes"
       }
     ];
 
-    function afficherHotels(filtre = "tous") {
+    function afficherHotels(filtreVille = "tous", recherche = "") {
       const container = document.getElementById("liste-hotels");
       container.innerHTML = "";
 
-      const filtresHotels = filtre === "tous"
-        ? hotels
-        : hotels.filter(h => h.ville === filtre);
+      const hotelsFiltres = hotels.filter(h => {
+        const correspondVille = filtreVille === "tous" || h.ville === filtreVille;
+        const correspondNom = h.nom.toLowerCase().includes(recherche.toLowerCase());
+        return correspondVille && correspondNom;
+      });
 
-      if (filtresHotels.length === 0) {
+      if (hotelsFiltres.length === 0) {
         container.innerHTML = "<p>Aucun hôtel trouvé.</p>";
         return;
       }
 
-      filtresHotels.forEach(hotel => {
+      hotelsFiltres.forEach(hotel => {
         container.innerHTML += `
           <div class="hotel">
+            <img src="${hotel.image}" alt="${hotel.nom}">
             <h3>${hotel.nom}</h3>
             <p><strong>Ville :</strong> ${hotel.ville}</p>
             <p><strong>Adresse :</strong> ${hotel.adresse}</p>
@@ -121,10 +160,11 @@
 
     function filtrerHotels() {
       const ville = document.getElementById("ville").value;
-      afficherHotels(ville);
+      const recherche = document.getElementById("search").value;
+      afficherHotels(ville, recherche);
     }
 
-    // Affichage au chargement
+    // Chargement initial
     afficherHotels();
   </script>
 
