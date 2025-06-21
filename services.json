@@ -1,0 +1,29 @@
+[
+  {
+    "categorie": "restaurant",
+    "nom": "Chez Mama Africa",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Marcory",
+    "adresse": "Marcory Résidentiel",
+    "image": "images/restaurant1.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie du Soleil",
+    "region": "Nord",
+    "ville": "Korhogo",
+    "quartier": "Tchologo",
+    "adresse": "Rue centrale",
+    "image": "images/pharmacie1.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hôtel Ivoire Palace",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Cocody",
+    "adresse": "Cocody - Angré",
+    "image": "images/hotel1.jpg"
+  }
+]
