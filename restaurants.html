@@ -2,17 +2,30 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <title>Restaurants filtrés</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Restaurants disponibles</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f9f9f9;
       padding: 20px;
     }
     h1 {
       text-align: center;
       color: #20bf6b;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 150px;
     }
     .container {
       display: flex;
@@ -55,24 +68,95 @@
   </style>
 </head>
 <body>
-  <h1>🍽️ Restaurants disponibles</h1>
-  <div class="container">
-    <div class="card">
-      <img src="images/restaurant1.jpg" alt="Restaurant 1">
-      <div class="card-content">
-        <h3>Chez Mama Africa</h3>
-        <p>📍 Marcory - Résidentiel</p>
-        <div class="masque">Numéro masqué. Paiement requis.</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="images/restaurant2.jpg" alt="Restaurant 2">
-      <div class="card-content">
-        <h3>Grill & Saveurs</h3>
-        <p>📍 Treichville - Zone 4</p>
-        <div class="masque">Numéro masqué. Paiement requis.</div>
-      </div>
-    </div>
-  </div>
+
+<h1>🍽️ Restaurants par zone</h1>
+
+<div class="filters">
+  <select id="regionSelect">
+    <option value="">-- Région --</option>
+  </select>
+
+  <select id="villeSelect">
+    <option value="">-- Ville --</option>
+  </select>
+
+  <select id="quartierSelect">
+    <option value="">-- Quartier --</option>
+  </select>
+</div>
+
+<div class="container" id="resultsContainer">
+  <!-- Les résultats filtrés s’afficheront ici -->
+</div>
+
+<script>
+  let services = [];
+
+  // Charger les données JSON
+  fetch('services.json')
+    .then(response => response.json())
+    .then(data => {
+      services = data.filter(item => item.categorie === 'restaurant');
+      initFilters(services);
+      afficherServices(services);
+    });
+
+  const regionSelect = document.getElementById("regionSelect");
+  const villeSelect = document.getElementById("villeSelect");
+  const quartierSelect = document.getElementById("quartierSelect");
+  const resultsContainer = document.getElementById("resultsContainer");
+
+  function initFilters(data) {
+    const regions = [...new Set(data.map(item => item.region))];
+    regionSelect.innerHTML += regions.map(r => `<option value="${r}">${r}</option>`).join('');
+  }
+
+  regionSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const villes = [...new Set(services.filter(s => s.region === region).map(s => s.ville))];
+    villeSelect.innerHTML = `<option value="">-- Ville --</option>` + villes.map(v => `<option value="${v}">${v}</option>`).join('');
+    quartierSelect.innerHTML = `<option value="">-- Quartier --</option>`;
+    afficherServices(services.filter(s => s.region === region));
+  });
+
+  villeSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const ville = villeSelect.value;
+    const quartiers = [...new Set(services.filter(s => s.region === region && s.ville === ville).map(s => s.quartier))];
+    quartierSelect.innerHTML = `<option value="">-- Quartier --</option>` + quartiers.map(q => `<option value="${q}">${q}</option>`).join('');
+    afficherServices(services.filter(s => s.region === region && s.ville === ville));
+  });
+
+  quartierSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const ville = villeSelect.value;
+    const quartier = quartierSelect.value;
+    const filtres = services.filter(s => s.region === region && s.ville === ville && s.quartier === quartier);
+    afficherServices(filtres);
+  });
+
+  function afficherServices(liste) {
+    resultsContainer.innerHTML = "";
+    if (liste.length === 0) {
+      resultsContainer.innerHTML = "<p>Aucun résultat pour cette sélection.</p>";
+      return;
+    }
+    liste.forEach(service => {
+      const card = `
+        <div class="card">
+          <img src="${service.image}" alt="${service.nom}">
+          <div class="card-content">
+            <h3>${service.nom}</h3>
+            <p>📍 ${service.adresse}</p>
+            <div class="masque">Numéro masqué. Paiement requis.</div>
+          </div>
+        </div>
+      `;
+      resultsContainer.innerHTML += card;
+    });
+  }
+</script>
+
 </body>
-</html>
+  </html>
+  
