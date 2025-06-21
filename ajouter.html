@@ -3,132 +3,228 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🏨 Hôtels</title>
+  <title>Ajouter un service</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f9f9f9;
       padding: 20px;
+      max-width: 600px;
+      margin: auto;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #6c5ce7;
-      color: white;
-      padding: 15px;
-      border-radius: 10px;
+    h1 {
+      text-align: center;
       margin-bottom: 20px;
     }
 
-    .service {
+    form {
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .service img {
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
       width: 100%;
-      border-radius: 10px;
-      max-height: 200px;
-      object-fit: cover;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
-    .service h2 {
-      margin: 10px 0 5px;
-    }
-
-    .service p {
-      color: #555;
-    }
-
-    .unlock {
-      margin-top: 10px;
-      padding: 10px 15px;
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
       background: #6c5ce7;
       color: white;
       border: none;
-      border-radius: 5px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    .unlock:disabled {
-      background: #aaa;
-      cursor: not-allowed;
+    button:hover {
+      background: #4b4bff;
     }
 
-    .numero {
+    .photo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-top: 10px;
-      font-weight: bold;
-      color: #27ae60;
+    }
+
+    .photo-box {
+      width: 100px;
+      height: 100px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #f1f1f1;
+    }
+
+    .photo-box input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* Popup offres */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      text-align: center;
+    }
+
+    .popup h3 {
+      margin-bottom: 20px;
+    }
+
+    .popup button {
+      margin: 10px 0;
+      padding: 12px 20px;
+      background: #27ae60;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 998;
     }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>🏨 Hôtels disponibles</h1>
-    <div>Crédits : <span id="credits">0</span></div>
-  </div>
+  <h1>➕ Ajouter un Service</h1>
 
-  <!-- Hôtel 1 -->
-  <div class="service">
-    <img src="images/hotel1.jpg" alt="Hôtel 1">
-    <h2>Résidence Étoile</h2>
-    <p>📍 Cocody, Abidjan</p>
-    <button class="unlock" onclick="unlock(this, '07 00 00 00 01')">🔓 Débloquer le numéro (1 crédit)</button>
-    <div class="numero" style="display:none;"></div>
-  </div>
+  <form id="formulaire-service">
+    
+    <label for="nom">Nom du service</label>
+    <input type="text" name="nom" required>
 
-  <!-- Hôtel 2 -->
-  <div class="service">
-    <img src="images/hotel2.jpg" alt="Hôtel 2">
-    <h2>Hôtel Ivoire Plus</h2>
-    <p>📍 Yopougon</p>
-    <button class="unlock" onclick="unlock(this, '07 00 00 00 02')">🔓 Débloquer le numéro (1 crédit)</button>
-    <div class="numero" style="display:none;"></div>
-  </div>
+    <label for="type">Type de service</label>
+    <select name="type" required>
+      <option value="">-- Sélectionner --</option>
+      <option value="Hôtel">Hôtel</option>
+      <option value="Pharmacie">Pharmacie</option>
+      <option value="Restaurant">Restaurant</option>
+    </select>
 
-  <!-- Hôtel 3 -->
-  <div class="service">
-    <img src="images/hotel3.jpg" alt="Hôtel 3">
-    <h2>Villa Prestige</h2>
-    <p>📍 Riviera Palmeraie</p>
-    <button class="unlock" onclick="unlock(this, '07 00 00 00 03')">🔓 Débloquer le numéro (1 crédit)</button>
-    <div class="numero" style="display:none;"></div>
+    <label for="emplacement">Emplacement</label>
+    <input type="text" name="emplacement" required>
+
+    <label for="whatsapp">Numéro WhatsApp</label>
+    <input type="text" name="whatsapp" required>
+
+    <label for="facebook">Lien Facebook (facultatif)</label>
+    <input type="text" name="facebook">
+
+    <label>Photos (max 6)</label>
+    <div class="photo-grid">
+      <div class="photo-box" onclick="triggerInput(0)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 0)">
+        <img id="img0" src="">
+      </div>
+      <div class="photo-box" onclick="triggerInput(1)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 1)">
+        <img id="img1" src="">
+      </div>
+      <div class="photo-box" onclick="triggerInput(2)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 2)">
+        <img id="img2" src="">
+      </div>
+      <div class="photo-box" onclick="triggerInput(3)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 3)">
+        <img id="img3" src="">
+      </div>
+      <div class="photo-box" onclick="triggerInput(4)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 4)">
+        <img id="img4" src="">
+      </div>
+      <div class="photo-box" onclick="triggerInput(5)">
+        <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 5)">
+        <img id="img5" src="">
+      </div>
+    </div>
+
+    <!-- Bouton Publication -->
+    <button type="button" onclick="afficherOffre()">Publier mon service</button>
+
+  </form>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Popup Paiement -->
+  <div class="popup" id="popup-offre">
+    <h3>Choisissez une durée de publication</h3>
+    <button onclick="payer(1000)">1 mois - 1000 F</button><br>
+    <button onclick="payer(3000)">3 mois - 3000 F</button><br>
+    <button onclick="payer(5000)">6 mois - 5000 F</button><br>
+    <button onclick="fermerPopup()">Annuler</button>
   </div>
 
   <script>
-    // Initialiser les crédits (1 gratuit à la première visite)
-    if (localStorage.getItem("credits") === null) {
-      localStorage.setItem("credits", "1");
+    function triggerInput(index) {
+      document.querySelectorAll('.photo-box input')[index].click();
     }
 
-    function updateCreditsDisplay() {
-      document.getElementById("credits").textContent = localStorage.getItem("credits");
+    function previewOne(event, index) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const img = document.getElementById('img' + index);
+        img.src = reader.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
 
-    function unlock(button, numero) {
-      let credits = parseInt(localStorage.getItem("credits"));
-      if (credits > 0) {
-        credits -= 1;
-        localStorage.setItem("credits", credits);
-        updateCreditsDisplay();
-
-        button.style.display = "none";
-        const numDiv = button.nextElementSibling;
-        numDiv.textContent = "📞 " + numero;
-        numDiv.style.display = "block";
-      } else {
-        alert("Vous n'avez plus de crédits. Rechargez pour voir ce numéro.");
-      }
+    function afficherOffre() {
+      document.getElementById("popup-offre").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
     }
 
-    // Mise à jour dès le chargement
-    updateCreditsDisplay();
+    function fermerPopup() {
+      document.getElementById("popup-offre").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+
+    function payer(montant) {
+      alert("Vous allez être redirigé pour payer " + montant + " F");
+
+      // Remplace cette ligne par ton vrai lien CinetPay
+      window.location.href = "https://secure.cinetpay.com/?amount=" + montant;
+    }
   </script>
 
 </body>
