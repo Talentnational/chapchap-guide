@@ -107,4 +107,113 @@
     "adresse": "Boulevard industriel",
     "image": "images/pharma_lagrace.jpg"
   }
-]
+,
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Ivoire Abidjan",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Cocody",
+  "adresse": "Boulevard de France, Cocody",
+  "image": "images/hotel_ivoire.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Seen Hotel Plateau",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Plateau",
+  "adresse": "Avenue Lamblin, Abidjan Plateau",
+  "image": "images/seen_hotel.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Belle Côte",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Cocody",
+  "adresse": "Riviera Palmeraie, route du lycée technique",
+  "image": "images/belle_cote.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Président Yamoussoukro",
+  "region": "Centre",
+  "ville": "Yamoussoukro",
+  "quartier": "Quartier Administratif",
+  "adresse": "Boulevard de l'Hôtel Président",
+  "image": "images/hotel_president.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis du Val",
+  "region": "Centre",
+  "ville": "Yamoussoukro",
+  "quartier": "Kossou",
+  "adresse": "Rue du stade, Kossou",
+  "image": "images/maquis_val.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Norima Resto",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Marcory",
+  "adresse": "Boulevard Valéry Giscard d’Estaing, Marcory",
+  "image": "images/norima.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Chez Tanty",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Yopougon",
+  "adresse": "Rue Princesse, Yopougon",
+  "image": "images/chez_tanty.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "La Taverne Romaine",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Zone 4",
+  "adresse": "Rue Paul Langevin, Zone 4",
+  "image": "images/taverne_romaine.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie du Plateau",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Plateau",
+  "adresse": "Avenue Chardy, Plateau",
+  "image": "images/pharm_plateau.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Saint Jean",
+  "region": "Centre",
+  "ville": "Yamoussoukro",
+  "quartier": "Dioulakro",
+  "adresse": "Avenue Charles De Gaulle, Dioulakro",
+  "image": "images/pharma_stjean.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Mermoz",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Cocody",
+  "adresse": "Boulevard Latrille, Cocody",
+  "image": "images/pharma_mermoz.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Saint André",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Treichville",
+  "adresse": "Rue 12, Treichville",
+  "image": "images/pharma_standre.jpg"
+}
+  
