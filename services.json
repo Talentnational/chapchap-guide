@@ -216,4 +216,332 @@
   "adresse": "Rue 12, Treichville",
   "image": "images/pharma_standre.jpg"
 }
-  
+ ,
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Le Capitole Bouaké",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Koko",
+  "adresse": "Rue des Banques, Koko",
+  "image": "images/hotel_capitole.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Résidence Grand Nord",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Ahougnansou",
+  "adresse": "Avenue 11, Quartier Ahougnansou",
+  "image": "images/residence_grandnord.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Sophia San Pedro",
+  "region": "Sud-Ouest",
+  "ville": "San Pedro",
+  "quartier": "Balmer",
+  "adresse": "Route Balmer, face plage centrale",
+  "image": "images/hotel_sophia.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Les Cascades Man",
+  "region": "Ouest",
+  "ville": "Man",
+  "quartier": "Camp militaire",
+  "adresse": "Route de la cascade, Man",
+  "image": "images/hotel_cascades.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Chez Mamie Bouaké",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Air France",
+  "adresse": "Rue Mamie, quartier Air France",
+  "image": "images/chez_mamie_bouake.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis Les Amis San Pedro",
+  "region": "Sud-Ouest",
+  "ville": "San Pedro",
+  "quartier": "Bardot",
+  "adresse": "Avenue principale Bardot",
+  "image": "images/maquis_amis.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Le Refuge Man",
+  "region": "Ouest",
+  "ville": "Man",
+  "quartier": "Cascade",
+  "adresse": "Route de la Cascade",
+  "image": "images/le_refuge.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis Le Village Bouaké",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Belleville",
+  "adresse": "Rue Belleville 3, Bouaké",
+  "image": "images/maquis_village.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Centrale Bouaké",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Koko",
+  "adresse": "En face de la mairie de Bouaké",
+  "image": "images/pharma_centrale.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie La Grâce San Pedro",
+  "region": "Sud-Ouest",
+  "ville": "San Pedro",
+  "quartier": "Balmer",
+  "adresse": "Route de Balmer, en face de la plage",
+  "image": "images/pharma_grace.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie de la Forêt Man",
+  "region": "Ouest",
+  "ville": "Man",
+  "quartier": "Camp militaire",
+  "adresse": "Avenue de la Forêt",
+  "image": "images/pharma_foret.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Saint Luc Bouaké",
+  "region": "Centre",
+  "ville": "Bouaké",
+  "quartier": "Belleville",
+  "adresse": "Rue Belleville 1",
+  "image": "images/pharma_stluc.jpg"
+}
+ ,
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Mont Korhogo",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Koko",
+  "adresse": "Avenue du Mont Korhogo",
+  "image": "images/hotel_montkorhogo.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Résidence La Paix Gagnoa",
+  "region": "Centre-Ouest",
+  "ville": "Gagnoa",
+  "quartier": "Commerce",
+  "adresse": "Boulevard principal, Gagnoa",
+  "image": "images/residence_lapaix.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Le Bélier Daloa",
+  "region": "Centre-Ouest",
+  "ville": "Daloa",
+  "quartier": "Centre-ville",
+  "adresse": "Avenue des banques, Daloa",
+  "image": "images/hotel_belier.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Savanes Korhogo",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Tchologo",
+  "adresse": "Route de Ferkessédougou",
+  "image": "images/hotel_savanes.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis Le Choco Gagnoa",
+  "region": "Centre-Ouest",
+  "ville": "Gagnoa",
+  "quartier": "Plateau",
+  "adresse": "Rue Choco, Gagnoa",
+  "image": "images/maquis_choco.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Chez Tantie Daloa",
+  "region": "Centre-Ouest",
+  "ville": "Daloa",
+  "quartier": "Commerce",
+  "adresse": "Avenue du marché, Daloa",
+  "image": "images/chez_tantie_daloa.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Le Mont Savane Korhogo",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Tchologo",
+  "adresse": "Route principale, en face du stade",
+  "image": "images/mont_savane.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Le Daloa Gourmet",
+  "region": "Centre-Ouest",
+  "ville": "Daloa",
+  "quartier": "Quartier Lycée",
+  "adresse": "Avenue du lycée, Daloa",
+  "image": "images/daloa_gourmet.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie du Nord Korhogo",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Centre-ville",
+  "adresse": "Boulevard de l’indépendance",
+  "image": "images/pharma_korhogo.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Notre Dame Gagnoa",
+  "region": "Centre-Ouest",
+  "ville": "Gagnoa",
+  "quartier": "Plateau",
+  "adresse": "Rue Cathédrale, Plateau",
+  "image": "images/pharma_nd_gagnoa.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Centrale Daloa",
+  "region": "Centre-Ouest",
+  "ville": "Daloa",
+  "quartier": "Centre",
+  "adresse": "Rue du centre administratif",
+  "image": "images/pharma_daloa.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie du Marché Korhogo",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Marché central",
+  "adresse": "Avenue du marché",
+  "image": "images/pharma_marche.jpg"
+}
+  ,
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Kourouma Odienné",
+  "region": "Nord-Ouest",
+  "ville": "Odienné",
+  "quartier": "Centre",
+  "adresse": "Boulevard du centre administratif",
+  "image": "images/hotel_kourouma.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Résidence La Paix Bondoukou",
+  "region": "Nord-Est",
+  "ville": "Bondoukou",
+  "quartier": "Commerce",
+  "adresse": "Rue du grand marché",
+  "image": "images/residence_bondoukou.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Hôtel Grand Nord Agboville",
+  "region": "Sud",
+  "ville": "Agboville",
+  "quartier": "Plateau",
+  "adresse": "Avenue des affaires",
+  "image": "images/hotel_agboville.jpg"
+},
+{
+  "categorie": "hôtel",
+  "nom": "Auberge Les Collines Odienné",
+  "region": "Nord-Ouest",
+  "ville": "Odienné",
+  "quartier": "Collines",
+  "adresse": "Route des Collines",
+  "image": "images/auberge_collines.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis Le Safari Odienné",
+  "region": "Nord-Ouest",
+  "ville": "Odienné",
+  "quartier": "Commerce",
+  "adresse": "Boulevard du marché",
+  "image": "images/safari_odienne.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Chez Kadi Bondoukou",
+  "region": "Nord-Est",
+  "ville": "Bondoukou",
+  "quartier": "Dioulabougou",
+  "adresse": "Avenue principale Dioulabougou",
+  "image": "images/chez_kadi.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Le Baobab Agboville",
+  "region": "Sud",
+  "ville": "Agboville",
+  "quartier": "Centre",
+  "adresse": "Rue des Écoles",
+  "image": "images/baobab_agboville.jpg"
+},
+{
+  "categorie": "restaurant",
+  "nom": "Maquis Le Carrefour",
+  "region": "Nord-Est",
+  "ville": "Bondoukou",
+  "quartier": "Commerce",
+  "adresse": "Carrefour principal",
+  "image": "images/maquis_carrefour.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie du Nord Odienné",
+  "region": "Nord-Ouest",
+  "ville": "Odienné",
+  "quartier": "Centre",
+  "adresse": "Rue de l’hôpital général",
+  "image": "images/pharma_nord.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie La Bonté Bondoukou",
+  "region": "Nord-Est",
+  "ville": "Bondoukou",
+  "quartier": "Commerce",
+  "adresse": "Face marché de gros",
+  "image": "images/pharma_bonte.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Agboville Santé",
+  "region": "Sud",
+  "ville": "Agboville",
+  "quartier": "Plateau",
+  "adresse": "Boulevard de l'hôpital",
+  "image": "images/pharma_agboville.jpg"
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie de l’Espérance Odienné",
+  "region": "Nord-Ouest",
+  "ville": "Odienné",
+  "quartier": "Collines",
+  "adresse": "Rue de la mairie, Odienné",
+  "image": "images/pharma_esperance.jpg"
+}
+]
+
