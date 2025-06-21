@@ -2,17 +2,30 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <title>Pharmacies par zone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pharmacies disponibles</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f5f5f5;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #eb3b5a;
+      color: #00cec9;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 150px;
     }
     .container {
       display: flex;
@@ -37,11 +50,11 @@
     }
     .card-content h3 {
       margin: 0 0 10px;
-      color: #333;
+      color: #2d3436;
     }
     .card-content p {
       margin: 5px 0;
-      color: #666;
+      color: #636e72;
     }
     .masque {
       background-color: #eee;
@@ -55,24 +68,87 @@
   </style>
 </head>
 <body>
-  <h1>💊 Pharmacies disponibles</h1>
-  <div class="container">
-    <div class="card">
-      <img src="images/pharmacie1.jpg" alt="Pharmacie 1">
-      <div class="card-content">
-        <h3>Pharmacie du Soleil</h3>
-        <p>📍 Koumassi - 05 Port</p>
-        <div class="masque">Numéro masqué. Paiement requis.</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="images/pharmacie2.jpg" alt="Pharmacie 2">
-      <div class="card-content">
-        <h3>Pharmacie Sainte-Marie</h3>
-        <p>📍 Abobo - Belleville</p>
-        <div class="masque">Numéro masqué. Paiement requis.</div>
-      </div>
-    </div>
-  </div>
+
+<h1>💊 Pharmacies par zone</h1>
+
+<div class="filters">
+  <select id="regionSelect">
+    <option value="">-- Région --</option>
+  </select>
+  <select id="villeSelect">
+    <option value="">-- Ville --</option>
+  </select>
+  <select id="quartierSelect">
+    <option value="">-- Quartier --</option>
+  </select>
+</div>
+
+<div class="container" id="resultsContainer"></div>
+
+<script>
+  let services = [];
+
+  fetch('services.json')
+    .then(res => res.json())
+    .then(data => {
+      services = data.filter(s => s.categorie === 'pharmacie');
+      initFilters(services);
+      afficherServices(services);
+    });
+
+  const regionSelect = document.getElementById("regionSelect");
+  const villeSelect = document.getElementById("villeSelect");
+  const quartierSelect = document.getElementById("quartierSelect");
+  const resultsContainer = document.getElementById("resultsContainer");
+
+  function initFilters(data) {
+    const regions = [...new Set(data.map(s => s.region))];
+    regionSelect.innerHTML += regions.map(r => `<option value="${r}">${r}</option>`).join('');
+  }
+
+  regionSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const villes = [...new Set(services.filter(s => s.region === region).map(s => s.ville))];
+    villeSelect.innerHTML = `<option value="">-- Ville --</option>` + villes.map(v => `<option value="${v}">${v}</option>`).join('');
+    quartierSelect.innerHTML = `<option value="">-- Quartier --</option>`;
+    afficherServices(services.filter(s => s.region === region));
+  });
+
+  villeSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const ville = villeSelect.value;
+    const quartiers = [...new Set(services.filter(s => s.region === region && s.ville === ville).map(s => s.quartier))];
+    quartierSelect.innerHTML = `<option value="">-- Quartier --</option>` + quartiers.map(q => `<option value="${q}">${q}</option>`).join('');
+    afficherServices(services.filter(s => s.region === region && s.ville === ville));
+  });
+
+  quartierSelect.addEventListener('change', () => {
+    const region = regionSelect.value;
+    const ville = villeSelect.value;
+    const quartier = quartierSelect.value;
+    afficherServices(services.filter(s => s.region === region && s.ville === ville && s.quartier === quartier));
+  });
+
+  function afficherServices(data) {
+    resultsContainer.innerHTML = "";
+    if (data.length === 0) {
+      resultsContainer.innerHTML = "<p>Aucune pharmacie trouvée.</p>";
+      return;
+    }
+    data.forEach(service => {
+      resultsContainer.innerHTML += `
+        <div class="card">
+          <img src="${service.image}" alt="${service.nom}">
+          <div class="card-content">
+            <h3>${service.nom}</h3>
+            <p>📍 ${service.adresse}</p>
+            <div class="masque">Numéro masqué. Paiement requis.</div>
+          </div>
+        </div>
+      `;
+    });
+  }
+</script>
+
 </body>
 </html>
