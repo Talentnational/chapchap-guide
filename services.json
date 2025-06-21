@@ -1,29 +1,274 @@
 [
   {
-    "categorie": "restaurant",
-    "nom": "Chez Mama Africa",
-    "region": "Sud",
-    "ville": "Abidjan",
-    "quartier": "Marcory",
-    "adresse": "Marcory Résidentiel",
-    "image": "images/restaurant1.jpg"
-  },
-  {
-    "categorie": "pharmacie",
-    "nom": "Pharmacie du Soleil",
-    "region": "Nord",
-    "ville": "Korhogo",
-    "quartier": "Tchologo",
-    "adresse": "Rue centrale",
-    "image": "images/pharmacie1.jpg"
-  },
-  {
     "categorie": "hôtel",
-    "nom": "Hôtel Ivoire Palace",
+    "nom": "Hôtel Abidjan Palace",
     "region": "Sud",
     "ville": "Abidjan",
     "quartier": "Cocody",
-    "adresse": "Cocody - Angré",
+    "adresse": "Cocody Danga",
     "image": "images/hotel1.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Résidence Prestige Yamoussoukro",
+    "region": "Centre",
+    "ville": "Yamoussoukro",
+    "quartier": "Assabou",
+    "adresse": "Boulevard Principal",
+    "image": "images/hotel2.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hotel Korhogo Nord",
+    "region": "Nord",
+    "ville": "Korhogo",
+    "quartier": "Soba",
+    "adresse": "Quartier Soba",
+    "image": "images/hotel3.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hôtel Man Évasion",
+    "region": "Ouest",
+    "ville": "Man",
+    "quartier": "Domoraud",
+    "adresse": "Route des Cascades",
+    "image": "images/hotel4.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Auberge San Pedro Beach",
+    "region": "Sud-Ouest",
+    "ville": "San Pedro",
+    "quartier": "Bardot",
+    "adresse": "Face à la mer",
+    "image": "images/hotel5.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Résidence Bouaké Luxe",
+    "region": "Centre",
+    "ville": "Bouaké",
+    "quartier": "Koko",
+    "adresse": "Bouaké Koko",
+    "image": "images/hotel6.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hotel Odienné Safari",
+    "region": "Nord-Ouest",
+    "ville": "Odienné",
+    "quartier": "Glan",
+    "adresse": "Avenue du Nord",
+    "image": "images/hotel7.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hotel Grand Bassam Royal",
+    "region": "Sud",
+    "ville": "Grand-Bassam",
+    "quartier": "France",
+    "adresse": "Quartier France historique",
+    "image": "images/hotel8.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Hotel Daloa Palace",
+    "region": "Centre-Ouest",
+    "ville": "Daloa",
+    "quartier": "Tazibouo",
+    "adresse": "Route de Gagnoa",
+    "image": "images/hotel9.jpg"
+  },
+  {
+    "categorie": "hôtel",
+    "nom": "Résidence Gagnoa Tranquille",
+    "region": "Centre-Ouest",
+    "ville": "Gagnoa",
+    "quartier": "Dioulabougou",
+    "adresse": "Rue du marché",
+    "image": "images/hotel10.jpg"
+  },
+
+  {
+    "categorie": "restaurant",
+    "nom": "Maquis Chez Aïcha",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Yopougon",
+    "adresse": "Niangon Sud",
+    "image": "images/resto1.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Le Dîner Bouaké",
+    "region": "Centre",
+    "ville": "Bouaké",
+    "quartier": "Belleville",
+    "adresse": "Rue Belleville",
+    "image": "images/resto2.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Le Gourmet Man",
+    "region": "Ouest",
+    "ville": "Man",
+    "quartier": "Cocoman",
+    "adresse": "Face station Total",
+    "image": "images/resto3.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Chez Maman Korhogo",
+    "region": "Nord",
+    "ville": "Korhogo",
+    "quartier": "Tchologo",
+    "adresse": "Rue Centrale",
+    "image": "images/resto4.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Restaurant Bouna Délice",
+    "region": "Nord-Est",
+    "ville": "Bouna",
+    "quartier": "Centre ville",
+    "adresse": "Bouna centre commercial",
+    "image": "images/resto5.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Le Relais San Pedro",
+    "region": "Sud-Ouest",
+    "ville": "San Pedro",
+    "quartier": "Séwéké",
+    "adresse": "Quartier port",
+    "image": "images/resto6.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "L’Excellence Grand-Bassam",
+    "region": "Sud",
+    "ville": "Grand-Bassam",
+    "quartier": "Imperial",
+    "adresse": "Zone résidentielle",
+    "image": "images/resto7.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Chez Gervais Gagnoa",
+    "region": "Centre-Ouest",
+    "ville": "Gagnoa",
+    "quartier": "Plateau",
+    "adresse": "Rond point Gagnoa",
+    "image": "images/resto8.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Le Maquis de Daloa",
+    "region": "Centre-Ouest",
+    "ville": "Daloa",
+    "quartier": "Commerce",
+    "adresse": "Rue du Maquis",
+    "image": "images/resto9.jpg"
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Maquis Prestige Yamoussoukro",
+    "region": "Centre",
+    "ville": "Yamoussoukro",
+    "quartier": "220 logements",
+    "adresse": "Face Lycée Classique",
+    "image": "images/resto10.jpg"
+  },
+
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Cocody Santé",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Cocody",
+    "adresse": "Boulevard Latrille",
+    "image": "images/pharma1.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Centrale Bouaké",
+    "region": "Centre",
+    "ville": "Bouaké",
+    "quartier": "Air France",
+    "adresse": "Boulevard Central",
+    "image": "images/pharma2.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Korhogo Nord",
+    "region": "Nord",
+    "ville": "Korhogo",
+    "quartier": "Soba",
+    "adresse": "Place du marché",
+    "image": "images/pharma3.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Man Santé",
+    "region": "Ouest",
+    "ville": "Man",
+    "quartier": "Petit Paris",
+    "adresse": "Près de la mairie",
+    "image": "images/pharma4.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie San Pedro Ville",
+    "region": "Sud-Ouest",
+    "ville": "San Pedro",
+    "quartier": "Cité",
+    "adresse": "Avenue maritime",
+    "image": "images/pharma5.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Daloa Santé",
+    "region": "Centre-Ouest",
+    "ville": "Daloa",
+    "quartier": "Commerce",
+    "adresse": "Rue principale",
+    "image": "images/pharma6.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Bassam Espoir",
+    "region": "Sud",
+    "ville": "Grand-Bassam",
+    "quartier": "France",
+    "adresse": "Quartier France",
+    "image": "images/pharma7.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Gagnoa Santé",
+    "region": "Centre-Ouest",
+    "ville": "Gagnoa",
+    "quartier": "Plateau",
+    "adresse": "Avenue principale",
+    "image": "images/pharma8.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Yamoussoukro Vie",
+    "region": "Centre",
+    "ville": "Yamoussoukro",
+    "quartier": "Assabou",
+    "adresse": "Rue du CHU",
+    "image": "images/pharma9.jpg"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Odienné Service",
+    "region": "Nord-Ouest",
+    "ville": "Odienné",
+    "quartier": "Glan",
+    "adresse": "Rue de l’hôpital",
+    "image": "images/pharma10.jpg"
   }
 ]
