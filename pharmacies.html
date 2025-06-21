@@ -1,178 +1,78 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacies - ChapChap Guide</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pharmacies disponibles</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #eb3b5a;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .card-content h3 {
+      margin: 0 0 10px;
       color: #333;
     }
-
-    .container {
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    h1 {
-      color: #16a085;
-      text-align: center;
-      font-size: 1.6em;
-      margin-bottom: 20px;
-    }
-
-    .top-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    select, input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .pharma {
-      background: #f0fdfa;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .pharma img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .pharma h3 {
-      margin: 0;
-      color: #16a085;
-      font-size: 1.2em;
-    }
-
-    .pharma p {
+    .card-content p {
       margin: 5px 0;
-      font-size: 0.95em;
+      color: #666;
     }
-
-    .back-button {
-      display: block;
+    .masque {
+      background-color: #eee;
+      color: #999;
+      font-style: italic;
+      padding: 8px;
+      border-radius: 6px;
       text-align: center;
-      background-color: #16a085;
-      color: white;
-      padding: 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 1em;
-      margin-top: 20px;
-    }
-
-    .back-button:hover {
-      background-color: #1abc9c;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <h1>💊 Pharmacies disponibles</h1>
   <div class="container">
-    <h1>Pharmacies de garde</h1>
-
-    <div class="top-bar">
-      <input type="text" id="search" placeholder="Rechercher une pharmacie" oninput="filtrerPharmacies()">
-      <select id="ville" onchange="filtrerPharmacies()">
-        <option value="tous">-- Toutes les villes --</option>
-        <option value="Abidjan">Abidjan</option>
-        <option value="Bouaké">Bouaké</option>
-        <option value="Yamoussoukro">Yamoussoukro</option>
-      </select>
+    <div class="card">
+      <img src="images/pharmacie1.jpg" alt="Pharmacie 1">
+      <div class="card-content">
+        <h3>Pharmacie du Soleil</h3>
+        <p>📍 Koumassi - 05 Port</p>
+        <div class="masque">Numéro masqué. Paiement requis.</div>
+      </div>
     </div>
-
-    <div id="liste-pharmacies"></div>
-
-    <a href="index.html" class="back-button">← Retour à l’accueil</a>
+    <div class="card">
+      <img src="images/pharmacie2.jpg" alt="Pharmacie 2">
+      <div class="card-content">
+        <h3>Pharmacie Sainte-Marie</h3>
+        <p>📍 Abobo - Belleville</p>
+        <div class="masque">Numéro masqué. Paiement requis.</div>
+      </div>
+    </div>
   </div>
-
-  <script>
-    const pharmacies = [
-      {
-        nom: "Pharmacie Cocody Centre",
-        ville: "Abidjan",
-        adresse: "Cocody Saint Jean",
-        contact: "+225 07 11 22 33",
-        horaires: "24h/24 - 7j/7",
-        image: "https://via.placeholder.com/400x200?text=Pharmacie+Cocody"
-      },
-      {
-        nom: "Pharmacie du Nord",
-        ville: "Bouaké",
-        adresse: "Bouaké Sokoura",
-        contact: "+225 05 66 77 88",
-        horaires: "8h à 22h",
-        image: "https://via.placeholder.com/400x200?text=Pharmacie+Nord"
-      },
-      {
-        nom: "Pharmacie Basilique",
-        ville: "Yamoussoukro",
-        adresse: "Face Basilique",
-        contact: "+225 01 23 45 67",
-        horaires: "24h/24",
-        image: "https://via.placeholder.com/400x200?text=Pharmacie+Basilique"
-      }
-    ];
-
-    function afficherPharmacies(filtreVille = "tous", recherche = "") {
-      const container = document.getElementById("liste-pharmacies");
-      container.innerHTML = "";
-
-      const resultats = pharmacies.filter(p => {
-        const matchVille = filtreVille === "tous" || p.ville === filtreVille;
-        const matchNom = p.nom.toLowerCase().includes(recherche.toLowerCase());
-        return matchVille && matchNom;
-      });
-
-      if (resultats.length === 0) {
-        container.innerHTML = "<p>Aucune pharmacie trouvée.</p>";
-        return;
-      }
-
-      resultats.forEach(p => {
-        container.innerHTML += `
-          <div class="pharma">
-            <img src="${p.image}" alt="${p.nom}">
-            <h3>${p.nom}</h3>
-            <p><strong>Ville :</strong> ${p.ville}</p>
-            <p><strong>Adresse :</strong> ${p.adresse}</p>
-            <p><strong>Contact :</strong> ${p.contact}</p>
-            <p><strong>Horaires :</strong> ${p.horaires}</p>
-          </div>
-        `;
-      });
-    }
-
-    function filtrerPharmacies() {
-      const ville = document.getElementById("ville").value;
-      const recherche = document.getElementById("search").value;
-      afficherPharmacies(ville, recherche);
-    }
-
-    // Affichage initial
-    afficherPharmacies();
-  </script>
 </body>
 </html>
