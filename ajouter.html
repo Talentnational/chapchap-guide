@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      background: #f4f4f4;
       padding: 20px;
       max-width: 600px;
       margin: auto;
@@ -111,6 +111,14 @@
       margin: 10px 0;
       padding: 12px 20px;
       background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: #1e8449;
     }
 
     .overlay {
@@ -149,7 +157,7 @@
     <label for="facebook">Lien Facebook (facultatif)</label>
     <input type="text" name="facebook">
 
-    <label>Photos (max 6)</label>
+    <label>Photos (jusqu’à 6)</label>
     <div class="photo-grid">
       <div class="photo-box" onclick="triggerInput(0)">
         <input type="file" name="photos[]" accept="image/*" onchange="previewOne(event, 0)">
@@ -177,7 +185,6 @@
       </div>
     </div>
 
-    <!-- Bouton Publication -->
     <button type="button" onclick="afficherOffre()">Publier mon service</button>
 
   </form>
@@ -188,10 +195,20 @@
   <!-- Popup Paiement -->
   <div class="popup" id="popup-offre">
     <h3>Choisissez une durée de publication</h3>
-    <button onclick="payer(1000)">1 mois - 1000 F</button><br>
-    <button onclick="payer(3000)">3 mois - 3000 F</button><br>
-    <button onclick="payer(5000)">6 mois - 5000 F</button><br>
-    <button onclick="fermerPopup()">Annuler</button>
+
+    <a href="https://secure.cinetpay.com/checkout/?cpm_site_id=105897805&cpm_amount=1000&cpm_custom=service_1mois&cpm_trans_id=tn-premium1&cpm_designation=Ajout+de+service+premium+:+accès+complet&apikey=17395569736847c0699ee216.42974683&return_url=https://chapchap-guide.vercel.app/merci.html">
+      <button>✅ 1 mois - 1000 F</button>
+    </a><br><br>
+
+    <a href="https://secure.cinetpay.com/checkout/?cpm_site_id=105897805&cpm_amount=3000&cpm_custom=service_3mois&cpm_trans_id=tn-premium3&cpm_designation=Ajout+de+service+premium+:+accès+complet&apikey=17395569736847c0699ee216.42974683&return_url=https://chapchap-guide.vercel.app/merci.html">
+      <button>✅ 3 mois - 3000 F</button>
+    </a><br><br>
+
+    <a href="https://secure.cinetpay.com/checkout/?cpm_site_id=105897805&cpm_amount=5000&cpm_custom=service_6mois&cpm_trans_id=tn-premium6&cpm_designation=Ajout+de+service+premium+:+accès+complet&apikey=17395569736847c0699ee216.42974683&return_url=https://chapchap-guide.vercel.app/merci.html">
+      <button>✅ 6 mois - 5000 F</button>
+    </a><br><br>
+
+    <button onclick="fermerPopup()">❌ Annuler</button>
   </div>
 
   <script>
@@ -217,13 +234,6 @@
     function fermerPopup() {
       document.getElementById("popup-offre").style.display = "none";
       document.getElementById("overlay").style.display = "none";
-    }
-
-    function payer(montant) {
-      alert("Vous allez être redirigé pour payer " + montant + " F");
-
-      // Remplace cette ligne par ton vrai lien CinetPay
-      window.location.href = "https://secure.cinetpay.com/?amount=" + montant;
     }
   </script>
 
