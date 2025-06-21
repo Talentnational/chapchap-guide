@@ -1,178 +1,78 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurants - ChapChap Guide</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurants disponibles</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #20bf6b;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .card-content h3 {
+      margin: 0 0 10px;
       color: #333;
     }
-
-    .container {
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    h1 {
-      color: #e67e22;
-      text-align: center;
-      font-size: 1.6em;
-      margin-bottom: 20px;
-    }
-
-    .top-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    select, input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .restaurant {
-      background: #fef6f0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .restaurant img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .restaurant h3 {
-      margin: 0;
-      color: #e67e22;
-      font-size: 1.2em;
-    }
-
-    .restaurant p {
+    .card-content p {
       margin: 5px 0;
-      font-size: 0.95em;
+      color: #666;
     }
-
-    .back-button {
-      display: block;
+    .masque {
+      background-color: #eee;
+      color: #999;
+      font-style: italic;
+      padding: 8px;
+      border-radius: 6px;
       text-align: center;
-      background-color: #e67e22;
-      color: white;
-      padding: 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 1em;
-      margin-top: 20px;
-    }
-
-    .back-button:hover {
-      background-color: #f39c12;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <h1>🍽️ Restaurants disponibles</h1>
   <div class="container">
-    <h1>Restaurants recommandés</h1>
-
-    <div class="top-bar">
-      <input type="text" id="search" placeholder="Rechercher un restaurant" oninput="filtrerRestaurants()">
-      <select id="ville" onchange="filtrerRestaurants()">
-        <option value="tous">-- Toutes les villes --</option>
-        <option value="Abidjan">Abidjan</option>
-        <option value="Bouaké">Bouaké</option>
-        <option value="Yamoussoukro">Yamoussoukro</option>
-      </select>
+    <div class="card">
+      <img src="images/restaurant1.jpg" alt="Restaurant 1">
+      <div class="card-content">
+        <h3>Chez Mama Africa</h3>
+        <p>📍 Marcory - Résidentiel</p>
+        <div class="masque">Numéro masqué. Paiement requis.</div>
+      </div>
     </div>
-
-    <div id="liste-restaurants"></div>
-
-    <a href="index.html" class="back-button">← Retour à l’accueil</a>
+    <div class="card">
+      <img src="images/restaurant2.jpg" alt="Restaurant 2">
+      <div class="card-content">
+        <h3>Grill & Saveurs</h3>
+        <p>📍 Treichville - Zone 4</p>
+        <div class="masque">Numéro masqué. Paiement requis.</div>
+      </div>
+    </div>
   </div>
-
-  <script>
-    const restaurants = [
-      {
-        nom: "Chez Alloco",
-        ville: "Abidjan",
-        adresse: "Cocody Angré 9e tranche",
-        contact: "+225 01 02 03 04",
-        menu: "Alloco, poisson braisé, attiéké",
-        image: "https://via.placeholder.com/400x200?text=Chez+Alloco"
-      },
-      {
-        nom: "Le Maquis Bouaké",
-        ville: "Bouaké",
-        adresse: "Quartier Commerce",
-        contact: "+225 07 55 66 77",
-        menu: "Poulet braisé, riz sauce, garba",
-        image: "https://via.placeholder.com/400x200?text=Maquis+Bouaké"
-      },
-      {
-        nom: "Restaurant Yamoussoukro",
-        ville: "Yamoussoukro",
-        adresse: "Centre-ville",
-        contact: "+225 05 99 88 77",
-        menu: "Sauce graine, foutou, soupe",
-        image: "https://via.placeholder.com/400x200?text=Restau+Yamoussoukro"
-      }
-    ];
-
-    function afficherRestaurants(filtreVille = "tous", recherche = "") {
-      const container = document.getElementById("liste-restaurants");
-      container.innerHTML = "";
-
-      const filtres = restaurants.filter(r => {
-        const matchVille = filtreVille === "tous" || r.ville === filtreVille;
-        const matchNom = r.nom.toLowerCase().includes(recherche.toLowerCase());
-        return matchVille && matchNom;
-      });
-
-      if (filtres.length === 0) {
-        container.innerHTML = "<p>Aucun restaurant trouvé.</p>";
-        return;
-      }
-
-      filtres.forEach(r => {
-        container.innerHTML += `
-          <div class="restaurant">
-            <img src="${r.image}" alt="${r.nom}">
-            <h3>${r.nom}</h3>
-            <p><strong>Ville :</strong> ${r.ville}</p>
-            <p><strong>Adresse :</strong> ${r.adresse}</p>
-            <p><strong>Contact :</strong> ${r.contact}</p>
-            <p><strong>Menu :</strong> ${r.menu}</p>
-          </div>
-        `;
-      });
-    }
-
-    function filtrerRestaurants() {
-      const ville = document.getElementById("ville").value;
-      const recherche = document.getElementById("search").value;
-      afficherRestaurants(ville, recherche);
-    }
-
-    // Affichage initial
-    afficherRestaurants();
-  </script>
 </body>
 </html>
