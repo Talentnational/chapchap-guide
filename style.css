@@ -1,119 +1,69 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom right, #f0f4f7, #ffffff);
   margin: 0;
-  padding: 20px;
-  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f3f4f6;
+  color: #111;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 26px;
-  color: #2b4c7e;
+  margin: 20px 0;
+  color: #1f2937;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 
 .filters {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px;
 }
 
 select {
   padding: 10px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: white;
+  font-size: 15px;
 }
 
 .services-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  max-width: 1200px;
-  margin: auto;
-  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 10px 40px;
 }
 
 .service-card {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  border-radius: 16px;
   overflow: hidden;
-}
-
-.service-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
-.service-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-bottom: 1px solid #eee;
-}
-
-.service-card-content {
-  padding: 15px;
-}
-
-.service-card h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  color: #1e88e5;
-}
-
-.service-card p {
-  margin: 6px 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-@media screen and (max-width: 600px) {
-  .filters {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .service-card img {
-    height: 160px;
-  }
-
-  .service-card-content {
-    padding: 12px;
-  }
-.premium-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: linear-gradient(to right, gold, orange);
-  color: #fff;
-  padding: 5px 10px;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
- .service-card {
   width: 100%;
   max-width: 300px;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 10px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.02);
 }
 
 .service-card img {
@@ -125,18 +75,35 @@ select {
 
 .service-card-content {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .service-card-content h3 {
   font-size: 18px;
-  margin: 0 0 10px;
+  margin: 0;
   color: #007BFF;
   text-align: center;
 }
 
 .service-card-content p {
   font-size: 14px;
-  margin: 4px 0;
+  margin: 0;
+  line-height: 1.4;
   color: #333;
-  }
-  
+}
+
+/* Badge Premium */
+.premium-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(to right, gold, orange);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
