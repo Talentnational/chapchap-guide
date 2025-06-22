@@ -1,130 +1,66 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Hôtels disponibles</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      width: 90%;
+      max-width: 300px;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .top-bar {
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hôtels disponibles</h1>
-
-  <div class="filters">
-    <select id="region-filter">
-      <option value="">Toutes les régions</option>
-    </select>
-    <select id="ville-filter" disabled>
-      <option value="">Toutes les villes</option>
-    </select>
-    <select id="quartier-filter" disabled>
-      <option value="">Tous les quartiers</option>
-    </select>
+  <div class="top-bar">
+    <h2>Hôtels disponibles</h2>
   </div>
-
-  <div id="services-container" class="services-container"></div>
+  <div class="cards-container" id="hotel-list"></div>
 
   <script>
-    let services = [];
-    const regionFilter = document.getElementById('region-filter');
-    const villeFilter = document.getElementById('ville-filter');
-    const quartierFilter = document.getElementById('quartier-filter');
-    const container = document.getElementById('services-container');
-
-    fetch('services.json')
-      .then(response => response.json())
+    fetch("services.json")
+      .then(res => res.json())
       .then(data => {
-        services = data.filter(item => item.categorie === 'hotel');
+        const hotels = data.filter(item => item.categorie === "hotel");
+        const container = document.getElementById("hotel-list");
 
-        const regions = [...new Set(services.map(s => s.region))].sort();
-        regions.forEach(region => {
-          const option = document.createElement('option');
-          option.value = region;
-          option.textContent = region;
-          regionFilter.appendChild(option);
+        hotels.forEach(hotel => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <a href="detail.html?id=${hotel.id}">${hotel.nom}</a>
+            <p><strong>Région:</strong> ${hotel.region}</p>
+            <p><strong>Ville:</strong> ${hotel.ville}</p>
+            <p><strong>Quartier:</strong> ${hotel.quartier}</p>
+            <p><strong>Adresse:</strong> ${hotel.adresse}</p>
+          `;
+          container.appendChild(card);
         });
-
-        displayServices(services);
       });
-
-    function displayServices(list) {
-      container.innerHTML = '';
-      if (list.length === 0) {
-        container.innerHTML = '<p>Aucun hôtel trouvé.</p>';
-        return;
-      }
-      list.forEach(service => {
-        const card = document.createElement('div');
-        card.classList.add('service-card');
-        card.innerHTML = `
-          <img src="${service.image}" alt="${service.nom}" />
-          <div class="service-card-content">
-            <h3>${service.nom}</h3>
-            <p><strong>Région :</strong> ${service.region}</p>
-            <p><strong>Ville :</strong> ${service.ville}</p>
-            <p><strong>Quartier :</strong> ${service.quartier}</p>
-            <p><strong>Adresse :</strong> ${service.adresse}</p>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    regionFilter.addEventListener('change', () => {
-      const selectedRegion = regionFilter.value;
-      if (selectedRegion) {
-        villeFilter.disabled = false;
-        const villes = [...new Set(services.filter(s => s.region === selectedRegion).map(s => s.ville))].sort();
-        villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
-        villes.forEach(ville => {
-          const option = document.createElement('option');
-          option.value = ville;
-          option.textContent = ville;
-          villeFilter.appendChild(option);
-        });
-      } else {
-        villeFilter.disabled = true;
-        villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
-      }
-      quartierFilter.disabled = true;
-      quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-      filterAndDisplay();
-    });
-
-    villeFilter.addEventListener('change', () => {
-      const selectedRegion = regionFilter.value;
-      const selectedVille = villeFilter.value;
-      if (selectedVille) {
-        quartierFilter.disabled = false;
-        const quartiers = [...new Set(services.filter(s => s.region === selectedRegion && s.ville === selectedVille).map(s => s.quartier))].sort();
-        quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-        quartiers.forEach(quartier => {
-          const option = document.createElement('option');
-          option.value = quartier;
-          option.textContent = quartier;
-          quartierFilter.appendChild(option);
-        });
-      } else {
-        quartierFilter.disabled = true;
-        quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-      }
-      filterAndDisplay();
-    });
-
-    quartierFilter.addEventListener('change', () => {
-      filterAndDisplay();
-    });
-
-    function filterAndDisplay() {
-      const selectedRegion = regionFilter.value;
-      const selectedVille = villeFilter.value;
-      const selectedQuartier = quartierFilter.value;
-
-      let filtered = services;
-      if (selectedRegion) filtered = filtered.filter(s => s.region === selectedRegion);
-      if (selectedVille) filtered = filtered.filter(s => s.ville === selectedVille);
-      if (selectedQuartier) filtered = filtered.filter(s => s.quartier === selectedQuartier);
-
-      displayServices(filtered);
-    }
   </script>
 </body>
 </html>
