@@ -308,6 +308,14 @@
     "adresse": "Boulevard de la Mer",
     "telephone": "225 08 66 77 88",
     "image": "https://via.placeholder.com/280x180?text=La+Pergola"
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie du Soleil",
+    "region": "Abidjan",
+    "ville": "Cocody",
+    "quartier": "Angré",
+    "adresse": "Boulevard Latrille",
+    "image": "https://via.placeholder.com/280x180?text=Pharmacie+Soleil"
   }
 ]
-  
