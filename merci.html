@@ -62,5 +62,18 @@
     <p>Un lien de paiement sera bientôt disponible.</p>
     <a href="index.html" class="btn">Retour à l'accueil</a>
   </div>
+  <script>
+  const nom = localStorage.getItem("utilisateur_nom");
+  const credits = localStorage.getItem("credits");
+
+  const bar = document.getElementById("creditBar");
+
+  if (nom && credits !== null) {
+    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+  } else {
+    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
+  }
+  </script>
+  
 </body>
 </html>
