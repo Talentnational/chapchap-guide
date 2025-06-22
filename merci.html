@@ -1,79 +1,71 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Merci pour votre ajout</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merci</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      background-color: #f0f8ff;
       text-align: center;
-      padding: 50px;
-      background-color: #f4f4f4;
     }
-    .card {
+    .message {
       background: white;
       padding: 30px;
       border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
     }
-    h1 {
-      color: #2d98da;
-    }
-    p {
-      margin-top: 20px;
-      color: #333;
-    }
-    .btn {
+    a {
       display: inline-block;
-      margin-top: 25px;
-      padding: 12px 20px;
-      background-color: #2d98da;
-      color: white;
-      border: none;
-      border-radius: 6px;
+      margin-top: 20px;
+      color: #007bff;
       text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <!-- BARRE DE CRÉDIT -->
-<div id="creditBar" style="
-  background: #fffae6;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: #222;
-  border-bottom: 1px solid #ddd;
-">
-  Chargement...
-</div>
-  <div class="card">
-    <h1>✅ Merci pour votre soumission</h1>
-    <p>Votre service a été enregistré avec succès.</p>
-    <p>Pour qu’il soit publié, veuillez effectuer le paiement selon la durée souhaitée :</p>
-    <ul style="text-align: left; margin-top: 10px;">
-      <li>1 mois → 1000 FCFA</li>
-      <li>3 mois → 2500 FCFA</li>
-      <li>6 mois → 5000 FCFA</li>
-    </ul>
-    <p>Un lien de paiement sera bientôt disponible.</p>
-    <a href="index.html" class="btn">Retour à l'accueil</a>
+  <!-- BARRE DE CRÉDIT (corrigée) -->
+  <div id="creditBar" style="
+    position: relative;
+    background: #fffae6;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  ">
+    Chargement...
   </div>
+
+  <div class="message">
+    <h1>Merci pour votre publication !</h1>
+    <p>Votre service a bien été pris en compte et sera visible après validation.</p>
+    <a href="index.html">Retour à l'accueil</a>
+  </div>
+
   <script>
-  const nom = localStorage.getItem("utilisateur_nom");
-  const credits = localStorage.getItem("credits");
+    const nom = localStorage.getItem("utilisateur_nom");
+    const credits = localStorage.getItem("credits");
+    const bar = document.getElementById("creditBar");
 
-  const bar = document.getElementById("creditBar");
-
-  if (nom && credits !== null) {
-    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
-  } else {
-    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
-  }
+    if (nom && credits !== null) {
+      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+    } else {
+      bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
+    }
   </script>
-  
 </body>
 </html>
