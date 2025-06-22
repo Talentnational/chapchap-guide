@@ -198,8 +198,7 @@
     "adresse": "Boulevard des Fleurs",
     "telephone": "225 07 77 88 99",
     "image": "https://via.placeholder.com/280x180?text=Hotel+Eden+Garden"
-  }
-,
+  },
   {
     "categorie": "restaurant",
     "nom": "Chez Mama Africa",
@@ -309,95 +308,6 @@
     "adresse": "Boulevard de la Mer",
     "telephone": "225 08 66 77 88",
     "image": "https://via.placeholder.com/280x180?text=La+Pergola"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Le Gourmet Ivoirien",
-    "region": "Bouaké",
-    "ville": "Bouaké",
-    "quartier": "Centre-ville",
-    "adresse": "Rue du Marché",
-    "telephone": "225 05 44 33 22",
-    "image": "https://via.placeholder.com/280x180?text=Le+Gourmet+Ivoirien"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "L'Épicurien",
-    "region": "Abidjan",
-    "ville": "Plateau",
-    "quartier": "Centre-ville",
-    "adresse": "Rue des Poètes",
-    "telephone": "225 01 11 22 33",
-    "image": "https://via.placeholder.com/280x180?text=L'Epicurien"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Chez Didier",
-    "region": "Abidjan",
-    "ville": "Cocody",
-    "quartier": "Angré",
-    "adresse": "Avenue des Fleurs",
-    "telephone": "225 01 77 88 99",
-    "image": "https://via.placeholder.com/280x180?text=Chez+Didier"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Le Bistrot Ivoirien",
-    "region": "Yamoussoukro",
-    "ville": "Yamoussoukro",
-    "quartier": "Zone Verte",
-    "adresse": "Boulevard des Artistes",
-    "telephone": "225 07 44 55 66",
-    "image": "https://via.placeholder.com/280x180?text=Le+Bistrot+Ivoirien"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Le Piment Rouge",
-    "region": "Abidjan",
-    "ville": "Marcory",
-    "quartier": "Zone 4",
-    "adresse": "Rue des Arts",
-    "telephone": "225 01 44 77 88",
-    "image": "https://via.placeholder.com/280x180?text=Le+Piment+Rouge"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "La Terrasse",
-    "region": "San Pedro",
-    "ville": "San Pedro",
-    "quartier": "Centre-ville",
-    "adresse": "Avenue de la Plage",
-    "telephone": "225 08 22 44 66",
-    "image": "https://via.placeholder.com/280x180?text=La+Terrasse"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Le Resto Chic",
-    "region": "Abidjan",
-    "ville": "Riviera",
-    "quartier": "Zone 3",
-    "adresse": "Rue des Cocotiers",
-    "telephone": "225 01 55 66 77",
-    "image": "https://via.placeholder.com/280x180?text=Le+Resto+Chic"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Chez Lili",
-    "region": "Daloa",
-    "ville": "Daloa",
-    "quartier": "Centre-ville",
-    "adresse": "Rue du Marché",
-    "telephone": "225 06 77 88 55",
-    "image": "https://via.placeholder.com/280x180?text=Chez+Lili"
-  },
-  {
-    "categorie": "restaurant",
-    "nom": "Le Palais des Saveurs",
-    "region": "Abidjan",
-    "ville": "Plateau",
-    "quartier": "Centre-ville",
-    "adresse": "Rue des Poètes",
-    "telephone": "225 01 66 77 88",
-    "image": "https://via.placeholder.com/280x180?text=Le+Palais+des+Saveurs"
   }
+]
   
