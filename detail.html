@@ -14,32 +14,81 @@
     <a href="index.html"><button>⬅ Retour</button></a>
   </div>
 
-  <script>
+    <script>
     const params = new URLSearchParams(window.location.search);
-    const serviceId = params.get("id");
+    const id = params.get("id");
 
     fetch("services.json")
       .then(res => res.json())
       .then(data => {
-        const service = data.find(s => s.id === serviceId);
+        const service = data.find(item => item.id === id);
         if (!service) {
-          document.getElementById("detail-container").innerHTML = "<p>Service non trouvé.</p>";
+          document.getElementById("detail-container").innerHTML = "<p>Service non trouvé</p>";
           return;
         }
 
         document.getElementById("nom-service").innerText = service.nom;
-        document.getElementById("description-service").innerText = service.description;
-        document.getElementById("adresse-service").innerText = `${service.adresse}, ${service.quartier}, ${service.ville}, ${service.region}`;
+        document.getElementById("description").innerText = service.description;
+        document.getElementById("adresse").innerText = `${service.adresse}, ${service.quartier}, ${service.ville}, ${service.region}`;
 
-        const imageContainer = document.getElementById("images-service");
+        const gallery = document.getElementById("image-gallery");
         service.images.forEach(img => {
-          const imageEl = document.createElement("img");
-          imageEl.src = img;
-          imageEl.style.width = "45%";
-          imageEl.style.borderRadius = "8px";
-          imageContainer.appendChild(imageEl);
+          const image = document.createElement("img");
+          image.src = img;
+          gallery.appendChild(image);
         });
+
+        // --- Crée le bouton "Contacter"
+        const contactDiv = document.createElement("div");
+        contactDiv.style.marginTop = "20px";
+
+        const contactBtn = document.createElement("button");
+        contactBtn.textContent = "📞 Contacter ce service";
+        contactBtn.style.padding = "10px 16px";
+        contactBtn.style.fontSize = "16px";
+        contactBtn.style.background = "#28a745";
+        contactBtn.style.color = "#fff";
+        contactBtn.style.border = "none";
+        contactBtn.style.borderRadius = "8px";
+        contactBtn.style.cursor = "pointer";
+
+        const contactInfo = document.createElement("div");
+        contactInfo.style.marginTop = "15px";
+
+        contactBtn.onclick = () => {
+          if (localStorage.getItem("paid_" + service.id) === "yes") {
+            showContact();
+          } else {
+            const confirmDiv = document.createElement("div");
+            confirmDiv.innerHTML = `
+              <p>Ce service est payant (100 FCFA). Cliquez sur le bouton ci-dessous pour simuler le paiement :</p>
+              <button id="pay-btn" style="padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">✅ Valider le paiement</button>
+            `;
+            contactInfo.innerHTML = "";
+            contactInfo.appendChild(confirmDiv);
+
+            document.getElementById("pay-btn").onclick = () => {
+              localStorage.setItem("paid_" + service.id, "yes");
+              showContact();
+            };
+          }
+        };
+
+        function showContact() {
+          contactInfo.innerHTML = `
+            <p><strong>Numéro :</strong> 07 78 64 60 30</p>
+            <a href="https://wa.me/2250778646030?text=Bonjour, je souhaite en savoir plus sur ${service.nom}" target="_blank"
+              style="display: inline-block; background: #25D366; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none;">
+              💬 Discuter sur WhatsApp
+            </a>
+          `;
+        }
+
+        contactDiv.appendChild(contactBtn);
+        contactDiv.appendChild(contactInfo);
+        document.getElementById("detail-container").appendChild(contactDiv);
       });
-  </script>
+          </script>
+  
 </body>
 </html>
