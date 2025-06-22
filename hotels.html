@@ -4,19 +4,6 @@
   <meta charset="UTF-8" />
   <title>Hôtels disponibles</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Style rapide pour les filtres */
-    .filters {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    select {
-      padding: 6px 12px;
-      font-size: 16px;
-    }
-  </style>
 </head>
 <body>
   <h1>Hôtels disponibles</h1>
@@ -25,11 +12,9 @@
     <select id="region-filter">
       <option value="">Toutes les régions</option>
     </select>
-
     <select id="ville-filter" disabled>
       <option value="">Toutes les villes</option>
     </select>
-
     <select id="quartier-filter" disabled>
       <option value="">Tous les quartiers</option>
     </select>
@@ -47,10 +32,8 @@
     fetch('services.json')
       .then(response => response.json())
       .then(data => {
-        // Filtrer seulement les hôtels
         services = data.filter(item => item.categorie === 'hotel');
 
-        // Remplir le filtre région
         const regions = [...new Set(services.map(s => s.region))].sort();
         regions.forEach(region => {
           const option = document.createElement('option');
@@ -73,24 +56,22 @@
         card.classList.add('service-card');
         card.innerHTML = `
           <img src="${service.image}" alt="${service.nom}" />
-          <h3>${service.nom}</h3>
-          <p><strong>Région :</strong> ${service.region}</p>
-          <p><strong>Ville :</strong> ${service.ville}</p>
-          <p><strong>Quartier :</strong> ${service.quartier}</p>
-          <p><strong>Adresse :</strong> ${service.adresse}</p>
+          <div class="service-card-content">
+            <h3>${service.nom}</h3>
+            <p><strong>Région :</strong> ${service.region}</p>
+            <p><strong>Ville :</strong> ${service.ville}</p>
+            <p><strong>Quartier :</strong> ${service.quartier}</p>
+            <p><strong>Adresse :</strong> ${service.adresse}</p>
+          </div>
         `;
         container.appendChild(card);
       });
     }
 
-    // Quand on change la région
     regionFilter.addEventListener('change', () => {
       const selectedRegion = regionFilter.value;
-
-      // Activer ou désactiver le filtre ville
       if (selectedRegion) {
         villeFilter.disabled = false;
-        // Remplir villes disponibles dans la région
         const villes = [...new Set(services.filter(s => s.region === selectedRegion).map(s => s.ville))].sort();
         villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
         villes.forEach(ville => {
@@ -103,22 +84,16 @@
         villeFilter.disabled = true;
         villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
       }
-
-      // Réinitialiser quartier
       quartierFilter.disabled = true;
       quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-
       filterAndDisplay();
     });
 
-    // Quand on change la ville
     villeFilter.addEventListener('change', () => {
       const selectedRegion = regionFilter.value;
       const selectedVille = villeFilter.value;
-
       if (selectedVille) {
         quartierFilter.disabled = false;
-        // Remplir quartiers disponibles dans la ville et région sélectionnées
         const quartiers = [...new Set(services.filter(s => s.region === selectedRegion && s.ville === selectedVille).map(s => s.quartier))].sort();
         quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
         quartiers.forEach(quartier => {
@@ -134,7 +109,6 @@
       filterAndDisplay();
     });
 
-    // Quand on change le quartier
     quartierFilter.addEventListener('change', () => {
       filterAndDisplay();
     });
@@ -145,16 +119,9 @@
       const selectedQuartier = quartierFilter.value;
 
       let filtered = services;
-
-      if (selectedRegion) {
-        filtered = filtered.filter(s => s.region === selectedRegion);
-      }
-      if (selectedVille) {
-        filtered = filtered.filter(s => s.ville === selectedVille);
-      }
-      if (selectedQuartier) {
-        filtered = filtered.filter(s => s.quartier === selectedQuartier);
-      }
+      if (selectedRegion) filtered = filtered.filter(s => s.region === selectedRegion);
+      if (selectedVille) filtered = filtered.filter(s => s.ville === selectedVille);
+      if (selectedQuartier) filtered = filtered.filter(s => s.quartier === selectedQuartier);
 
       displayServices(filtered);
     }
