@@ -491,3 +491,105 @@
   }
  ]
   
+[
+  {
+    "categorie": "hotel",
+    "nom": "Grace Hôtel Divo",
+    "region": "Sud",
+    "ville": "Divo",
+    "quartier": "Centre",
+    "adresse": "Rue des palmiers",
+    "image": "images/grace_hotel.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "hotel",
+    "nom": "Hôtel Ivotel Abidjan",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Plateau",
+    "adresse": "Avenue Terrasson de Fougères",
+    "image": "images/ivotel.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Chez Zongo",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Cocody",
+    "adresse": "Rue des Jardins",
+    "image": "images/chez_zongo.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Norima Lounge",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Marcory",
+    "adresse": "Boulevard VGE",
+    "image": "images/norima.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie du Vélodrome",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Yopougon",
+    "adresse": "Rue du Vélodrome",
+    "image": "images/pharma_velodrome.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie Centrale de Divo",
+    "region": "Sud",
+    "ville": "Divo",
+    "quartier": "Commerce",
+    "adresse": "Avenue du marché",
+    "image": "images/pharma_divo.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "hotel",
+    "nom": "Hôtel Ivoire Sofitel",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Cocody",
+    "adresse": "Boulevard Hassan II",
+    "image": "images/sofitel.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "restaurant",
+    "nom": "Le Gondwana",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Plateau",
+    "adresse": "Rue du Commerce",
+    "image": "images/gondwana.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "hotel",
+    "nom": "Hotel Millennium",
+    "region": "Sud",
+    "ville": "Divo",
+    "quartier": "Kpébo",
+    "adresse": "Route de Guitry",
+    "image": "images/millennium.jpg",
+    "premium": true
+  },
+  {
+    "categorie": "pharmacie",
+    "nom": "Pharmacie du Palmier",
+    "region": "Sud",
+    "ville": "Abidjan",
+    "quartier": "Treichville",
+    "adresse": "Boulevard de Marseille",
+    "image": "images/pharma_palmier.jpg",
+    "premium": true
+  }
+]
