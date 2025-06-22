@@ -103,6 +103,18 @@
       ⚠️ Votre service sera visible après validation. Des frais s’appliquent pour la publication.
     </div>
   </form>
+<script>
+  const nom = localStorage.getItem("utilisateur_nom");
+  const credits = localStorage.getItem("credits");
 
+  const bar = document.getElementById("creditBar");
+
+  if (nom && credits !== null) {
+    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+  } else {
+    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
+  }
+</script>
+  
 </body>
 </html>
