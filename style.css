@@ -1,65 +1,77 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
+  background: linear-gradient(to bottom right, #f0f4f7, #ffffff);
   margin: 0;
   padding: 20px;
-  text-align: center;
   color: #333;
 }
 
 h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #1e88e5;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+  color: #2b4c7e;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
 }
 
 .services-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 10px;
+  gap: 25px;
   max-width: 1200px;
   margin: auto;
+  padding: 10px;
 }
 
 .service-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  padding: 15px;
-  text-align: left;
-  transition: transform 0.2s ease;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
 .service-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
 .service-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.service-card-content {
+  padding: 15px;
 }
 
 .service-card h3 {
-  margin: 5px 0;
+  margin: 0 0 10px;
   font-size: 20px;
   color: #1e88e5;
 }
 
 .service-card p {
-  margin: 4px 0;
+  margin: 6px 0;
   font-size: 14px;
-  line-height: 1.4;
-}
-
-.filters select {
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: white;
-  cursor: pointer;
+  line-height: 1.5;
 }
 
 @media screen and (max-width: 600px) {
@@ -68,11 +80,11 @@ h1 {
     align-items: center;
   }
 
-  .service-card {
-    font-size: 14px;
+  .service-card img {
+    height: 160px;
   }
 
-  .service-card h3 {
-    font-size: 18px;
+  .service-card-content {
+    padding: 12px;
   }
 }
