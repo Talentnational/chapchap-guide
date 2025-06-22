@@ -2,119 +2,129 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ajouter un service</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      margin-top: 60px;
       padding: 20px;
+      background-color: #f7f7f7;
     }
     h1 {
       text-align: center;
-      color: #333;
+      margin-bottom: 20px;
     }
     form {
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto;
       background: white;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-    input, textarea, select {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       margin-top: 5px;
+      box-sizing: border-box;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 4px;
     }
     input[type="file"] {
-      border: none;
+      margin-top: 5px;
     }
     button {
       margin-top: 20px;
-      background-color: #2d98da;
+      padding: 12px;
+      width: 100%;
+      background-color: #007bff;
       color: white;
-      padding: 12px 20px;
+      font-size: 16px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
     }
     button:hover {
-      background-color: #1e6fbf;
-    }
-    .info {
-      background: #fff3cd;
-      padding: 10px;
-      border: 1px solid #ffeeba;
-      border-radius: 6px;
-      margin-top: 20px;
-      color: #856404;
-      text-align: center;
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-<!-- BARRE DE CRÉDIT -->
-<div id="creditBar" style="
-  background: #fffae6;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: #222;
-  border-bottom: 1px solid #ddd;
-">
-  Chargement...
-</div>
-  
-  <h1>➕ Ajouter un service</h1>
+  <!-- BARRE DE CRÉDIT (corrigée) -->
+  <div id="creditBar" style="
+    position: relative;
+    background: #fffae6;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  ">
+    Chargement...
+  </div>
 
-  <form action="merci.html" method="POST" enctype="multipart/form-data">
-    <label for="categorie">Catégorie du service</label>
-    <select id="categorie" name="categorie" required>
-      <option value="">Choisir une catégorie</option>
-      <option value="hôtel">🏨 Hôtel</option>
-      <option value="restaurant">🍽️ Restaurant</option>
-      <option value="pharmacie">💊 Pharmacie</option>
+  <h1>Ajouter un service</h1>
+  
+  <form id="ajouterServiceForm" enctype="multipart/form-data" method="post" action="merci.html">
+    <label for="categorie">Catégorie</label>
+    <select name="categorie" id="categorie" required>
+      <option value="">-- Sélectionnez --</option>
+      <option value="hotel">Hôtel</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="pharmacie">Pharmacie</option>
     </select>
 
-    <label for="nom">Nom du service</label>
-    <input type="text" id="nom" name="nom" placeholder="Ex: Hôtel Ivoire Palace" required />
+    <label for="nom">Nom de l'établissement</label>
+    <input type="text" id="nom" name="nom" required />
 
-    <label for="adresse">Adresse complète</label>
-    <input type="text" id="adresse" name="adresse" placeholder="Ex: Cocody - Angré" required />
+    <label for="region">Région</label>
+    <input type="text" id="region" name="region" required />
 
-    <label for="description">Brève description</label>
-    <textarea id="description" name="description" rows="4" placeholder="Décrivez brièvement votre établissement..."></textarea>
+    <label for="ville">Ville</label>
+    <input type="text" id="ville" name="ville" required />
 
-    <label for="photos">Ajouter jusqu'à 6 photos</label>
-    <input type="file" id="photos" name="photos" accept="image/*" multiple required />
+    <label for="quartier">Quartier</label>
+    <input type="text" id="quartier" name="quartier" required />
 
-    <button type="submit">Publier le service</button>
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" name="adresse" required />
 
-    <div class="info">
-      ⚠️ Votre service sera visible après validation. Des frais s’appliquent pour la publication.
-    </div>
+    <label for="telephone">Téléphone</label>
+    <input type="tel" id="telephone" name="telephone" required />
+
+    <label for="email">Email (optionnel)</label>
+    <input type="email" id="email" name="email" />
+
+    <label for="photos">Photos (jusqu'à 6)</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple />
+
+    <button type="submit">Publier</button>
   </form>
-<script>
-  const nom = localStorage.getItem("utilisateur_nom");
-  const credits = localStorage.getItem("credits");
 
-  const bar = document.getElementById("creditBar");
+  <script>
+    const nom = localStorage.getItem("utilisateur_nom");
+    const credits = localStorage.getItem("credits");
+    const bar = document.getElementById("creditBar");
 
-  if (nom && credits !== null) {
-    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
-  } else {
-    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
-  }
-</script>
-  
+    if (nom && credits !== null) {
+      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+    } else {
+      bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
+    }
+
+    // Ici tu peux ajouter plus tard la logique de paiement avant soumission
+    // ou contrôle des crédits avant publication
+  </script>
 </body>
 </html>
