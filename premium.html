@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Services Premium</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>🌟 Services Premium</h1>
+  <div id="services-container" class="services-container"></div>
+
+  <script>
+    fetch('services.json')
+      .then(res => res.json())
+      .then(data => {
+        const premiumServices = data.filter(service => service.premium === true);
+        const container = document.getElementById('services-container');
+
+        if (premiumServices.length === 0) {
+          container.innerHTML = "<p>Aucun service premium pour l’instant.</p>";
+          return;
+        }
+
+        premiumServices.forEach(service => {
+          const card = document.createElement('div');
+          card.classList.add('service-card');
+          card.innerHTML = `
+            <img src="${service.image}" alt="${service.nom}">
+            <div class="service-card-content">
+              <h3>${service.nom}</h3>
+              <p><strong>Catégorie :</strong> ${service.categorie}</p>
+              <p><strong>Région :</strong> ${service.region}</p>
+              <p><strong>Ville :</strong> ${service.ville}</p>
+              <p><strong>Quartier :</strong> ${service.quartier}</p>
+              <p><strong>Adresse :</strong> ${service.adresse}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      });
+  </script>
+</body>
+</html>
