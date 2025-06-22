@@ -1,142 +1,206 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Restaurants disponibles</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <style>
-    .filters {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #E74C3C;
       margin-bottom: 20px;
     }
-    select {
-      padding: 6px 12px;
+
+    #filtre-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    #filtre-container select {
+      padding: 12px 16px;
       font-size: 16px;
+      background-color: white;
+      border: 2px solid #E74C3C;
+      border-radius: 10px;
+      color: #333;
+      box-shadow: 0 2px 6px rgba(231, 76, 60, 0.2);
+      transition: all 0.3s ease;
+      margin: 5px 0;
+      min-width: 220px;
+    }
+
+    #filtre-container select:focus {
+      border-color: #c0392b;
+      outline: none;
+      box-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .service-card h3 {
+      margin: 10px 0 5px;
+      color: #333;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .service-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: #E74C3C;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .service-card a:hover {
+      background: #c0392b;
     }
   </style>
 </head>
 <body>
+
   <h1>Restaurants disponibles</h1>
 
-  <div class="filters">
-    <select id="region-filter">
-      <option value="">Toutes les régions</option>
+  <div id="filtre-container">
+    <select id="filtre-region">
+      <option value="">-- Sélectionnez une région --</option>
     </select>
 
-    <select id="ville-filter" disabled>
-      <option value="">Toutes les villes</option>
+    <select id="filtre-ville">
+      <option value="">-- Sélectionnez une ville --</option>
     </select>
 
-    <select id="quartier-filter" disabled>
-      <option value="">Tous les quartiers</option>
+    <select id="filtre-quartier">
+      <option value="">-- Sélectionnez un quartier --</option>
     </select>
   </div>
 
-  <div id="services-container" class="services-container"></div>
+  <div class="service-list" id="services-list">
+    <!-- Les restaurants filtrés s'afficheront ici -->
+  </div>
 
   <script>
-    let services = [];
-    const regionFilter = document.getElementById('region-filter');
-    const villeFilter = document.getElementById('ville-filter');
-    const quartierFilter = document.getElementById('quartier-filter');
-    const container = document.getElementById('services-container');
-
-    fetch('services.json')
-      .then(response => response.json())
+    fetch("services.json")
+      .then(res => res.json())
       .then(data => {
-        services = data.filter(item => item.categorie === 'restaurant');
+        const restaurants = data.filter(service => service.categorie === "restaurant");
 
-        const regions = [...new Set(services.map(s => s.region))].sort();
+        const regions = [...new Set(restaurants.map(r => r.region))];
+        const regionSelect = document.getElementById("filtre-region");
+        const villeSelect = document.getElementById("filtre-ville");
+        const quartierSelect = document.getElementById("filtre-quartier");
+
         regions.forEach(region => {
-          const option = document.createElement('option');
-          option.value = region;
-          option.textContent = region;
-          regionFilter.appendChild(option);
+          const opt = document.createElement("option");
+          opt.value = region;
+          opt.textContent = region;
+          regionSelect.appendChild(opt);
         });
 
-        displayServices(services);
+        regionSelect.addEventListener("change", () => {
+          villeSelect.innerHTML = `<option value="">-- Sélectionnez une ville --</option>`;
+          quartierSelect.innerHTML = `<option value="">-- Sélectionnez un quartier --</option>`;
+          const villes = [...new Set(restaurants.filter(r => r.region === regionSelect.value).map(r => r.ville))];
+          villes.forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v;
+            opt.textContent = v;
+            villeSelect.appendChild(opt);
+          });
+          displayServices();
+        });
+
+        villeSelect.addEventListener("change", () => {
+          quartierSelect.innerHTML = `<option value="">-- Sélectionnez un quartier --</option>`;
+          const quartiers = [...new Set(restaurants.filter(r => r.region === regionSelect.value && r.ville === villeSelect.value).map(r => r.quartier))];
+          quartiers.forEach(q => {
+            const opt = document.createElement("option");
+            opt.value = q;
+            opt.textContent = q;
+            quartierSelect.appendChild(opt);
+          });
+          displayServices();
+        });
+
+        quartierSelect.addEventListener("change", () => {
+          displayServices();
+        });
+
+        function displayServices() {
+          const region = regionSelect.value;
+          const ville = villeSelect.value;
+          const quartier = quartierSelect.value;
+
+          const filtered = restaurants.filter(r =>
+            (!region || r.region === region) &&
+            (!ville || r.ville === ville) &&
+            (!quartier || r.quartier === quartier)
+          );
+
+          const container = document.getElementById("services-list");
+          container.innerHTML = "";
+
+          if (filtered.length === 0) {
+            container.innerHTML = "<p>Aucun restaurant trouvé pour ces critères.</p>";
+            return;
+          }
+
+          filtered.forEach(service => {
+            const card = document.createElement("div");
+            card.className = "service-card";
+            card.innerHTML = `
+              <img src="${service.images[0]}" alt="${service.nom}">
+              <h3>${service.nom}</h3>
+              <p>${service.adresse}, ${service.quartier}, ${service.ville}</p>
+              <a href="detail.html?id=${service.id}">Voir détails</a>
+            `;
+            container.appendChild(card);
+          });
+        }
+
+        // Affichage initial
+        displayServices();
       });
-
-    function displayServices(list) {
-      container.innerHTML = '';
-      if (list.length === 0) {
-        container.innerHTML = '<p>Aucun restaurant trouvé.</p>';
-        return;
-      }
-      list.forEach(service => {
-        const card = document.createElement('div');
-        card.classList.add('service-card');
-        card.innerHTML = `
-          <img src="${service.image}" alt="${service.nom}" />
-          <h3>${service.nom}</h3>
-          <p><strong>Région :</strong> ${service.region}</p>
-          <p><strong>Ville :</strong> ${service.ville}</p>
-          <p><strong>Quartier :</strong> ${service.quartier}</p>
-          <p><strong>Adresse :</strong> ${service.adresse}</p>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    regionFilter.addEventListener('change', () => {
-      const selectedRegion = regionFilter.value;
-      if (selectedRegion) {
-        villeFilter.disabled = false;
-        const villes = [...new Set(services.filter(s => s.region === selectedRegion).map(s => s.ville))].sort();
-        villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
-        villes.forEach(ville => {
-          const option = document.createElement('option');
-          option.value = ville;
-          option.textContent = ville;
-          villeFilter.appendChild(option);
-        });
-      } else {
-        villeFilter.disabled = true;
-        villeFilter.innerHTML = '<option value="">Toutes les villes</option>';
-      }
-      quartierFilter.disabled = true;
-      quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-      filterAndDisplay();
-    });
-
-    villeFilter.addEventListener('change', () => {
-      const selectedRegion = regionFilter.value;
-      const selectedVille = villeFilter.value;
-      if (selectedVille) {
-        quartierFilter.disabled = false;
-        const quartiers = [...new Set(services.filter(s => s.region === selectedRegion && s.ville === selectedVille).map(s => s.quartier))].sort();
-        quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-        quartiers.forEach(quartier => {
-          const option = document.createElement('option');
-          option.value = quartier;
-          option.textContent = quartier;
-          quartierFilter.appendChild(option);
-        });
-      } else {
-        quartierFilter.disabled = true;
-        quartierFilter.innerHTML = '<option value="">Tous les quartiers</option>';
-      }
-      filterAndDisplay();
-    });
-
-    quartierFilter.addEventListener('change', () => {
-      filterAndDisplay();
-    });
-
-    function filterAndDisplay() {
-      const selectedRegion = regionFilter.value;
-      const selectedVille = villeFilter.value;
-      const selectedQuartier = quartierFilter.value;
-
-      let filtered = services;
-      if (selectedRegion) filtered = filtered.filter(s => s.region === selectedRegion);
-      if (selectedVille) filtered = filtered.filter(s => s.ville === selectedVille);
-      if (selectedQuartier) filtered = filtered.filter(s => s.quartier === selectedQuartier);
-
-      displayServices(filtered);
-    }
   </script>
+
 </body>
 </html>
