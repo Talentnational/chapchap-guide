@@ -2,19 +2,75 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Détail du service</title>
+  <title>Détails du service</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007BFF;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .gallery img {
+      width: 48%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    p {
+      font-size: 16px;
+      margin-top: 20px;
+      color: #444;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: white;
+      background: #007BFF;
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+
+    a:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <div id="detail-container" style="max-width: 600px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-    <h1 id="nom-service" style="text-align:center;"></h1>
-    <div id="images-service" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
-    <p id="description-service"></p>
-    <p><strong>Adresse :</strong> <span id="adresse-service"></span></p>
-    <a href="index.html"><button>⬅ Retour</button></a>
+  <div class="container" id="detail-container">
+    <h1 id="nom-service"></h1>
+    <div class="gallery" id="image-gallery"></div>
+    <p id="description"></p>
+    <p><strong>Adresse :</strong> <span id="adresse"></span></p>
+    <a href="hotels.html">⬅ Retour aux hôtels</a>
   </div>
 
- <script>
+  <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
@@ -61,7 +117,7 @@
           } else {
             const confirmDiv = document.createElement("div");
             confirmDiv.innerHTML = `
-              <p>Ce service est payant (100 FCFA). Cliquez sur le bouton ci-dessous pour simuler le paiement :</p>
+              <p>Ce service est payant (100 FCFA). Cliquez ci-dessous pour simuler le paiement :</p>
               <button id="pay-btn" style="padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">✅ Valider le paiement</button>
             `;
             contactInfo.innerHTML = "";
@@ -88,7 +144,6 @@
         contactDiv.appendChild(contactInfo);
         document.getElementById("detail-container").appendChild(contactDiv);
       });
- </script>
-  
+  </script>
 </body>
 </html>
