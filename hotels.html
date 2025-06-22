@@ -1,49 +1,126 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hôtels</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hôtels - Chapchap Guide</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin-top: 60px;
+      padding: 60px 20px 20px;
+      background: #f7f7f7;
+      color: #222;
+    }
+    #creditBar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #fffae6;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #222;
+      border-bottom: 1px solid #ddd;
+      z-index: 1000;
+      text-align: center;
     }
     h1 {
       text-align: center;
+      margin-bottom: 30px;
+    }
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .service-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      width: 280px;
+      padding: 15px;
+      text-align: center;
+    }
+    .service-card img {
+      max-width: 100%;
+      border-radius: 6px;
+      height: 180px;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+    .service-card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: #007bff;
+    }
+    .service-info {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    .numero {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #e53935;
+    }
+    .numero.masque {
+      color: #bbb;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <!-- BARRE DE CRÉDIT (corrigée) -->
-  <div id="creditBar" style="
-    position: relative;
-    background: #fffae6;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    color: #222;
-    border-bottom: 1px solid #ddd;
-    z-index: 1000;
-  ">
-    Chargement...
+
+  <div id="creditBar">Chargement...</div>
+
+  <h1>Hôtels disponibles</h1>
+
+  <div class="services-list" id="servicesList">
+    <!-- Les cartes des hôtels vont s’afficher ici -->
   </div>
 
-  <!-- CONTENU DE LA PAGE HÔTELS -->
-  <h1>Liste des hôtels disponibles</h1>
-
-  <!-- SCRIPT CRÉDIT UTILISATEUR -->
   <script>
     const nom = localStorage.getItem("utilisateur_nom");
-    const credits = localStorage.getItem("credits");
+    const credits = Number(localStorage.getItem("credits"));
     const bar = document.getElementById("creditBar");
 
-    if (nom && credits !== null) {
+    if (nom && !isNaN(credits)) {
       bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
     } else {
       bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
+
+    fetch('services.json')
+      .then(response => response.json())
+      .then(data => {
+        const servicesList = document.getElementById('servicesList');
+        // Filtrer uniquement les hôtels
+        const hotels = data.filter(service => service.categorie === "hotel");
+
+        hotels.forEach(hotel => {
+          // Créer la carte HTML pour chaque hôtel
+          const card = document.createElement('div');
+          card.className = 'service-card';
+
+          card.innerHTML = `
+            <img src="${hotel.image}" alt="${hotel.nom}" />
+            <h3>${hotel.nom}</h3>
+            <div class="service-info">Région: ${hotel.region}</div>
+            <div class="service-info">Ville: ${hotel.ville}</div>
+            <div class="service-info">Quartier: ${hotel.quartier}</div>
+            <div class="service-info">Adresse: ${hotel.adresse}</div>
+            <div class="numero ${credits > 0 ? '' : 'masque'}">
+              ${credits > 0 ? hotel.telephone : 'Numéro caché (Achetez des crédits)'}
+            </div>
+          `;
+
+          servicesList.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error('Erreur en chargeant services.json:', error);
+      });
   </script>
+
 </body>
 </html>
