@@ -5,41 +5,78 @@
   <title>Hôtels disponibles</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      margin: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease;
-      width: 90%;
-      max-width: 300px;
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
     .card:hover {
       transform: scale(1.03);
     }
-    .card a {
-      text-decoration: none;
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-body h3 {
+      margin: 0 0 10px;
       color: #007BFF;
-      font-weight: bold;
-      font-size: 18px;
     }
-    .cards-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+
+    .card-body p {
+      margin: 5px 0;
+      color: #555;
     }
-    .top-bar {
-      text-align: center;
-      padding: 20px;
+
+    .card-body a {
+      display: inline-block;
+      margin-top: 10px;
+      color: white;
+      background-color: #007BFF;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .card-body a:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <h2>Hôtels disponibles</h2>
-  </div>
-  <div class="cards-container" id="hotel-list"></div>
+  <h1>Hôtels disponibles</h1>
+  <div class="card-container" id="hotel-list"></div>
 
   <script>
     fetch("services.json")
@@ -49,14 +86,16 @@
         const container = document.getElementById("hotel-list");
 
         hotels.forEach(hotel => {
+          const image = hotel.images && hotel.images.length > 0 ? hotel.images[0] : 'images/default.jpg';
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <a href="detail.html?id=${hotel.id}">${hotel.nom}</a>
-            <p><strong>Région:</strong> ${hotel.region}</p>
-            <p><strong>Ville:</strong> ${hotel.ville}</p>
-            <p><strong>Quartier:</strong> ${hotel.quartier}</p>
-            <p><strong>Adresse:</strong> ${hotel.adresse}</p>
+            <img src="${image}" alt="${hotel.nom}">
+            <div class="card-body">
+              <h3>${hotel.nom}</h3>
+              <p>${hotel.ville} - ${hotel.quartier}</p>
+              <a href="detail.html?id=${hotel.id}">Voir plus</a>
+            </div>
           `;
           container.appendChild(card);
         });
