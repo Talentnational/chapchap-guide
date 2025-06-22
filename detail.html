@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détail du service</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="detail-container" style="max-width: 600px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <h1 id="nom-service" style="text-align:center;"></h1>
+    <div id="images-service" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+    <p id="description-service"></p>
+    <p><strong>Adresse :</strong> <span id="adresse-service"></span></p>
+    <a href="index.html"><button>⬅ Retour</button></a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const serviceId = params.get("id");
+
+    fetch("services.json")
+      .then(res => res.json())
+      .then(data => {
+        const service = data.find(s => s.id === serviceId);
+        if (!service) {
+          document.getElementById("detail-container").innerHTML = "<p>Service non trouvé.</p>";
+          return;
+        }
+
+        document.getElementById("nom-service").innerText = service.nom;
+        document.getElementById("description-service").innerText = service.description;
+        document.getElementById("adresse-service").innerText = `${service.adresse}, ${service.quartier}, ${service.ville}, ${service.region}`;
+
+        const imageContainer = document.getElementById("images-service");
+        service.images.forEach(img => {
+          const imageEl = document.createElement("img");
+          imageEl.src = img;
+          imageEl.style.width = "45%";
+          imageEl.style.borderRadius = "8px";
+          imageContainer.appendChild(imageEl);
+        });
+      });
+  </script>
+</body>
+</html>
