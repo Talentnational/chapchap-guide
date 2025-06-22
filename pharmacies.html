@@ -2,133 +2,48 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Pharmacies disponibles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacies</title>
   <style>
-    body { font-family: Arial; padding: 10px; background: #f5f5f5; }
-    h1 { text-align: center; }
-    .filtres select { margin: 5px; padding: 5px; }
-    .service-card {
-      background: white; margin: 10px 0; padding: 10px;
-      border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    body {
+      font-family: Arial, sans-serif;
+      margin-top: 60px;
     }
-    .service-card img {
-      width: 100%; height: 180px; object-fit: cover; border-radius: 5px;
+    h1 {
+      text-align: center;
     }
-    .infos { margin-top: 8px; }
   </style>
 </head>
 <body>
-  <!-- BARRE DE CRÉDIT -->
-<div id="creditBar" style="
-  background: #fffae6;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: #222;
-  border-bottom: 1px solid #ddd;
-">
-  Chargement...
-</div>
-  
-  <h1>Pharmacies en Côte d'Ivoire</h1>
-
-  <div class="filtres">
-    <select id="filtreRegion" onchange="filtrer()">
-      <option value="">Toutes les régions</option>
-    </select>
-    <select id="filtreVille" onchange="filtrer()">
-      <option value="">Toutes les villes</option>
-    </select>
-    <select id="filtreQuartier" onchange="filtrer()">
-      <option value="">Tous les quartiers</option>
-    </select>
+  <!-- BARRE DE CRÉDIT (corrigée) -->
+  <div id="creditBar" style="
+    position: relative;
+    background: #fffae6;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  ">
+    Chargement...
   </div>
 
-  <div id="listeServices"></div>
+  <!-- CONTENU DE LA PAGE PHARMACIES -->
+  <h1>Liste des pharmacies disponibles</h1>
 
+  <!-- SCRIPT CRÉDIT UTILISATEUR -->
   <script>
-    let services = [];
-    const regionSel = document.getElementById("filtreRegion");
-    const villeSel = document.getElementById("filtreVille");
-    const quartierSel = document.getElementById("filtreQuartier");
+    const nom = localStorage.getItem("utilisateur_nom");
+    const credits = localStorage.getItem("credits");
+    const bar = document.getElementById("creditBar");
 
-    async function chargerServices() {
-      const response = await fetch('services.json');
-      const data = await response.json();
-      services = data.filter(s => s.categorie === "pharmacie");
-      chargerFiltres(services);
-      afficherServices(services);
+    if (nom && credits !== null) {
+      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+    } else {
+      bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
-
-    function chargerFiltres(data) {
-      const regions = [...new Set(data.map(s => s.region))];
-      regions.forEach(r => regionSel.innerHTML += `<option value="${r}">${r}</option>`);
-    }
-
-    function filtrer() {
-      const r = regionSel.value;
-      const v = villeSel.value;
-      const q = quartierSel.value;
-      const filtres = services.filter(s =>
-        (r === "" || s.region === r) &&
-        (v === "" || s.ville === v) &&
-        (q === "" || s.quartier === q)
-      );
-      chargerSousFiltres(r, v);
-      afficherServices(filtres);
-    }
-
-    function chargerSousFiltres(region, ville) {
-      const villes = [...new Set(services.filter(s => !region || s.region === region).map(s => s.ville))];
-      const quartiers = [...new Set(services.filter(s => !ville || s.ville === ville).map(s => s.quartier))];
-
-      villeSel.innerHTML = `<option value="">Toutes les villes</option>`;
-      villes.forEach(v => villeSel.innerHTML += `<option value="${v}">${v}</option>`);
-
-      quartierSel.innerHTML = `<option value="">Tous les quartiers</option>`;
-      quartiers.forEach(q => quartierSel.innerHTML += `<option value="${q}">${q}</option>`);
-    }
-
-    function afficherServices(data) {
-      const liste = document.getElementById("listeServices");
-      liste.innerHTML = "";
-      if (data.length === 0) {
-        liste.innerHTML = "<p>Aucune pharmacie trouvée.</p>";
-        return;
-      }
-      data.forEach(s => {
-        liste.innerHTML += `
-          <div class="service-card">
-            <img src="${s.image}" alt="${s.nom}">
-            <div class="infos">
-              <h3>${s.nom}</h3>
-              <p><strong>Région:</strong> ${s.region}</p>
-              <p><strong>Ville:</strong> ${s.ville}</p>
-              <p><strong>Quartier:</strong> ${s.quartier}</p>
-              <p><strong>Adresse:</strong> ${s.adresse}</p>
-              <p><em>Numéro masqué - accès avec crédit</em></p>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    chargerServices();
   </script>
-  <script>
-  const nom = localStorage.getItem("utilisateur_nom");
-  const credits = localStorage.getItem("credits");
-
-  const bar = document.getElementById("creditBar");
-
-  if (nom && credits !== null) {
-    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
-  } else {
-    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
-  }
-  </script>
-  
 </body>
 </html>
