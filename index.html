@@ -1,39 +1,76 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accueil - Talent National</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin-top: 60px;
+      margin: 0;
+      padding-top: 60px;
+      background: #f0f0f5;
+      text-align: center;
+      color: #222;
+    }
+    #creditBar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #fffae6;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #222;
+      border-bottom: 1px solid #ddd;
+      z-index: 1000;
     }
     h1 {
-      text-align: center;
+      margin-bottom: 5px;
+    }
+    p.description {
+      margin-top: 0;
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 18px 35px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1 1 150px;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <!-- BARRE DE CRÉDIT (corrigée) -->
-  <div id="creditBar" style="
-    position: relative;
-    background: #fffae6;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    color: #222;
-    border-bottom: 1px solid #ddd;
-    z-index: 1000;
-  ">
-    Chargement...
+
+  <div id="creditBar">Chargement...</div>
+
+  <h1>Bienvenue sur la plateforme Talent National</h1>
+  <p class="description">Accédez rapidement aux meilleurs hôtels, restaurants et pharmacies près de vous</p>
+
+  <div class="buttons-container">
+    <a href="hotels.html" class="btn">Hôtels</a>
+    <a href="pharmacies.html" class="btn">Pharmacies</a>
+    <a href="restaurants.html" class="btn">Restaurants</a>
   </div>
 
-  <!-- CONTENU DE LA PAGE D’ACCUEIL -->
-  <h1>Bienvenue sur la plateforme</h1>
-
-  <!-- SCRIPT CRÉDIT UTILISATEUR -->
   <script>
     const nom = localStorage.getItem("utilisateur_nom");
     const credits = localStorage.getItem("credits");
@@ -45,5 +82,6 @@
       bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
   </script>
+
 </body>
 </html>
