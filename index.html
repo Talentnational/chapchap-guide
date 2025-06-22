@@ -1,228 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guide Express</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-    }
-
-    #credit-counter {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: #00b894;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-weight: bold;
-      z-index: 1000;
-      font-size: 14px;
-    }
-
-    #admin-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #0984e3;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    h1 {
-      font-size: 28px;
+      font-family: Arial, sans-serif;
       margin-top: 60px;
-      margin-bottom: 10px;
     }
-
-    p.tagline {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    .services {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      width: 280px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
-    .card h3 {
-      font-size: 18px;
-      margin: 12px 0 5px;
-      color: #2d3436;
-    }
-
-    .card p {
-      font-size: 14px;
-      color: #636e72;
-    }
-
-    .card button {
-      margin-top: 15px;
-      background: #fd7e14;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .card button:hover {
-      background: #e17000;
-    }
-
-    .card .contact {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
+    h1 {
+      text-align: center;
     }
   </style>
 </head>
 <body>
-<!-- BARRE DE CRÉDIT -->
-<div id="creditBar" style="
-  background: #fffae6;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  color: #222;
-  border-bottom: 1px solid #ddd;
-">
-  Chargement...
-</div>
-  
-  <!-- Crédit visible -->
-  <div id="credit-counter">Crédits restants : 1</div>
-
-  <!-- Bouton admin -->
-  <button id="admin-button" onclick="window.location.href='admin.html'">Admin</button>
-
-  <!-- Titre -->
-  <h1>Guide Express</h1>
-  <p>Découvrez les meilleurs services près de vous :</p>
-
-  <div class="boutons-services" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
-  <a href="hotels.html"><button style="padding: 12px 24px; border-radius: 8px; background-color: #2d98da; color: white; border: none;">🏨 Hôtels</button></a>
-  <a href="restaurants.html"><button style="padding: 12px 24px; border-radius: 8px; background-color: #20bf6b; color: white; border: none;">🍽️ Restaurants</button></a>
-  <a href="pharmacies.html"><button style="padding: 12px 24px; border-radius: 8px; background-color: #eb3b5a; color: white; border: none;">💊 Pharmacies</button></a>
-  </div>
-  
-  <div class="ajouter-service" style="margin: 30px 0;">
-  <button onclick="window.location.href='ajouter.html'">➕ Ajouter un service</button>
-  </div>
-  
-  <!-- Cartes des services -->
-  <div class="services">
-    <div class="card">
-      <img src="images/hotel1.jpg" alt="Hôtel Prestige">
-      <h3>Hôtel Prestige</h3>
-      <p>Zone 4, chambres climatisées</p>
-      <button id="btn-1" onclick="voirContact(1)">Voir le contact</button>
-      <div class="contact" id="contact-1" style="display:none;">
-        📞 07 45 12 34 56<br>
-        💬 <a href="https://wa.me/2250745123456" target="_blank">WhatsApp</a><br>
-        🌐 <a href="https://facebook.com/hotel" target="_blank">Facebook</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="images/resto1.jpg" alt="Le Bon Goût">
-      <h3>Le Bon Goût</h3>
-      <p>Grillades à Treichville</p>
-      <button id="btn-2" onclick="voirContact(2)">Voir le contact</button>
-      <div class="contact" id="contact-2" style="display:none;">
-        📞 01 23 45 67 89<br>
-        💬 <a href="https://wa.me/2250123456789" target="_blank">WhatsApp</a><br>
-        🌐 <a href="https://facebook.com/resto" target="_blank">Facebook</a>
-      </div>
-    </div>
+  <!-- BARRE DE CRÉDIT (corrigée) -->
+  <div id="creditBar" style="
+    position: relative;
+    background: #fffae6;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  ">
+    Chargement...
   </div>
 
+  <!-- CONTENU DE LA PAGE D’ACCUEIL -->
+  <h1>Bienvenue sur la plateforme</h1>
+
+  <!-- SCRIPT CRÉDIT UTILISATEUR -->
   <script>
-    // Crédit gratuit à la première visite
-    if (localStorage.getItem("credits") === null) {
-      localStorage.setItem("credits", "1");
-    }
+    const nom = localStorage.getItem("utilisateur_nom");
+    const credits = localStorage.getItem("credits");
+    const bar = document.getElementById("creditBar");
 
-    function getCredits() {
-      return parseInt(localStorage.getItem("credits") || "0");
-    }
-
-    function setCredits(n) {
-      localStorage.setItem("credits", n.toString());
-      document.getElementById("credit-counter").innerText = "Crédits restants : " + n;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      setCredits(getCredits());
-    });
-
-    function voirContact(id) {
-      const credits = getCredits();
-      if (credits > 0) {
-        document.getElementById("contact-" + id).style.display = "block";
-        document.getElementById("btn-" + id).style.display = "none";
-        setCredits(credits - 1);
-      } else {
-        alert("💳 Crédits épuisés. Recharge 100F pour débloquer 3 nouveaux accès.");
-      }
+    if (nom && credits !== null) {
+      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+    } else {
+      bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
   </script>
-<script>
-  const nom = localStorage.getItem("utilisateur_nom");
-  const credits = localStorage.getItem("credits");
-
-  const bar = document.getElementById("creditBar");
-
-  if (nom && credits !== null) {
-    bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
-  } else {
-    bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
-  }
-</script>
-  
 </body>
 </html>
