@@ -2,48 +2,42 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacies</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin-top: 60px;
-    }
-    h1 {
-      text-align: center;
-    }
-  </style>
+  <title>Pharmacies disponibles</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- BARRE DE CRÉDIT (corrigée) -->
-  <div id="creditBar" style="
-    position: relative;
-    background: #fffae6;
-    padding: 12px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    color: #222;
-    border-bottom: 1px solid #ddd;
-    z-index: 1000;
-  ">
-    Chargement...
-  </div>
+  <h1>Pharmacies disponibles</h1>
+  <div id="services-container" class="services-container"></div>
 
-  <!-- CONTENU DE LA PAGE PHARMACIES -->
-  <h1>Liste des pharmacies disponibles</h1>
-
-  <!-- SCRIPT CRÉDIT UTILISATEUR -->
   <script>
-    const nom = localStorage.getItem("utilisateur_nom");
-    const credits = localStorage.getItem("credits");
-    const bar = document.getElementById("creditBar");
+    fetch('services.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('services-container');
+        const pharmacies = data.filter(item => item.categorie === 'pharmacie');
 
-    if (nom && credits !== null) {
-      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
-    } else {
-      bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
-    }
+        if (pharmacies.length === 0) {
+          container.innerHTML = '<p>Aucune pharmacie disponible pour le moment.</p>';
+          return;
+        }
+
+        pharmacies.forEach(service => {
+          const card = document.createElement('div');
+          card.classList.add('service-card');
+          card.innerHTML = `
+            <img src="${service.image}" alt="${service.nom}" />
+            <h3>${service.nom}</h3>
+            <p><strong>Région :</strong> ${service.region}</p>
+            <p><strong>Ville :</strong> ${service.ville}</p>
+            <p><strong>Quartier :</strong> ${service.quartier}</p>
+            <p><strong>Adresse :</strong> ${service.adresse}</p>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error('Erreur de chargement :', error);
+      });
   </script>
 </body>
 </html>
