@@ -41,4 +41,51 @@
       "images/president2.jpg"
     ]
   }
+  ,
+{
+  "categorie": "restaurant",
+  "nom": "Chez Mama Africa",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Marcory",
+  "adresse": "Rue 12, en face du lycée",
+  "images": ["images/restaurant1.jpg"]
+},
+{
+  "categorie": "restaurant",
+  "nom": "Le Maquis du Nord",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Koni",
+  "adresse": "Avenue de la paix",
+  "images": ["images/restaurant2.jpg"]
+},
+{
+  "categorie": "restaurant",
+  "nom": "Les Saveurs de Divo",
+  "region": "Centre-Ouest",
+  "ville": "Divo",
+  "quartier": "Commerce",
+  "adresse": "En face du marché central",
+  "images": ["images/restaurant3.jpg"]
+},
+{
+  "categorie": "restaurant",
+  "nom": "Cocody Grill",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Cocody",
+  "adresse": "Rue des jardins",
+  "images": ["images/restaurant4.jpg"]
+},
+{
+  "categorie": "restaurant",
+  "nom": "Yamoussoukro Délices",
+  "region": "Centre",
+  "ville": "Yamoussoukro",
+  "quartier": "220 Logements",
+  "adresse": "Rue des palmiers",
+  "images": ["images/restaurant5.jpg"]
+}
+  
 ]
