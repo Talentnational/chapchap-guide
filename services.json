@@ -89,3 +89,49 @@
 }
   
 ]
+,
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie du Soleil",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Yopougon",
+  "adresse": "Rue Princesse",
+  "images": ["images/pharmacie1.jpg"]
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie de la Paix",
+  "region": "Nord",
+  "ville": "Korhogo",
+  "quartier": "Tchologo",
+  "adresse": "Place de l’indépendance",
+  "images": ["images/pharmacie2.jpg"]
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie le Bon Samaritain",
+  "region": "Centre-Ouest",
+  "ville": "Divo",
+  "quartier": "Commerce",
+  "adresse": "Boulevard du lycée",
+  "images": ["images/pharmacie3.jpg"]
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Cocody Angré",
+  "region": "Sud",
+  "ville": "Abidjan",
+  "quartier": "Angré",
+  "adresse": "Rond-point 8e tranche",
+  "images": ["images/pharmacie4.jpg"]
+},
+{
+  "categorie": "pharmacie",
+  "nom": "Pharmacie Yamoussoukro Santé",
+  "region": "Centre",
+  "ville": "Yamoussoukro",
+  "quartier": "Morofé",
+  "adresse": "Près de la mairie",
+  "images": ["images/pharmacie5.jpg"]
+}
