@@ -2,100 +2,46 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Accueil - Chapchap Guide</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding-top: 60px;
-      background: #f0f0f5;
-      text-align: center;
-      color: #222;
-    }
-    #creditBar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: #fffae6;
-      padding: 12px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #222;
-      border-bottom: 1px solid #ddd;
-      z-index: 1000;
-    }
-    h1 {
-      margin-bottom: 5px;
-    }
-    p.description {
-      margin-top: 0;
-      font-size: 18px;
-      margin-bottom: 40px;
-    }
-    .buttons-container {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .btn {
-      background-color: #007bff;
-      color: white;
-      padding: 18px 35px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      flex: 1 1 150px;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chapchap Guide</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div id="creditBar" style="text-align: center; margin-top: 10px;">
-  <strong id="username-display">Chargement...</strong> |
-  Crédits restants : <span id="credit-display">...</span><br>
-  <button onclick="logout()" style="margin-top: 10px;">🔓 Se déconnecter</button>
+    Chargement...
   </div>
-  
 
   <h1>Bienvenue sur la plateforme Chapchap Guide</h1>
-  <p class="description">Accédez rapidement aux meilleurs hôtels, restaurants et pharmacies près de vous</p>
+  <p class="description">
+    Accédez rapidement aux meilleurs hôtels, restaurants et pharmacies près de vous
+  </p>
 
   <div class="buttons-container">
     <a href="hotels.html" class="btn">Hôtels</a>
     <a href="pharmacies.html" class="btn">Pharmacies</a>
     <a href="restaurants.html" class="btn">Restaurants</a>
-    <button onclick="window.location.href='premium.html'">🌟 Services Premium</button>
-    
+    <button onclick="window.location.href='premium.html'" class="btn">🌟 Services Premium</button>
   </div>
 
   <script>
-    const nom = localStorage.getItem("utilisateur_nom");
+    const nom = localStorage.getItem("utilisateur");
     const credits = localStorage.getItem("credits");
-    const bar = document.getElementById("creditBar");
+    const bar = document.getElementById('creditBar');
 
     if (nom && credits !== null) {
-      bar.innerHTML = `<span>${nom}</span> | <strong>Crédits restants :</strong> ${credits}`;
+      bar.innerHTML = `<strong>${nom}</strong> | Crédits restants : <span>${credits}</span><br>
+        <button onclick="logout()" style="margin-top: 10px;">🔓 Se déconnecter</button>`;
     } else {
       bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
+
+    function logout() {
+      localStorage.removeItem("utilisateur");
+      localStorage.removeItem("credits");
+      window.location.href = "connexion.html";
+    }
   </script>
-<script>
-  function logout() {
-    localStorage.removeItem("utilisateur");
-    localStorage.removeItem("credits");
-    window.location.href = "connexion.html";
-  }
-</script>
-  
+
 </body>
 </html>
