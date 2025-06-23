@@ -89,6 +89,13 @@
       bar.innerHTML = `Vous n'êtes pas connecté. <a href="connexion.html">Se connecter</a>`;
     }
   </script>
-
+<script>
+  function logout() {
+    localStorage.removeItem("utilisateur");
+    localStorage.removeItem("credits");
+    window.location.href = "connexion.html";
+  }
+</script>
+  
 </body>
 </html>
