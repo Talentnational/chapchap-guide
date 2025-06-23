@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      background: #f4f4f4;
       margin: 0;
       padding: 20px;
     }
@@ -22,8 +22,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 20px;
       gap: 10px;
+      margin-bottom: 20px;
     }
 
     #filtre-container select {
@@ -115,7 +115,7 @@
   </div>
 
   <div class="service-list" id="services-list">
-    <!-- Les restaurants filtrés s'afficheront ici -->
+    <!-- Restaurants affichés ici -->
   </div>
 
   <script>
@@ -151,7 +151,9 @@
 
         villeSelect.addEventListener("change", () => {
           quartierSelect.innerHTML = `<option value="">-- Sélectionnez un quartier --</option>`;
-          const quartiers = [...new Set(restaurants.filter(r => r.region === regionSelect.value && r.ville === villeSelect.value).map(r => r.quartier))];
+          const quartiers = [...new Set(restaurants.filter(r =>
+            r.region === regionSelect.value && r.ville === villeSelect.value
+          ).map(r => r.quartier))];
           quartiers.forEach(q => {
             const opt = document.createElement("option");
             opt.value = q;
@@ -185,10 +187,12 @@
           }
 
           filtered.forEach(service => {
+            const imageUrl = service.images && service.images.length > 0 ? service.images[0] : "images/default.jpg";
+
             const card = document.createElement("div");
             card.className = "service-card";
             card.innerHTML = `
-              <img src="${service.images[0]}" alt="${service.nom}">
+              <img src="${imageUrl}" alt="${service.nom}">
               <h3>${service.nom}</h3>
               <p>${service.adresse}, ${service.quartier}, ${service.ville}</p>
               <a href="detail.html?id=${service.id}">Voir détails</a>
