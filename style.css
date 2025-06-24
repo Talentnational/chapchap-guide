@@ -107,3 +107,85 @@ select {
   border-radius: 6px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+/* ==== Styles pour login.html & signup.html ==== */
+
+form {
+  max-width: 360px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+form label {
+  display: block;
+  margin-bottom: 6px;
+  color: #34495e;
+  font-weight: 600;
+}
+
+form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+form button:hover {
+  background: #0056b3;
+}
+
+form p {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+form p a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+form #error {
+  color: #e74c3c;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+body.login-signup {
+  background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
