@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Connexion</h2>
+  <form id="loginForm">
+    <label>Email ou numéro :</label><br>
+    <input type="text" id="user-login" required><br><br>
+
+    <label>Mot de passe :</label><br>
+    <input type="password" id="pass-login" required><br><br>
+
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <p>Pas encore inscrit ? <a href="signup.html">S’inscrire</a></p>
+
+  <div id="error" style="color: red; margin-top: 10px;"></div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userInput = document.getElementById("user-login").value.trim();
+      const passInput = document.getElementById("pass-login").value;
+      const storedUser = localStorage.getItem("utilisateur");
+      const storedPass = localStorage.getItem("password");
+
+      if (userInput === storedUser && passInput === storedPass) {
+        // Connexion réussie
+        window.location.href = "index.html";
+      } else {
+        // Échec
+        document.getElementById("error").innerText = "Identifiants incorrects";
+      }
+    });
+  </script>
+
+</body>
+</html>
