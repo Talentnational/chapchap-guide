@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chapchap Guide</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <div id="creditBar" style="text-align: center; margin-top: 10px;">Chargement...</div>
+  <div id="creditBar" style="text-align: center; margin-top: 10px;">
+    Chargement...
+  </div>
 
   <h1>Bienvenue sur la plateforme Chapchap Guide</h1>
-  <p class="description">Veuillez vous connecter pour accéder aux services</p>
+  <p class="description">Accédez rapidement aux meilleurs hôtels, restaurants et pharmacies près de vous</p>
 
-  <div class="buttons-container" id="services" style="display: none;">
+  <!-- Boutons de services (cachés si pas connecté) -->
+  <div id="services" class="buttons-container" style="display: none;">
     <a href="hotels.html" class="btn">Hôtels</a>
     <a href="pharmacies.html" class="btn">Pharmacies</a>
     <a href="restaurants.html" class="btn">Restaurants</a>
-    <a href="premium.html" class="btn">🌟 Services Premium</a>
+    <button onclick="window.location.href='premium.html'" class="btn">🌟 Services Premium</button>
     <button onclick="logout()" class="btn">Se déconnecter</button>
   </div>
 
-  <div style="text-align: center; margin-top: 20px;" id="authButtons">
-    <a href="connexion.html" class="btn">Se connecter / S’inscrire</a>
+  <!-- Bouton connexion/inscription (visible si pas connecté) -->
+  <div id="authButtons" style="text-align: center; margin-top: 20px;">
+    <a href="login.html" class="btn">Se connecter / S’inscrire</a>
   </div>
 
   <script>
-    const nom = localStorage.getItem("utilisateur");
+    const user = localStorage.getItem("utilisateur");
     const credits = localStorage.getItem("credits");
-    const bar = document.getElementById('creditBar');
-    const services = document.getElementById('services');
-    const authButtons = document.getElementById('authButtons');
+    const bar = document.getElementById("creditBar");
+    const services = document.getElementById("services");
+    const authButtons = document.getElementById("authButtons");
 
-    if (nom && credits !== null) {
-      bar.innerHTML = `<strong>${nom}</strong> | Crédits restants : <span>${credits}</span>`;
+    if (user && credits !== null) {
+      bar.innerHTML = `<strong>${user}</strong> | Crédits restants : <span>${credits}</span>`;
       services.style.display = "block";
       authButtons.style.display = "none";
     } else {
@@ -42,6 +46,7 @@
 
     function logout() {
       localStorage.removeItem("utilisateur");
+      localStorage.removeItem("password");
       localStorage.removeItem("credits");
       window.location.href = "index.html";
     }
