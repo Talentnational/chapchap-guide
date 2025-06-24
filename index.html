@@ -1,56 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
   <title>Chapchap Guide</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f2f4f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .header {
+      background-color: #007BFF;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0 10px;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .description {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #555;
+      padding: 0 20px;
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      max-width: 400px;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-premium {
+      background-color: #facc15;
+      color: #333;
+    }
+
+    .logout {
+      background-color: #dc3545;
+    }
+  </style>
 </head>
 <body>
+  <div class="header" id="creditBar">Chargement...</div>
 
-  <div id="creditBar" style="text-align: center; margin-top: 10px;">
-    Chargement...
-  </div>
-
-  <h1>Bienvenue sur la plateforme Chapchap Guide</h1>
+  <h1>Bienvenue sur la plateforme<br/>Chapchap Guide</h1>
   <p class="description">Accédez rapidement aux meilleurs hôtels, restaurants et pharmacies près de vous</p>
 
-  <!-- Boutons de services (cachés si pas connecté) -->
-  <div id="services" class="buttons-container" style="display: none;">
-    <a href="hotels.html" class="btn">Hôtels</a>
-    <a href="pharmacies.html" class="btn">Pharmacies</a>
-    <a href="restaurants.html" class="btn">Restaurants</a>
-    <button onclick="window.location.href='premium.html'" class="btn">🌟 Services Premium</button>
-    <button onclick="logout()" class="btn">Se déconnecter</button>
-  </div>
-
-  <!-- Bouton connexion/inscription (visible si pas connecté) -->
-  <div id="authButtons" style="text-align: center; margin-top: 20px;">
-    <a href="login.html" class="btn">Se connecter / S’inscrire</a>
+  <div class="buttons-container">
+    <a href="hotels.html" class="btn">🏨 Hôtels</a>
+    <a href="pharmacies.html" class="btn">💊 Pharmacies</a>
+    <a href="restaurants.html" class="btn">🍽️ Restaurants</a>
+    <a href="premium.html" class="btn btn-premium">🌟 Services Premium</a>
+    <button class="btn logout" onclick="logout()">Se déconnecter</button>
   </div>
 
   <script>
-    const user = localStorage.getItem("utilisateur");
+    const nom = localStorage.getItem("utilisateur");
     const credits = localStorage.getItem("credits");
     const bar = document.getElementById("creditBar");
-    const services = document.getElementById("services");
-    const authButtons = document.getElementById("authButtons");
 
-    if (user && credits !== null) {
-      bar.innerHTML = `<strong>${user}</strong> | Crédits restants : <span>${credits}</span>`;
-      services.style.display = "block";
-      authButtons.style.display = "none";
+    if (nom && credits !== null) {
+      bar.innerHTML = `${nom} | Crédits restants : ${credits}`;
     } else {
-      bar.innerHTML = `Vous n'êtes pas connecté.`;
+      bar.innerHTML = `Vous n’êtes pas connecté`;
     }
 
     function logout() {
       localStorage.removeItem("utilisateur");
       localStorage.removeItem("password");
       localStorage.removeItem("credits");
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
   </script>
-
 </body>
 </html>
