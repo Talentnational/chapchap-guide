@@ -2,37 +2,37 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Inscription</title>
+  <title>Inscription – Chapchap Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-  <h2>Inscription</h2>
+<body class="login-signup">
   <form id="signupForm">
-    <label>Email ou numéro :</label><br>
-    <input type="text" id="user-signup" required><br><br>
+    <h2>Inscription</h2>
 
-    <label>Mot de passe :</label><br>
-    <input type="password" id="pass-signup" required><br><br>
+    <label for="user-signup">Email ou numéro</label>
+    <input type="text" id="user-signup" placeholder="Votre email ou numéro" required>
+
+    <label for="pass-signup">Mot de passe</label>
+    <input type="password" id="pass-signup" placeholder="Votre mot de passe" required>
 
     <button type="submit">S’inscrire</button>
-  </form>
 
-  <p>Déjà inscrit ? <a href="login.html">Se connecter</a></p>
+    <p>Déjà inscrit ? <a href="login.html">Se connecter</a></p>
+  </form>
 
   <script>
     document.getElementById("signupForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const user = document.getElementById("user-signup").value.trim();
       const pass = document.getElementById("pass-signup").value;
-      // On stocke l’utilisateur et son mot de passe en localStorage
+      // Enregistre en localStorage
       localStorage.setItem("utilisateur", user);
       localStorage.setItem("password", pass);
-      localStorage.setItem("credits", 3); // crédits initiaux
-      // On redirige vers la page d’accueil
+      localStorage.setItem("credits", 3);
+      // Redirection vers l'accueil
       window.location.href = "index.html";
     });
   </script>
-
 </body>
 </html>
