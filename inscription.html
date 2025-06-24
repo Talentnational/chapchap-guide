@@ -1,107 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inscription - Chapchap Guide</title>
+  <meta charset="UTF-8">
+  <title>Inscription – Chapchap Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
+    body.login-signup {
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
       font-family: Arial, sans-serif;
-      padding: 40px 20px;
-      background: #f0f0f5;
-      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 90%;
       max-width: 400px;
-      margin: 50px auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #ccc;
     }
-    h1 {
+
+    .form-box h2 {
+      margin-bottom: 20px;
       text-align: center;
-      margin-bottom: 30px;
     }
-    label {
+
+    .form-box label {
       display: block;
-      margin-bottom: 8px;
+      margin-top: 10px;
       font-weight: bold;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="tel"] {
+
+    .form-box input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
+      margin-top: 5px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
-      font-size: 16px;
+      border-radius: 8px;
     }
-    button {
+
+    .form-box button {
+      margin-top: 20px;
       width: 100%;
-      background: #007bff;
+      background-color: #007BFF;
       color: white;
-      font-size: 18px;
       padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
     }
-    button:hover {
-      background: #0056b3;
-    }
-    .message {
-      margin-top: 20px;
+
+    .form-box p {
+      margin-top: 15px;
       text-align: center;
-      color: green;
+    }
+
+    .form-box a {
+      color: #007BFF;
+      text-decoration: none;
       font-weight: bold;
     }
   </style>
 </head>
-<body>
+<body class="login-signup">
+  <div class="form-box">
+    <form id="signupForm">
+      <h2>Inscription</h2>
 
-  <h1>Inscription</h1>
-  <form id="formInscription">
-    <label for="nom">Nom complet</label>
-    <input type="text" id="nom" name="nom" required />
+      <label for="user-signup">Email ou numéro</label>
+      <input type="text" id="user-signup" required>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required />
+      <label for="pass-signup">Mot de passe</label>
+      <input type="password" id="pass-signup" required>
 
-    <label for="telephone">Numéro de téléphone</label>
-    <input type="tel" id="telephone" name="telephone" required />
+      <button type="submit">S’inscrire</button>
 
-    <label for="mdp">Mot de passe</label>
-    <input type="password" id="mdp" name="mdp" required />
-
-    <button type="submit">S’inscrire</button>
-  </form>
-
-  <div class="message" id="message"></div>
+      <p>Déjà inscrit ? <a href="login.html">Se connecter</a></p>
+    </form>
+  </div>
 
   <script>
-    const form = document.getElementById('formInscription');
-    const messageDiv = document.getElementById('message');
-
-    form.addEventListener('submit', (e) => {
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
-      // Récupérer les valeurs
-      const nom = form.nom.value.trim();
-      const email = form.email.value.trim();
-      const telephone = form.telephone.value.trim();
-      const mdp = form.mdp.value;
-
-      // Simple sauvegarde dans localStorage (exemple)
-      const utilisateur = { nom, email, telephone, mdp, credits: 3 };
-      localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
-      localStorage.setItem('utilisateur_nom', nom);
-      localStorage.setItem('credits', 3);
-
-      messageDiv.textContent = "Inscription réussie ! Vous avez 3 crédits gratuits.";
-      form.reset();
+      const user = document.getElementById("user-signup").value.trim();
+      const pass = document.getElementById("pass-signup").value;
+      localStorage.setItem("utilisateur", user);
+      localStorage.setItem("password", pass);
+      localStorage.setItem("credits", 3);
+      window.location.href = "index.html";
     });
   </script>
-
 </body>
 </html>
-
