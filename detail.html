@@ -11,7 +11,6 @@
       margin: 0;
       padding: 20px;
     }
-
     .container {
       max-width: 800px;
       margin: auto;
@@ -20,33 +19,28 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-
     h1 {
       text-align: center;
       margin-bottom: 20px;
       color: #007BFF;
     }
-
     .gallery {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: center;
     }
-
     .gallery img {
       width: 48%;
       border-radius: 8px;
       object-fit: cover;
     }
-
     p {
       font-size: 16px;
       margin-top: 20px;
       color: #444;
     }
-
-    a {
+    a.back {
       display: inline-block;
       margin-top: 20px;
       text-decoration: none;
@@ -55,9 +49,18 @@
       padding: 10px 16px;
       border-radius: 8px;
     }
-
-    a:hover {
+    a.back:hover {
       background: #0056b3;
+    }
+    .contact-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 16px;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -67,7 +70,10 @@
     <div class="gallery" id="image-gallery"></div>
     <p id="description"></p>
     <p><strong>Adresse :</strong> <span id="adresse"></span></p>
-    <a href="hotels.html">⬅ Retour aux hôtels</a>
+    <button id="contactBtn" class="contact-btn">📞 Contacter ce service</button>
+    <div id="contactInfo"></div>
+    <br>
+    <a href="javascript:history.back()" class="back">⬅ Retour</a>
   </div>
 
   <script>
@@ -83,66 +89,50 @@
           return;
         }
 
+        // Nom et adresse
         document.getElementById("nom-service").innerText = service.nom;
-        document.getElementById("description").innerText = service.description;
-        document.getElementById("adresse").innerText = `${service.adresse}, ${service.quartier}, ${service.ville}, ${service.region}`;
+        document.getElementById("adresse").innerText = `${service.adresse || ""}${service.quartier ? ", " + service.quartier : ""}${service.ville ? ", " + service.ville : ""}${service.region ? ", " + service.region : ""}`;
 
+        // Description (si existante)
+        document.getElementById("description").innerText = service.description || "";
+
+        // Galerie d'images : supporte "images" (tableau) ou "image" (string)
         const gallery = document.getElementById("image-gallery");
-        service.images.forEach(img => {
-          const image = document.createElement("img");
-          image.src = img;
-          gallery.appendChild(image);
+        const imgs = service.images || (service.image ? [service.image] : []);
+        imgs.forEach(src => {
+          const img = document.createElement("img");
+          img.src = src;
+          gallery.appendChild(img);
         });
 
-        // --- Crée le bouton "Contacter"
-        const contactDiv = document.createElement("div");
-        contactDiv.style.marginTop = "20px";
-
-        const contactBtn = document.createElement("button");
-        contactBtn.textContent = "📞 Contacter ce service";
-        contactBtn.style.padding = "10px 16px";
-        contactBtn.style.fontSize = "16px";
-        contactBtn.style.background = "#28a745";
-        contactBtn.style.color = "#fff";
-        contactBtn.style.border = "none";
-        contactBtn.style.borderRadius = "8px";
-        contactBtn.style.cursor = "pointer";
-
-        const contactInfo = document.createElement("div");
-        contactInfo.style.marginTop = "15px";
-
-        contactBtn.onclick = () => {
-          if (localStorage.getItem("paid_" + service.id) === "yes") {
+        // Bouton contacter / paiement simulé
+        const contactBtn = document.getElementById("contactBtn");
+        const contactInfo = document.getElementById("contactInfo");
+        contactBtn.addEventListener("click", () => {
+          if (localStorage.getItem("paid_"+service.id) === "yes") {
             showContact();
           } else {
-            const confirmDiv = document.createElement("div");
-            confirmDiv.innerHTML = `
-              <p>Ce service est payant (100 FCFA). Cliquez ci-dessous pour simuler le paiement :</p>
-              <button id="pay-btn" style="padding: 8px 12px; background: #007bff; color: white; border: none; border-radius: 5px;">✅ Valider le paiement</button>
+            contactInfo.innerHTML = `
+              <p>Ce service est payant (100 FCFA). Cliquez pour simuler :</p>
+              <button id="payBtn" class="contact-btn">✅ Payer 100 FCFA</button>
             `;
-            contactInfo.innerHTML = "";
-            contactInfo.appendChild(confirmDiv);
-
-            document.getElementById("pay-btn").onclick = () => {
-              localStorage.setItem("paid_" + service.id, "yes");
+            document.getElementById("payBtn").onclick = () => {
+              localStorage.setItem("paid_"+service.id, "yes");
               showContact();
             };
           }
-        };
+        });
 
         function showContact() {
           contactInfo.innerHTML = `
             <p><strong>Numéro :</strong> 07 78 64 60 30</p>
-            <a href="https://wa.me/2250778646030?text=Bonjour, je souhaite en savoir plus sur ${service.nom}" target="_blank"
-              style="display: inline-block; background: #25D366; color: white; padding: 10px 14px; border-radius: 8px; text-decoration: none;">
-              💬 Discuter sur WhatsApp
-            </a>
-          `;
+            <p>
+              <a href="https://wa.me/2250778646030?text=Bonjour,%20je%20souhaite%20informations%20sur%20${encodeURIComponent(service.nom)}" 
+                 target="_blank" class="contact-btn" style="background:#25D366;">
+                💬 WhatsApp
+              </a>
+            </p>`;
         }
-
-        contactDiv.appendChild(contactBtn);
-        contactDiv.appendChild(contactInfo);
-        document.getElementById("detail-container").appendChild(contactDiv);
       });
   </script>
 </body>
