@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Inscription</h2>
+  <form id="signupForm">
+    <label>Email ou numéro :</label><br>
+    <input type="text" id="user-signup" required><br><br>
+
+    <label>Mot de passe :</label><br>
+    <input type="password" id="pass-signup" required><br><br>
+
+    <button type="submit">S’inscrire</button>
+  </form>
+
+  <p>Déjà inscrit ? <a href="login.html">Se connecter</a></p>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("user-signup").value.trim();
+      const pass = document.getElementById("pass-signup").value;
+      // On stocke l’utilisateur et son mot de passe en localStorage
+      localStorage.setItem("utilisateur", user);
+      localStorage.setItem("password", pass);
+      localStorage.setItem("credits", 3); // crédits initiaux
+      // On redirige vers la page d’accueil
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>
