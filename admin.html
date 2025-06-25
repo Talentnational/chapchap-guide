@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin - Ajouter un service</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f2f2f2;
     }
-
     .container {
       max-width: 600px;
       margin: 20px auto;
@@ -20,15 +19,14 @@
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     h1 {
       text-align: center;
       font-size: 24px;
       margin-bottom: 20px;
     }
-
     form input,
     form textarea,
+    form select,
     form button {
       width: 100%;
       padding: 12px;
@@ -38,7 +36,6 @@
       font-size: 16px;
       box-sizing: border-box;
     }
-
     form button {
       background-color: #28a745;
       color: white;
@@ -47,11 +44,9 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     form button:hover {
       background-color: #218838;
     }
-
     .note {
       font-size: 12px;
       color: #555;
@@ -64,41 +59,58 @@
   <div class="container">
     <h1>Ajouter un service</h1>
     <form id="serviceForm">
-      <input type="text" id="categorie" placeholder="Catégorie (ex: hotel, restaurant...)" required>
-      <input type="text" id="nom" placeholder="Nom du service" required>
-      <input type="text" id="region" placeholder="Région" required>
-      <input type="text" id="ville" placeholder="Ville" required>
-      <input type="text" id="quartier" placeholder="Quartier" required>
-      <input type="text" id="adresse" placeholder="Adresse exacte" required>
+      <select id="categorie" required>
+        <option value="">Choisir une catégorie</option>
+        <option value="hotel">Hôtel</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="pharmacie">Pharmacie</option>
+      </select>
+
+      <input type="text" id="nom" placeholder="Nom du service" required />
+
+      <select id="region" required>
+        <option value="">Choisir une région</option>
+        <option value="Sud">Sud</option>
+        <option value="Nord">Nord</option>
+        <option value="Centre">Centre</option>
+        <option value="Centre-Ouest">Centre-Ouest</option>
+      </select>
+
+      <select id="ville" required>
+        <option value="">Choisir une ville</option>
+        <option value="Abidjan">Abidjan</option>
+        <option value="Divo">Divo</option>
+        <option value="Korhogo">Korhogo</option>
+        <option value="Yamoussoukro">Yamoussoukro</option>
+      </select>
+
+      <input type="text" id="quartier" placeholder="Quartier" required />
+      <input type="text" id="adresse" placeholder="Adresse exacte" required />
       <textarea id="description" placeholder="Description du service (facultatif)"></textarea>
-      <input type="text" id="images" placeholder="Chemins des images (séparés par virgule)">
+      <input type="text" id="images" placeholder="Chemins des images (séparés par virgule)" />
       <div class="note">Exemple : images/monimage1.jpg, images/monimage2.jpg</div>
       <button type="submit">Ajouter</button>
     </form>
   </div>
 
   <script>
-    document.getElementById('serviceForm').addEventListener('submit', function(e) {
+    document.getElementById("serviceForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const service = {
-        id: document.getElementById('nom').value.toLowerCase().replace(/\s+/g, '_'),
-        categorie: document.getElementById('categorie').value,
-        nom: document.getElementById('nom').value,
-        region: document.getElementById('region').value,
-        ville: document.getElementById('ville').value,
-        quartier: document.getElementById('quartier').value,
-        adresse: document.getElementById('adresse').value,
-        description: document.getElementById('description').value,
-        images: document.getElementById('images').value.split(',').map(img => img.trim())
+        id: document.getElementById("nom").value.toLowerCase().replace(/\s+/g, "_"),
+        categorie: document.getElementById("categorie").value,
+        nom: document.getElementById("nom").value,
+        region: document.getElementById("region").value,
+        ville: document.getElementById("ville").value,
+        quartier: document.getElementById("quartier").value,
+        adresse: document.getElementById("adresse").value,
+        description: document.getElementById("description").value,
+        images: document.getElementById("images").value.split(",").map(img => img.trim())
       };
 
-      // Affiche les données dans la console
-      console.log('Données à ajouter :', JSON.stringify(service, null, 2));
-
-      alert("Les données ont été préparées (voir la console). Copie-les dans le fichier JSON manuellement.");
-      
-      // Réinitialise le formulaire
+      console.log("Données à ajouter :", JSON.stringify(service, null, 2));
+      alert("Les données ont été préparées (voir la console). Copie-les dans le fichier JSON.");
       this.reset();
     });
   </script>
