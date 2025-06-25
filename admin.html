@@ -179,4 +179,52 @@
 </form>
   
 </body>
+  <script>
+document.getElementById("formService").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const categorie = document.getElementById("categorie").value;
+  const nom = document.getElementById("nom").value;
+  const region = document.getElementById("region").value;
+  const ville = document.getElementById("ville").value;
+  const quartier = document.getElementById("quartier").value;
+  const adresse = document.getElementById("adresse").value;
+  const description = document.getElementById("description").value || "";
+  const images = document.getElementById("images").value.split(",");
+
+  let services = [];
+
+  try {
+    const res = await fetch("services.json");
+    services = await res.json();
+  } catch (err) {
+    console.warn("services.json introuvable, création d’un nouveau.");
+  }
+
+  const newService = {
+    id: nom.toLowerCase().replace(/\s+/g, "-"),
+    categorie,
+    nom,
+    region,
+    ville,
+    quartier,
+    adresse,
+    description,
+    images: images.map(img => img.trim())
+  };
+
+  services.push(newService);
+
+  const blob = new Blob([JSON.stringify(services, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "services.json";
+  a.click();
+
+  alert("✅ Nouveau fichier services.json généré. Va le remplacer sur GitHub ou Vercel.");
+});
+  </script>
+  
 </html>
