@@ -62,7 +62,9 @@
   <input type="file" id="image" accept="image/*">
   <input type="text" id="lien" placeholder="Lien vers le service (optionnel)">
   <button onclick="ajouterService()">+ Ajouter</button>
-
+<button onclick="exporterServices()">📤 Exporter vers services.json</button>
+<pre id="export-result" style="white-space:pre-wrap;background:#eee;padding:10px;border-radius:8px;margin-top:10px;"></pre>
+  
   <h2>Services existants</h2>
   <div id="services-list"></div>
 </div>
