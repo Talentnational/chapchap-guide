@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin - Ajouter un service</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #f2f2f2;
+      padding: 10px;
+      margin: 0;
     }
     .container {
       max-width: 600px;
-      margin: 20px auto;
+      margin: auto;
       background: #fff;
       padding: 20px;
       border-radius: 12px;
@@ -39,19 +39,12 @@
     form button {
       background-color: #28a745;
       color: white;
-      border: none;
       font-weight: bold;
+      border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
     form button:hover {
       background-color: #218838;
-    }
-    .note {
-      font-size: 12px;
-      color: #555;
-      margin-top: -10px;
-      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -70,32 +63,60 @@
 
       <select id="region" required>
         <option value="">Choisir une région</option>
-        <option value="Sud">Sud</option>
         <option value="Nord">Nord</option>
+        <option value="Sud">Sud</option>
+        <option value="Est">Est</option>
+        <option value="Ouest">Ouest</option>
         <option value="Centre">Centre</option>
-        <option value="Centre-Ouest">Centre-Ouest</option>
       </select>
 
       <select id="ville" required>
         <option value="">Choisir une ville</option>
-        <option value="Abidjan">Abidjan</option>
-        <option value="Divo">Divo</option>
-        <option value="Korhogo">Korhogo</option>
-        <option value="Yamoussoukro">Yamoussoukro</option>
       </select>
 
       <input type="text" id="quartier" placeholder="Quartier" required />
       <input type="text" id="adresse" placeholder="Adresse exacte" required />
       <textarea id="description" placeholder="Description du service (facultatif)"></textarea>
-      <input type="text" id="images" placeholder="Chemins des images (séparés par virgule)" />
-      <div class="note">Exemple : images/monimage1.jpg, images/monimage2.jpg</div>
+
+      <label for="images">Choisir des images</label>
+      <input type="file" id="images" accept="image/*" multiple />
+
       <button type="submit">Ajouter</button>
     </form>
   </div>
 
   <script>
+    const villesParRegion = {
+      "Nord": ["Korhogo", "Ferké", "Boundiali"],
+      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
+      "Est": ["Bondoukou", "Agnibilékrou", "Abengourou"],
+      "Ouest": ["Man", "Duékoué", "Touba"],
+      "Centre": ["Yamoussoukro", "Divo", "Bouaké"]
+    };
+
+    const regionSelect = document.getElementById("region");
+    const villeSelect = document.getElementById("ville");
+
+    regionSelect.addEventListener("change", () => {
+      const regionChoisie = regionSelect.value;
+      const villes = villesParRegion[regionChoisie] || [];
+
+      // Vider la liste des villes
+      villeSelect.innerHTML = '<option value="">Choisir une ville</option>';
+
+      villes.forEach(ville => {
+        const option = document.createElement("option");
+        option.value = ville;
+        option.textContent = ville;
+        villeSelect.appendChild(option);
+      });
+    });
+
     document.getElementById("serviceForm").addEventListener("submit", function (e) {
       e.preventDefault();
+
+      const fichiers = document.getElementById("images").files;
+      const nomsImages = Array.from(fichiers).map(fichier => fichier.name);
 
       const service = {
         id: document.getElementById("nom").value.toLowerCase().replace(/\s+/g, "_"),
@@ -106,11 +127,11 @@
         quartier: document.getElementById("quartier").value,
         adresse: document.getElementById("adresse").value,
         description: document.getElementById("description").value,
-        images: document.getElementById("images").value.split(",").map(img => img.trim())
+        images: nomsImages.map(n => "images/" + n)
       };
 
-      console.log("Données à ajouter :", JSON.stringify(service, null, 2));
-      alert("Les données ont été préparées (voir la console). Copie-les dans le fichier JSON.");
+      console.log("À copier dans le fichier JSON :", JSON.stringify(service, null, 2));
+      alert("Données préparées. Va dans la console pour copier dans ton fichier JSON.");
       this.reset();
     });
   </script>
