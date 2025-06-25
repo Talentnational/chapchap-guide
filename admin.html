@@ -23,7 +23,6 @@
       width: 100%;
       margin-bottom: 10px;
       padding: 10px;
-      font-size: 16px;
     }
     .service {
       border: 1px solid #ccc;
@@ -32,13 +31,17 @@
       background: #fafafa;
       border-radius: 8px;
     }
-    .service button {
+    .service img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .delete-btn {
       background-color: red;
       color: white;
-      padding: 6px;
+      padding: 6px 10px;
       border: none;
       border-radius: 5px;
-      margin-top: 5px;
       cursor: pointer;
     }
   </style>
@@ -58,7 +61,7 @@
   <textarea id="description" placeholder="Description"></textarea>
   <input type="file" id="image" accept="image/*">
   <input type="text" id="lien" placeholder="Lien vers le service (optionnel)">
-  <button onclick="ajouterService()">➕ Ajouter</button>
+  <button onclick="ajouterService()">+ Ajouter</button>
 
   <h2>Services existants</h2>
   <div id="services-list"></div>
@@ -70,6 +73,7 @@
   function checkPassword() {
     const passwordInput = document.getElementById("password").value;
     if (passwordInput === motDePasse) {
+      localStorage.setItem("adminConnected", "yes");
       document.getElementById("login-section").style.display = "none";
       document.getElementById("admin-section").style.display = "block";
       afficherServices();
@@ -79,56 +83,41 @@
   }
 
   function ajouterService() {
-  const name = document.getElementById("name").value.trim();
-  const description = document.getElementById("description").value.trim();
-  const lien = document.getElementById("lien").value.trim();
-  const imageFile = document.getElementById("image").files[0];
+    const name = document.getElementById("name").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const lien = document.getElementById("lien").value.trim();
+    const imageFile = document.getElementById("image").files[0];
 
-  if (!name || !description || !imageFile) {
-    alert("Veuillez remplir tous les champs requis.");
-    return;
-  }
+    if (!name || !description || !imageFile) {
+      alert("Veuillez remplir tous les champs requis.");
+      return;
+    }
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const imageData = e.target.result;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imageData = e.target.result;
 
-    const nouveauService = {
-      name,
-      description,
-      image: imageData,
-      lien
+      const nouveauService = {
+        name,
+        description,
+        image: imageData,
+        lien
+      };
+
+      let services = JSON.parse(localStorage.getItem("services")) || [];
+      services.push(nouveauService);
+      localStorage.setItem("services", JSON.stringify(services));
+
+      afficherServices();
+
+      // Réinitialisation du formulaire
+      document.getElementById("name").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("image").value = "";
+      document.getElementById("lien").value = "";
     };
 
-    let services = JSON.parse(localStorage.getItem("services")) || [];
-    services.push(nouveauService);
-    localStorage.setItem("services", JSON.stringify(services));
-
-    afficherServices();
-
-    // Réinitialisation du formulaire
-    document.getElementById("name").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
-    document.getElementById("lien").value = "";
-  };
-
-  reader.readAsDataURL(imageFile);
-  }
-  
-
-    const nouveauService = { name, description, image, lien };
-    let services = JSON.parse(localStorage.getItem("services")) || [];
-    services.push(nouveauService);
-    localStorage.setItem("services", JSON.stringify(services));
-
-    afficherServices();
-
-    // Réinitialisation du formulaire
-    document.getElementById("name").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
-    document.getElementById("lien").value = "";
+    reader.readAsDataURL(imageFile);
   }
 
   function afficherServices() {
@@ -136,20 +125,15 @@
     const container = document.getElementById("services-list");
     container.innerHTML = "";
 
-    if (services.length === 0) {
-      container.innerHTML = "<p>Aucun service ajouté pour le moment.</p>";
-      return;
-    }
-
     services.forEach((service, index) => {
       const div = document.createElement("div");
       div.className = "service";
       div.innerHTML = `
-        <strong>${service.name}</strong><br>
-        <small>${service.description}</small><br>
-        <img src="${service.image}" alt="" style="width:100%;margin-top:8px;border-radius:6px;"><br>
-        ${service.lien ? `<a href="${service.lien}" target="_blank">Lien du service</a><br>` : ""}
-        <button onclick="supprimerService(${index})">🗑 Supprimer</button>
+        <h3>${service.name}</h3>
+        <img src="${service.image}" alt="${service.name}">
+        <p>${service.description}</p>
+        ${service.lien ? `<p><a href="${service.lien}" target="_blank">Voir le service</a></p>` : ""}
+        <button class="delete-btn" onclick="supprimerService(${index})">🗑 Supprimer</button>
       `;
       container.appendChild(div);
     });
@@ -157,14 +141,12 @@
 
   function supprimerService(index) {
     let services = JSON.parse(localStorage.getItem("services")) || [];
-    if (confirm("Supprimer ce service ?")) {
-      services.splice(index, 1);
-      localStorage.setItem("services", JSON.stringify(services));
-      afficherServices();
-    }
+    services.splice(index, 1);
+    localStorage.setItem("services", JSON.stringify(services));
+    afficherServices();
   }
 
-  // Si déjà connecté, afficher l'admin direct
+  // Si admin déjà connecté, ne pas redemander le mot de passe
   window.onload = () => {
     if (localStorage.getItem("adminConnected") === "yes") {
       document.getElementById("login-section").style.display = "none";
