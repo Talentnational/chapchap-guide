@@ -79,15 +79,43 @@
   }
 
   function ajouterService() {
-    const name = document.getElementById("name").value.trim();
-    const description = document.getElementById("description").value.trim();
-    const image = document.getElementById("image").value.trim();
-    const lien = document.getElementById("lien").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const lien = document.getElementById("lien").value.trim();
+  const imageFile = document.getElementById("image").files[0];
 
-    if (!name || !description || !image) {
-      alert("Veuillez remplir tous les champs requis.");
-      return;
-    }
+  if (!name || !description || !imageFile) {
+    alert("Veuillez remplir tous les champs requis.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imageData = e.target.result;
+
+    const nouveauService = {
+      name,
+      description,
+      image: imageData,
+      lien
+    };
+
+    let services = JSON.parse(localStorage.getItem("services")) || [];
+    services.push(nouveauService);
+    localStorage.setItem("services", JSON.stringify(services));
+
+    afficherServices();
+
+    // Réinitialisation du formulaire
+    document.getElementById("name").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("lien").value = "";
+  };
+
+  reader.readAsDataURL(imageFile);
+  }
+  
 
     const nouveauService = { name, description, image, lien };
     let services = JSON.parse(localStorage.getItem("services")) || [];
