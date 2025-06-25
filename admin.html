@@ -44,6 +44,13 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    #export-result {
+      white-space: pre-wrap;
+      background: #eee;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -62,9 +69,9 @@
   <input type="file" id="image" accept="image/*">
   <input type="text" id="lien" placeholder="Lien vers le service (optionnel)">
   <button onclick="ajouterService()">+ Ajouter</button>
-<button onclick="exporterServices()">📤 Exporter vers services.json</button>
-<pre id="export-result" style="white-space:pre-wrap;background:#eee;padding:10px;border-radius:8px;margin-top:10px;"></pre>
-  
+  <button onclick="exporterServices()">📤 Exporter vers services.json</button>
+  <pre id="export-result"></pre>
+
   <h2>Services existants</h2>
   <div id="services-list"></div>
 </div>
@@ -75,7 +82,6 @@
   function checkPassword() {
     const passwordInput = document.getElementById("password").value;
     if (passwordInput === motDePasse) {
-      localStorage.setItem("adminConnected", "yes");
       document.getElementById("login-section").style.display = "none";
       document.getElementById("admin-section").style.display = "block";
       afficherServices();
@@ -112,7 +118,6 @@
 
       afficherServices();
 
-      // Réinitialisation du formulaire
       document.getElementById("name").value = "";
       document.getElementById("description").value = "";
       document.getElementById("image").value = "";
@@ -148,29 +153,17 @@
     afficherServices();
   }
 
-  // Si admin déjà connecté, ne pas redemander le mot de passe
+  function exporterServices() {
+    const services = JSON.parse(localStorage.getItem("services")) || [];
+    const jsonContent = JSON.stringify(services, null, 2);
+    document.getElementById("export-result").textContent = jsonContent;
+    alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
+  }
+
   window.onload = () => {
-    if (localStorage.getItem("adminConnected") === "yes") {
-      document.getElementById("login-section").style.display = "none";
-      document.getElementById("admin-section").style.display = "block";
-      afficherServices();
-    }
+    // Sécurité renforcée : toujours demander le mot de passe
+    localStorage.removeItem("adminConnected");
   };
-  function exporterServices() {
-  const services = JSON.parse(localStorage.getItem("services")) || [];
-  const jsonContent = JSON.stringify(services, null, 2); // bien formaté
-
-  document.getElementById("export-result").textContent = jsonContent;
-  alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
-      }
-  function exporterServices() {
-  const services = JSON.parse(localStorage.getItem("services")) || [];
-  const jsonContent = JSON.stringify(services, null, 2); // bien indenté
-
-  document.getElementById("export-result").textContent = jsonContent;
-  alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
-    }
-  
 </script>
 
 </body>
