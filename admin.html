@@ -2,229 +2,105 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Espace Admin - Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Ajouter un service</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f3f3f3;
+      background: #f2f2f2;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
       padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2 {
-      color: #333;
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
-    #login-section, #admin-section {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    input, textarea, button {
+
+    form input,
+    form textarea,
+    form button {
       width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-    .service {
+      padding: 12px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      padding: 10px;
-      margin-top: 10px;
-      background: #fafafa;
       border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
     }
-    .service img {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-    .delete-btn {
-      background-color: red;
+
+    form button {
+      background-color: #28a745;
       color: white;
-      padding: 6px 10px;
       border: none;
-      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    #export-result {
-      white-space: pre-wrap;
-      background: #eee;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
+
+    form button:hover {
+      background-color: #218838;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #555;
+      margin-top: -10px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Ajouter un service</h1>
+    <form id="serviceForm">
+      <input type="text" id="categorie" placeholder="Catégorie (ex: hotel, restaurant...)" required>
+      <input type="text" id="nom" placeholder="Nom du service" required>
+      <input type="text" id="region" placeholder="Région" required>
+      <input type="text" id="ville" placeholder="Ville" required>
+      <input type="text" id="quartier" placeholder="Quartier" required>
+      <input type="text" id="adresse" placeholder="Adresse exacte" required>
+      <textarea id="description" placeholder="Description du service (facultatif)"></textarea>
+      <input type="text" id="images" placeholder="Chemins des images (séparés par virgule)">
+      <div class="note">Exemple : images/monimage1.jpg, images/monimage2.jpg</div>
+      <button type="submit">Ajouter</button>
+    </form>
+  </div>
 
-<div id="login-section">
-  <h2>Connexion Admin</h2>
-  <input type="password" id="password" placeholder="Mot de passe admin">
-  <button onclick="checkPassword()">Se connecter</button>
-  <p id="login-error" style="color:red;"></p>
-</div>
+  <script>
+    document.getElementById('serviceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-<div id="admin-section" style="display:none;">
-  <h2>Ajouter un service</h2>
-  <input type="text" id="name" placeholder="Nom du service">
-  <textarea id="description" placeholder="Description"></textarea>
-  <input type="file" id="image" accept="image/*">
-  <input type="text" id="lien" placeholder="Lien vers le service (optionnel)">
-  <button onclick="ajouterService()">+ Ajouter</button>
-  <button onclick="exporterServices()">📤 Exporter vers services.json</button>
-  <pre id="export-result"></pre>
-
-  <h2>Services existants</h2>
-  <div id="services-list"></div>
-</div>
-
-<script>
-  const motDePasse = "Okpe0778";
-
-  function checkPassword() {
-    const passwordInput = document.getElementById("password").value;
-    if (passwordInput === motDePasse) {
-      document.getElementById("login-section").style.display = "none";
-      document.getElementById("admin-section").style.display = "block";
-      afficherServices();
-    } else {
-      document.getElementById("login-error").textContent = "Mot de passe incorrect.";
-    }
-  }
-
-  function ajouterService() {
-    const name = document.getElementById("name").value.trim();
-    const description = document.getElementById("description").value.trim();
-    const lien = document.getElementById("lien").value.trim();
-    const imageFile = document.getElementById("image").files[0];
-
-    if (!name || !description || !imageFile) {
-      alert("Veuillez remplir tous les champs requis.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const imageData = e.target.result;
-
-      const nouveauService = {
-        name,
-        description,
-        image: imageData,
-        lien
+      const service = {
+        id: document.getElementById('nom').value.toLowerCase().replace(/\s+/g, '_'),
+        categorie: document.getElementById('categorie').value,
+        nom: document.getElementById('nom').value,
+        region: document.getElementById('region').value,
+        ville: document.getElementById('ville').value,
+        quartier: document.getElementById('quartier').value,
+        adresse: document.getElementById('adresse').value,
+        description: document.getElementById('description').value,
+        images: document.getElementById('images').value.split(',').map(img => img.trim())
       };
 
-      let services = JSON.parse(localStorage.getItem("services")) || [];
-      services.push(nouveauService);
-      localStorage.setItem("services", JSON.stringify(services));
+      // Affiche les données dans la console
+      console.log('Données à ajouter :', JSON.stringify(service, null, 2));
 
-      afficherServices();
-
-      document.getElementById("name").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("image").value = "";
-      document.getElementById("lien").value = "";
-    };
-
-    reader.readAsDataURL(imageFile);
-  }
-
-  function afficherServices() {
-    const services = JSON.parse(localStorage.getItem("services")) || [];
-    const container = document.getElementById("services-list");
-    container.innerHTML = "";
-
-    services.forEach((service, index) => {
-      const div = document.createElement("div");
-      div.className = "service";
-      div.innerHTML = `
-        <h3>${service.name}</h3>
-        <img src="${service.image}" alt="${service.name}">
-        <p>${service.description}</p>
-        ${service.lien ? `<p><a href="${service.lien}" target="_blank">Voir le service</a></p>` : ""}
-        <button class="delete-btn" onclick="supprimerService(${index})">🗑 Supprimer</button>
-      `;
-      container.appendChild(div);
+      alert("Les données ont été préparées (voir la console). Copie-les dans le fichier JSON manuellement.");
+      
+      // Réinitialise le formulaire
+      this.reset();
     });
-  }
-
-  function supprimerService(index) {
-    let services = JSON.parse(localStorage.getItem("services")) || [];
-    services.splice(index, 1);
-    localStorage.setItem("services", JSON.stringify(services));
-    afficherServices();
-  }
-
-  function exporterServices() {
-    const services = JSON.parse(localStorage.getItem("services")) || [];
-    const jsonContent = JSON.stringify(services, null, 2);
-    document.getElementById("export-result").textContent = jsonContent;
-    alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
-  }
-
-  window.onload = () => {
-    // Sécurité renforcée : toujours demander le mot de passe
-    localStorage.removeItem("adminConnected");
-  };
-</script>
-<h2>Ajouter un nouveau service</h2>
-<form id="formService">
-  <input type="text" id="categorie" placeholder="Catégorie (ex: hotel, restaurant...)" required><br><br>
-  <input type="text" id="nom" placeholder="Nom du service" required><br><br>
-  <input type="text" id="region" placeholder="Région" required><br><br>
-  <input type="text" id="ville" placeholder="Ville" required><br><br>
-  <input type="text" id="quartier" placeholder="Quartier" required><br><br>
-  <input type="text" id="adresse" placeholder="Adresse" required><br><br>
-  <textarea id="description" placeholder="Description (facultatif)"></textarea><br><br>
-  <input type="text" id="images" placeholder="Liens images (séparés par virgule)" required><br><br>
-  <button type="submit">Générer le fichier services.json</button>
-</form>
-  
-</body>
-  <script>
-document.getElementById("formService").addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const categorie = document.getElementById("categorie").value;
-  const nom = document.getElementById("nom").value;
-  const region = document.getElementById("region").value;
-  const ville = document.getElementById("ville").value;
-  const quartier = document.getElementById("quartier").value;
-  const adresse = document.getElementById("adresse").value;
-  const description = document.getElementById("description").value || "";
-  const images = document.getElementById("images").value.split(",");
-
-  let services = [];
-
-  try {
-    const res = await fetch("services.json");
-    services = await res.json();
-  } catch (err) {
-    console.warn("services.json introuvable, création d’un nouveau.");
-  }
-
-  const newService = {
-    id: nom.toLowerCase().replace(/\s+/g, "-"),
-    categorie,
-    nom,
-    region,
-    ville,
-    quartier,
-    adresse,
-    description,
-    images: images.map(img => img.trim())
-  };
-
-  services.push(newService);
-
-  const blob = new Blob([JSON.stringify(services, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "services.json";
-  a.click();
-
-  alert("✅ Nouveau fichier services.json généré. Va le remplacer sur GitHub ou Vercel.");
-});
   </script>
-  
+</body>
 </html>
