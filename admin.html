@@ -165,6 +165,18 @@
     localStorage.removeItem("adminConnected");
   };
 </script>
-
+<h2>Ajouter un nouveau service</h2>
+<form id="formService">
+  <input type="text" id="categorie" placeholder="Catégorie (ex: hotel, restaurant...)" required><br><br>
+  <input type="text" id="nom" placeholder="Nom du service" required><br><br>
+  <input type="text" id="region" placeholder="Région" required><br><br>
+  <input type="text" id="ville" placeholder="Ville" required><br><br>
+  <input type="text" id="quartier" placeholder="Quartier" required><br><br>
+  <input type="text" id="adresse" placeholder="Adresse" required><br><br>
+  <textarea id="description" placeholder="Description (facultatif)"></textarea><br><br>
+  <input type="text" id="images" placeholder="Liens images (séparés par virgule)" required><br><br>
+  <button type="submit">Générer le fichier services.json</button>
+</form>
+  
 </body>
 </html>
