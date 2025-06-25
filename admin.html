@@ -163,6 +163,13 @@
   document.getElementById("export-result").textContent = jsonContent;
   alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
       }
+  function exporterServices() {
+  const services = JSON.parse(localStorage.getItem("services")) || [];
+  const jsonContent = JSON.stringify(services, null, 2); // bien indenté
+
+  document.getElementById("export-result").textContent = jsonContent;
+  alert("Copie maintenant ce contenu et colle-le dans ton fichier services.json sur GitHub.");
+    }
   
 </script>
 
