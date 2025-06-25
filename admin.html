@@ -52,9 +52,9 @@
 </head>
 <body>
   <h2>Ajouter un nouveau service</h2>
-  <form id="serviceForm">
+  <form id="serviceForm" enctype="multipart/form-data">
     <label for="categorie">Catégorie</label>
-    <select id="categorie" required>
+    <select id="categorie" name="categorie" required>
       <option value="">-- Choisir une catégorie --</option>
       <option value="hotel">Hôtel</option>
       <option value="restaurant">Restaurant</option>
@@ -62,10 +62,10 @@
     </select>
 
     <label for="nom">Nom</label>
-    <input type="text" id="nom" required>
+    <input type="text" id="nom" name="nom" required>
 
     <label for="region">Région</label>
-    <select id="region" required onchange="mettreAJourVilles()">
+    <select id="region" name="region" required onchange="mettreAJourVilles()">
       <option value="">-- Choisir une région --</option>
       <option value="Sud">Sud</option>
       <option value="Nord">Nord</option>
@@ -75,21 +75,21 @@
     </select>
 
     <label for="ville">Ville</label>
-    <select id="ville" required>
+    <select id="ville" name="ville" required>
       <option value="">-- Choisir une ville --</option>
     </select>
 
     <label for="quartier">Quartier</label>
-    <input type="text" id="quartier" required>
+    <input type="text" id="quartier" name="quartier" required>
 
     <label for="adresse">Adresse</label>
-    <input type="text" id="adresse" required>
+    <input type="text" id="adresse" name="adresse" required>
 
     <label for="description">Description</label>
-    <textarea id="description" rows="3" required></textarea>
+    <textarea id="description" name="description" rows="3" required></textarea>
 
-    <label for="images">Images (depuis la galerie)</label>
-    <input type="file" id="images" accept="image/*" multiple>
+    <label for="images">Images</label>
+    <input type="file" id="images" name="images[]" accept="image/*" multiple required>
 
     <button type="submit">Ajouter le service</button>
   </form>
@@ -107,7 +107,6 @@
       const region = document.getElementById("region").value;
       const villeSelect = document.getElementById("ville");
       villeSelect.innerHTML = '<option value="">-- Choisir une ville --</option>';
-
       if (villesParRegion[region]) {
         villesParRegion[region].forEach(ville => {
           const option = document.createElement("option");
@@ -120,26 +119,11 @@
 
     document.getElementById("serviceForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
-      const fichiers = document.getElementById("images").files;
-      const nomsImages = Array.from(fichiers).map(fichier => "images/" + fichier.name);
-
-      const service = {
-        id: document.getElementById("nom").value.toLowerCase().replace(/\s+/g, "_"),
-        categorie: document.getElementById("categorie").value,
-        nom: document.getElementById("nom").value,
-        region: document.getElementById("region").value,
-        ville: document.getElementById("ville").value,
-        quartier: document.getElementById("quartier").value,
-        adresse: document.getElementById("adresse").value,
-        description: document.getElementById("description").value,
-        images: nomsImages
-      };
+      const formData = new FormData(this);
 
       fetch("ajouter_service.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(service)
+        body: formData
       })
       .then(res => res.json())
       .then(data => {
@@ -147,11 +131,11 @@
           alert("Service ajouté avec succès !");
           document.getElementById("serviceForm").reset();
         } else {
-          alert("Erreur lors de l'ajout.");
+          alert("Erreur : " + data.message);
         }
       })
       .catch(err => {
-        alert("Erreur réseau ou serveur.");
+        alert("Erreur réseau.");
         console.error(err);
       });
     });
