@@ -23,6 +23,7 @@
       width: 100%;
       margin-bottom: 10px;
       padding: 10px;
+      font-size: 16px;
     }
     .service {
       border: 1px solid #ccc;
@@ -34,7 +35,11 @@
     .service button {
       background-color: red;
       color: white;
+      padding: 6px;
+      border: none;
+      border-radius: 5px;
       margin-top: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -52,8 +57,8 @@
   <input type="text" id="name" placeholder="Nom du service">
   <textarea id="description" placeholder="Description"></textarea>
   <input type="text" id="image" placeholder="Lien de l'image">
-  <input type="text" id="lien" placeholder="Lien vers le service">
-  <button onclick="ajouterService()">Ajouter</button>
+  <input type="text" id="lien" placeholder="Lien vers le service (optionnel)">
+  <button onclick="ajouterService()">➕ Ajouter</button>
 
   <h2>Services existants</h2>
   <div id="services-list"></div>
@@ -74,10 +79,15 @@
   }
 
   function ajouterService() {
-    const name = document.getElementById("name").value;
-    const description = document.getElementById("description").value;
-    const image = document.getElementById("image").value;
-    const lien = document.getElementById("lien").value;
+    const name = document.getElementById("name").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const image = document.getElementById("image").value.trim();
+    const lien = document.getElementById("lien").value.trim();
+
+    if (!name || !description || !image) {
+      alert("Veuillez remplir tous les champs requis.");
+      return;
+    }
 
     const nouveauService = { name, description, image, lien };
     let services = JSON.parse(localStorage.getItem("services")) || [];
@@ -85,6 +95,8 @@
     localStorage.setItem("services", JSON.stringify(services));
 
     afficherServices();
+
+    // Réinitialisation du formulaire
     document.getElementById("name").value = "";
     document.getElementById("description").value = "";
     document.getElementById("image").value = "";
@@ -96,15 +108,20 @@
     const container = document.getElementById("services-list");
     container.innerHTML = "";
 
+    if (services.length === 0) {
+      container.innerHTML = "<p>Aucun service ajouté pour le moment.</p>";
+      return;
+    }
+
     services.forEach((service, index) => {
       const div = document.createElement("div");
       div.className = "service";
       div.innerHTML = `
         <strong>${service.name}</strong><br>
-        ${service.description}<br>
-        <img src="${service.image}" style="max-width:100px"><br>
-        <a href="${service.lien}" target="_blank">Voir</a><br>
-        <button onclick="supprimerService(${index})">Supprimer</button>
+        <small>${service.description}</small><br>
+        <img src="${service.image}" alt="" style="width:100%;margin-top:8px;border-radius:6px;"><br>
+        ${service.lien ? `<a href="${service.lien}" target="_blank">Lien du service</a><br>` : ""}
+        <button onclick="supprimerService(${index})">🗑 Supprimer</button>
       `;
       container.appendChild(div);
     });
@@ -112,12 +129,22 @@
 
   function supprimerService(index) {
     let services = JSON.parse(localStorage.getItem("services")) || [];
-    services.splice(index, 1);
-    localStorage.setItem("services", JSON.stringify(services));
-    afficherServices();
+    if (confirm("Supprimer ce service ?")) {
+      services.splice(index, 1);
+      localStorage.setItem("services", JSON.stringify(services));
+      afficherServices();
+    }
   }
+
+  // Si déjà connecté, afficher l'admin direct
+  window.onload = () => {
+    if (localStorage.getItem("adminConnected") === "yes") {
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("admin-section").style.display = "block";
+      afficherServices();
+    }
+  };
 </script>
 
 </body>
 </html>
-
