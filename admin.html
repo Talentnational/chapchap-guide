@@ -1,122 +1,128 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Ajouter un service</title>
+  <meta charset="UTF-8">
+  <title>Ajout de service - Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 10px;
+      padding: 15px;
       margin: 0;
+      background-color: #f0f0f0;
     }
-    .container {
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 600px;
       margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    form input,
-    form textarea,
-    form select,
-    form button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    form button {
-      background-color: #28a745;
-      color: white;
+    label {
+      display: block;
+      margin-top: 10px;
       font-weight: bold;
-      border: none;
-      cursor: pointer;
     }
-    form button:hover {
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button:hover {
       background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Ajouter un service</h1>
-    <form id="serviceForm">
-      <select id="categorie" required>
-        <option value="">Choisir une catégorie</option>
-        <option value="hotel">Hôtel</option>
-        <option value="restaurant">Restaurant</option>
-        <option value="pharmacie">Pharmacie</option>
-      </select>
+  <h2>Ajouter un nouveau service</h2>
+  <form id="serviceForm">
+    <label for="categorie">Catégorie</label>
+    <select id="categorie" required>
+      <option value="">-- Choisir une catégorie --</option>
+      <option value="hotel">Hôtel</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="pharmacie">Pharmacie</option>
+    </select>
 
-      <input type="text" id="nom" placeholder="Nom du service" required />
+    <label for="nom">Nom</label>
+    <input type="text" id="nom" required>
 
-      <select id="region" required>
-        <option value="">Choisir une région</option>
-        <option value="Nord">Nord</option>
-        <option value="Sud">Sud</option>
-        <option value="Est">Est</option>
-        <option value="Ouest">Ouest</option>
-        <option value="Centre">Centre</option>
-      </select>
+    <label for="region">Région</label>
+    <select id="region" required onchange="mettreAJourVilles()">
+      <option value="">-- Choisir une région --</option>
+      <option value="Sud">Sud</option>
+      <option value="Nord">Nord</option>
+      <option value="Est">Est</option>
+      <option value="Ouest">Ouest</option>
+      <option value="Centre">Centre</option>
+    </select>
 
-      <select id="ville" required>
-        <option value="">Choisir une ville</option>
-      </select>
+    <label for="ville">Ville</label>
+    <select id="ville" required>
+      <option value="">-- Choisir une ville --</option>
+    </select>
 
-      <input type="text" id="quartier" placeholder="Quartier" required />
-      <input type="text" id="adresse" placeholder="Adresse exacte" required />
-      <textarea id="description" placeholder="Description du service (facultatif)"></textarea>
+    <label for="quartier">Quartier</label>
+    <input type="text" id="quartier" required>
 
-      <label for="images">Choisir des images</label>
-      <input type="file" id="images" accept="image/*" multiple />
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" required>
 
-      <button type="submit">Ajouter</button>
-    </form>
-  </div>
+    <label for="description">Description</label>
+    <textarea id="description" rows="3" required></textarea>
+
+    <label for="images">Images (depuis la galerie)</label>
+    <input type="file" id="images" accept="image/*" multiple>
+
+    <button type="submit">Ajouter le service</button>
+  </form>
 
   <script>
     const villesParRegion = {
-      "Nord": ["Korhogo", "Ferké", "Boundiali"],
-      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
-      "Est": ["Bondoukou", "Agnibilékrou", "Abengourou"],
-      "Ouest": ["Man", "Duékoué", "Touba"],
-      "Centre": ["Yamoussoukro", "Divo", "Bouaké"]
+      "Sud": ["Abidjan", "Grand-Bassam", "Bingerville"],
+      "Nord": ["Korhogo", "Ferkessédougou", "Boundiali"],
+      "Est": ["Abengourou", "Bondoukou", "Agnibilékrou"],
+      "Ouest": ["Man", "Guiglo", "Touba"],
+      "Centre": ["Yamoussoukro", "Bouaké", "Didiévi"]
     };
 
-    const regionSelect = document.getElementById("region");
-    const villeSelect = document.getElementById("ville");
+    function mettreAJourVilles() {
+      const region = document.getElementById("region").value;
+      const villeSelect = document.getElementById("ville");
+      villeSelect.innerHTML = '<option value="">-- Choisir une ville --</option>';
 
-    regionSelect.addEventListener("change", () => {
-      const regionChoisie = regionSelect.value;
-      const villes = villesParRegion[regionChoisie] || [];
-
-      // Vider la liste des villes
-      villeSelect.innerHTML = '<option value="">Choisir une ville</option>';
-
-      villes.forEach(ville => {
-        const option = document.createElement("option");
-        option.value = ville;
-        option.textContent = ville;
-        villeSelect.appendChild(option);
-      });
-    });
+      if (villesParRegion[region]) {
+        villesParRegion[region].forEach(ville => {
+          const option = document.createElement("option");
+          option.value = ville;
+          option.textContent = ville;
+          villeSelect.appendChild(option);
+        });
+      }
+    }
 
     document.getElementById("serviceForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const fichiers = document.getElementById("images").files;
-      const nomsImages = Array.from(fichiers).map(fichier => fichier.name);
+      const nomsImages = Array.from(fichiers).map(fichier => "images/" + fichier.name);
 
       const service = {
         id: document.getElementById("nom").value.toLowerCase().replace(/\s+/g, "_"),
@@ -127,12 +133,27 @@
         quartier: document.getElementById("quartier").value,
         adresse: document.getElementById("adresse").value,
         description: document.getElementById("description").value,
-        images: nomsImages.map(n => "images/" + n)
+        images: nomsImages
       };
 
-      console.log("À copier dans le fichier JSON :", JSON.stringify(service, null, 2));
-      alert("Données préparées. Va dans la console pour copier dans ton fichier JSON.");
-      this.reset();
+      fetch("ajouter_service.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(service)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Service ajouté avec succès !");
+          document.getElementById("serviceForm").reset();
+        } else {
+          alert("Erreur lors de l'ajout.");
+        }
+      })
+      .catch(err => {
+        alert("Erreur réseau ou serveur.");
+        console.error(err);
+      });
     });
   </script>
 </body>
