@@ -3,63 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>Ajouter un service</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      font-family: sans-serif;
-      padding: 10px;
-      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
     }
     form {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
       max-width: 500px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
     }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    input, select, textarea {
+    input, textarea, select, button {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
       border-radius: 5px;
-      border: 1px solid #ccc;
     }
     button {
-      margin-top: 15px;
-      padding: 10px 20px;
       background: #007bff;
       color: white;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      cursor: pointer;
+    }
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h2 style="text-align:center">Ajouter un nouveau service</h2>
+  <h1>Ajouter un service</h1>
 
-  <form action="ajouter_service.php" method="POST" enctype="multipart/form-data">
-    <label for="categorie">Catégorie</label>
-    <select name="categorie" id="categorie" required>
-      <option value="">-- Sélectionnez --</option>
+  <form id="serviceForm">
+    <select name="categorie" required>
+      <option value="">Sélectionner une catégorie</option>
       <option value="hotel">Hôtel</option>
-      <option value="restaurant">Restaurant</option>
       <option value="pharmacie">Pharmacie</option>
+      <option value="restaurant">Restaurant</option>
     </select>
 
-    <label for="nom">Nom du service</label>
-    <input type="text" name="nom" id="nom" required>
+    <input type="text" name="nom" placeholder="Nom du service" required />
 
-    <label for="region">Région</label>
-    <select name="region" id="region" required onchange="updateVilles()">
-      <option value="">-- Choisir une région --</option>
+    <select name="region" id="region" required>
+      <option value="">Sélectionner une région</option>
       <option value="Nord">Nord</option>
       <option value="Sud">Sud</option>
       <option value="Est">Est</option>
@@ -67,39 +65,34 @@
       <option value="Centre">Centre</option>
     </select>
 
-    <label for="ville">Ville</label>
     <select name="ville" id="ville" required>
-      <option value="">-- Choisir une ville --</option>
+      <option value="">Sélectionner une ville</option>
     </select>
 
-    <label for="quartier">Quartier</label>
-    <input type="text" name="quartier" id="quartier" required>
+    <input type="text" name="quartier" placeholder="Quartier" required />
+    <input type="text" name="adresse" placeholder="Adresse" required />
+    <textarea name="description" placeholder="Description (facultatif)"></textarea>
+    <input type="text" name="images" placeholder="Ex: images/photo1.jpg" required />
 
-    <label for="adresse">Adresse</label>
-    <input type="text" name="adresse" id="adresse" required>
-
-    <label for="description">Description</label>
-    <textarea name="description" id="description" rows="3" required></textarea>
-
-    <label for="images">Images</label>
-    <input type="file" name="images[]" id="images" multiple accept="image/*" required>
-
-    <button type="submit">Ajouter le service</button>
+    <button type="submit">Ajouter</button>
   </form>
 
+  <div id="message"></div>
+
   <script>
+    // Villes selon la région
     const villesParRegion = {
-      "Nord": ["Korhogo", "Ferké", "Boundiali", "Odienné"],
-      "Sud": ["Abidjan", "Bassam", "Dabou", "Jacqueville"],
-      "Est": ["Bondoukou", "Abengourou", "Agnibilékrou"],
-      "Ouest": ["Man", "Guiglo", "Touba", "Danané"],
-      "Centre": ["Yamoussoukro", "Bongouanou", "Didiévi", "Toumodi"]
+      "Nord": ["Korhogo", "Ferké", "Boundiali"],
+      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
+      "Est": ["Abengourou", "Agnibilékrou", "Tanda"],
+      "Ouest": ["Man", "Duékoué", "Guiglo"],
+      "Centre": ["Yamoussoukro", "Bongouanou", "Toumodi"]
     };
 
-    function updateVilles() {
-      const region = document.getElementById("region").value;
+    document.getElementById("region").addEventListener("change", function () {
+      const region = this.value;
       const villeSelect = document.getElementById("ville");
-      villeSelect.innerHTML = '<option value="">-- Choisir une ville --</option>';
+      villeSelect.innerHTML = '<option value="">Sélectionner une ville</option>';
 
       if (villesParRegion[region]) {
         villesParRegion[region].forEach(ville => {
@@ -109,8 +102,26 @@
           villeSelect.appendChild(option);
         });
       }
-    }
-  </script>
+    });
 
+    // Envoi du formulaire
+    document.getElementById('serviceForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/api/ajouter-service', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      document.getElementById('message').innerText = result.message;
+      this.reset();
+    });
+  </script>
 </body>
 </html>
