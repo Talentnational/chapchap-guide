@@ -1,62 +1,62 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Lire les données du formulaire
-    $categorie = $_POST['categorie'];
-    $nom = $_POST['nom'];
-    $region = $_POST['region'];
-    $ville = $_POST['ville'];
-    $quartier = $_POST['quartier'];
-    $adresse = $_POST['adresse'];
-    $description = $_POST['description'];
+// Répertoire où stocker les images
+$uploadDir = 'images/';
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'jfif'];
 
-    // Traitement des images
-    $images = [];
-    $upload_directory = 'images/';
-    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'];
+// Lire les anciennes données JSON
+$services = [];
+$jsonFile = 'services.json';
+if (file_exists($jsonFile)) {
+    $jsonData = file_get_contents($jsonFile);
+    $services = json_decode($jsonData, true);
+}
 
-    foreach ($_FILES['images']['tmp_name'] as $index => $tmp_name) {
-        $original_name = basename($_FILES['images']['name'][$index]);
-        $extension = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+// Récupération des données du formulaire
+$categorie = $_POST['categorie'] ?? '';
+$nom = $_POST['nom'] ?? '';
+$region = $_POST['region'] ?? '';
+$ville = $_POST['ville'] ?? '';
+$quartier = $_POST['quartier'] ?? '';
+$adresse = $_POST['adresse'] ?? '';
+$description = $_POST['description'] ?? '';
 
-        if (in_array($extension, $allowed_extensions)) {
-            $unique_name = uniqid() . '.' . $extension;
-            $destination = $upload_directory . $unique_name;
+// Gérer l’upload des images
+$imagePaths = [];
+if (!empty($_FILES['images'])) {
+    foreach ($_FILES['images']['name'] as $index => $imageName) {
+        $tmpName = $_FILES['images']['tmp_name'][$index];
+        $extension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
-            if (move_uploaded_file($tmp_name, $destination)) {
-                $images[] = $destination;
+        if (in_array($extension, $allowedExtensions)) {
+            $uniqueName = uniqid('img_') . '.' . $extension;
+            $destination = $uploadDir . $uniqueName;
+
+            if (move_uploaded_file($tmpName, $destination)) {
+                $imagePaths[] = $destination;
             }
         }
     }
-
-    // Créer un nouvel objet service
-    $nouveau_service = [
-        "id" => strtolower(preg_replace('/\s+/', '_', $nom)),
-        "categorie" => $categorie,
-        "nom" => $nom,
-        "region" => $region,
-        "ville" => $ville,
-        "quartier" => $quartier,
-        "adresse" => $adresse,
-        "description" => $description,
-        "images" => $images
-    ];
-
-    // Charger les anciens services
-    $services_file = 'services.json';
-    $services = [];
-
-    if (file_exists($services_file)) {
-        $json_content = file_get_contents($services_file);
-        $services = json_decode($json_content, true);
-    }
-
-    // Ajouter le nouveau service
-    $services[] = $nouveau_service;
-
-    // Enregistrer dans le fichier JSON
-    file_put_contents($services_file, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-    // Redirection ou message
-    echo "Service ajouté avec succès !";
 }
+
+// Créer le nouvel élément
+$newService = [
+    "categorie" => $categorie,
+    "nom" => $nom,
+    "region" => $region,
+    "ville" => $ville,
+    "quartier" => $quartier,
+    "adresse" => $adresse,
+    "description" => $description,
+    "images" => $imagePaths
+];
+
+// Ajouter le nouveau service à la liste
+$services[] = $newService;
+
+// Sauvegarder dans services.json
+file_put_contents($jsonFile, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+// Redirection
+header("Location: admin.html?success=1");
+exit();
 ?>
