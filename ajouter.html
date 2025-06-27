@@ -1,63 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Ajouter un service</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter un service</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 15px;
-      background: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: #fff;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
     }
-    input, textarea, select, button {
+    label {
+      font-weight: bold;
+    }
+    input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 8px;
     }
     button {
-      background: #007bff;
+      background-color: green;
       color: white;
       border: none;
+      padding: 12px;
       cursor: pointer;
     }
-    #message {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
+    button:hover {
+      background-color: darkgreen;
     }
   </style>
 </head>
 <body>
-
   <h1>Ajouter un service</h1>
-
-  <form id="serviceForm">
+  <form id="formulaire">
+    <label>Catégorie</label>
     <select name="categorie" required>
-      <option value="">Sélectionner une catégorie</option>
-      <option value="hotel">Hôtel</option>
-      <option value="pharmacie">Pharmacie</option>
-      <option value="restaurant">Restaurant</option>
+      <option value="Hôtel">Hôtel</option>
+      <option value="Restaurant">Restaurant</option>
+      <option value="Pharmacie">Pharmacie</option>
     </select>
 
-    <input type="text" name="nom" placeholder="Nom du service" required />
+    <label>Nom</label>
+    <input type="text" name="nom" required>
 
-    <select name="region" id="region" required>
-      <option value="">Sélectionner une région</option>
+    <label>Région</label>
+    <select name="region" required>
       <option value="Nord">Nord</option>
       <option value="Sud">Sud</option>
       <option value="Est">Est</option>
@@ -65,62 +51,49 @@
       <option value="Centre">Centre</option>
     </select>
 
-    <select name="ville" id="ville" required>
-      <option value="">Sélectionner une ville</option>
-    </select>
+    <label>Ville</label>
+    <input type="text" name="ville" required>
 
-    <input type="text" name="quartier" placeholder="Quartier" required />
-    <input type="text" name="adresse" placeholder="Adresse" required />
-    <textarea name="description" placeholder="Description (facultatif)"></textarea>
-    <input type="text" name="images" placeholder="Ex: images/photo1.jpg" required />
+    <label>Quartier</label>
+    <input type="text" name="quartier" required>
 
-    <button type="submit">Ajouter</button>
+    <label>Adresse</label>
+    <input type="text" name="adresse" required>
+
+    <label>Description</label>
+    <textarea name="description" required></textarea>
+
+    <label>Image (URL ou nom de fichier)</label>
+    <input type="text" name="image" placeholder="Ex: image1.jpg ou URL">
+
+    <button type="submit">Ajouter le service</button>
   </form>
 
-  <div id="message"></div>
-
   <script>
-    // Villes selon la région
-    const villesParRegion = {
-      "Nord": ["Korhogo", "Ferké", "Boundiali"],
-      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
-      "Est": ["Abengourou", "Agnibilékrou", "Tanda"],
-      "Ouest": ["Man", "Duékoué", "Guiglo"],
-      "Centre": ["Yamoussoukro", "Bongouanou", "Toumodi"]
-    };
-
-    document.getElementById("region").addEventListener("change", function () {
-      const region = this.value;
-      const villeSelect = document.getElementById("ville");
-      villeSelect.innerHTML = '<option value="">Sélectionner une ville</option>';
-
-      if (villesParRegion[region]) {
-        villesParRegion[region].forEach(ville => {
-          const option = document.createElement("option");
-          option.value = ville;
-          option.textContent = ville;
-          villeSelect.appendChild(option);
-        });
-      }
-    });
-
-    // Envoi du formulaire
-    document.getElementById('serviceForm').addEventListener('submit', async function (e) {
+    const form = document.getElementById("formulaire");
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
 
-      const response = await fetch('/api/ajouter-service', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      fetch("https://script.google.com/macros/s/AKfycbxDn26ZzYYc1k7Fc3pIA_l7IQHUFX-yEkTDdkYKua0x1C31-dkXltmin3IE-kDILtv7/exec", {
+        method: "POST",
         body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-      document.getElementById('message').innerText = result.message;
-      this.reset();
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        if (res.ok) {
+          alert("Service ajouté avec succès !");
+          form.reset();
+        } else {
+          alert("Échec de l'ajout.");
+        }
+      })
+      .catch(err => alert("Erreur réseau : " + err));
     });
   </script>
 </body>
