@@ -1,99 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Ajouter un service</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    input, select, textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-    }
-    button {
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 12px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: darkgreen;
-    }
-  </style>
 </head>
 <body>
-  <h1>Ajouter un service</h1>
-  <form id="formulaire">
-    <label>Catégorie</label>
-    <select name="categorie" required>
-      <option value="Hôtel">Hôtel</option>
-      <option value="Restaurant">Restaurant</option>
-      <option value="Pharmacie">Pharmacie</option>
-    </select>
-
-    <label>Nom</label>
-    <input type="text" name="nom" required>
-
-    <label>Région</label>
-    <select name="region" required>
-      <option value="Nord">Nord</option>
-      <option value="Sud">Sud</option>
-      <option value="Est">Est</option>
-      <option value="Ouest">Ouest</option>
-      <option value="Centre">Centre</option>
-    </select>
-
-    <label>Ville</label>
-    <input type="text" name="ville" required>
-
-    <label>Quartier</label>
-    <input type="text" name="quartier" required>
-
-    <label>Adresse</label>
-    <input type="text" name="adresse" required>
-
-    <label>Description</label>
-    <textarea name="description" required></textarea>
-
-    <label>Image (URL ou nom de fichier)</label>
-    <input type="text" name="image" placeholder="Ex: image1.jpg ou URL">
-
-    <button type="submit">Ajouter le service</button>
+  <form id="serviceForm">
+    <input name="categorie" placeholder="Catégorie" required><br>
+    <input name="nom" placeholder="Nom du service" required><br>
+    <input name="region" placeholder="Région" required><br>
+    <input name="ville" placeholder="Ville" required><br>
+    <input name="quartier" placeholder="Quartier" required><br>
+    <input name="adresse" placeholder="Adresse" required><br>
+    <textarea name="description" placeholder="Description" required></textarea><br>
+    <input name="images" placeholder="Lien image" required><br>
+    <button type="submit">Envoyer</button>
   </form>
 
   <script>
-    const form = document.getElementById("formulaire");
-    form.addEventListener("submit", function (e) {
+    document.getElementById("serviceForm").addEventListener("submit", function(e) {
       e.preventDefault();
+      const form = e.target;
+      const data = {
+        categorie: form.categorie.value,
+        nom: form.nom.value,
+        region: form.region.value,
+        ville: form.ville.value,
+        quartier: form.quartier.value,
+        adresse: form.adresse.value,
+        description: form.description.value,
+        images: form.images.value
+      };
 
-      const formData = new FormData(form);
-      const data = {};
-      formData.forEach((value, key) => data[key] = value);
-
-      fetch("https://script.google.com/macros/s/AKfycbxDn26ZzYYc1k7Fc3pIA_l7IQHUFX-yEkTDdkYKua0x1C31-dkXltmin3IE-kDILtv7/exec", {
+      fetch("TON_URL_APPS_SCRIPT_EXEC", {
         method: "POST",
         body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       })
-      .then(res => {
-        if (res.ok) {
-          alert("Service ajouté avec succès !");
-          form.reset();
-        } else {
-          alert("Échec de l'ajout.");
-        }
+      .then(response => response.text())
+      .then(data => {
+        alert("Service envoyé !");
+        form.reset();
       })
-      .catch(err => alert("Erreur réseau : " + err));
+      .catch(error => {
+        alert("Erreur d’envoi.");
+      });
     });
   </script>
 </body>
