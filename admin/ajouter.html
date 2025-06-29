@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter un service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+    }
+    input, select, textarea, button {
+      display: block;
+      margin-bottom: 15px;
+      width: 100%;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Ajouter un service</h2>
+  <form id="serviceForm">
+    <label>Catégorie</label>
+    <select name="categorie">
+      <option>Hôtel</option>
+      <option>Restaurant</option>
+      <option>Pharmacie</option>
+    </select>
+
+    <label>Nom</label>
+    <input type="text" name="nom" required />
+
+    <label>Région</label>
+    <select name="region">
+      <option>Nord</option>
+      <option>Sud</option>
+      <option>Est</option>
+      <option>Ouest</option>
+      <option>Centre</option>
+    </select>
+
+    <label>Ville</label>
+    <input type="text" name="ville" required />
+
+    <label>Quartier</label>
+    <input type="text" name="quartier" required />
+
+    <label>Adresse</label>
+    <input type="text" name="adresse" required />
+
+    <label>Description</label>
+    <textarea name="description" rows="4" required></textarea>
+
+    <button type="submit">Ajouter le service</button>
+  </form>
+
+  <script>
+    document.getElementById("serviceForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const donnees = {
+        categorie: form.categorie.value,
+        nom: form.nom.value,
+        region: form.region.value,
+        ville: form.ville.value,
+        quartier: form.quartier.value,
+        adresse: form.adresse.value,
+        description: form.description.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbxDn26ZzYYc1k7Fc3pIA_l7IQHUFX-yEkTDdkYKua0x1C31-dkXltmin3IE-kDILtv7/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(donnees),
+      });
+
+      alert("Service envoyé !");
+      form.reset();
+    });
+  </script>
+</body>
+</html>
