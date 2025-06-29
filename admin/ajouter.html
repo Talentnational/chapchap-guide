@@ -1,85 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Ajouter un service</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 10px;
+      background: #f9f9f9;
+      padding: 20px;
     }
-    input, select, textarea, button {
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
       display: block;
-      margin-bottom: 15px;
+    }
+    input, select, textarea {
       width: 100%;
       padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <h2>Ajouter un service</h2>
   <form id="serviceForm">
+    <h2>Ajouter un service</h2>
+
     <label>Catégorie</label>
-    <select name="categorie">
-      <option>Hôtel</option>
-      <option>Restaurant</option>
-      <option>Pharmacie</option>
+    <select name="categorie" required>
+      <option value="">-- Sélectionner --</option>
+      <option value="Hôtel">Hôtel</option>
+      <option value="Restaurant">Restaurant</option>
+      <option value="Transport">Transport</option>
+      <option value="Boutique">Boutique</option>
     </select>
 
     <label>Nom</label>
-    <input type="text" name="nom" required />
+    <input type="text" name="nom" required>
 
     <label>Région</label>
-    <select name="region">
-      <option>Nord</option>
-      <option>Sud</option>
-      <option>Est</option>
-      <option>Ouest</option>
-      <option>Centre</option>
-    </select>
+    <input type="text" name="region" required>
 
     <label>Ville</label>
-    <input type="text" name="ville" required />
+    <input type="text" name="ville" required>
 
     <label>Quartier</label>
-    <input type="text" name="quartier" required />
+    <input type="text" name="quartier" required>
 
     <label>Adresse</label>
-    <input type="text" name="adresse" required />
+    <input type="text" name="adresse" required>
 
     <label>Description</label>
-    <textarea name="description" rows="4" required></textarea>
+    <textarea name="description" required></textarea>
+
+    <!-- Image sera vide pour le moment -->
+    <input type="hidden" name="images" value="">
 
     <button type="submit">Ajouter le service</button>
   </form>
 
   <script>
-    document.getElementById("serviceForm").addEventListener("submit", function (e) {
+    const form = document.getElementById('serviceForm');
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const form = e.target;
-      const donnees = {
-        categorie: form.categorie.value,
-        nom: form.nom.value,
-        region: form.region.value,
-        ville: form.ville.value,
-        quartier: form.quartier.value,
-        adresse: form.adresse.value,
-        description: form.description.value
-      };
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxDn26ZzYYc1k7Fc3pIA_l7IQHUFX-yEkTDdkYKua0x1C31-dkXltmin3IE-kDILtv7/exec";
+      const formData = new FormData(form);
 
-      fetch("https://script.google.com/macros/s/AKfycbxDn26ZzYYc1k7Fc3pIA_l7IQHUFX-yEkTDdkYKua0x1C31-dkXltmin3IE-kDILtv7/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(donnees),
-      });
-
-      alert("Service envoyé !");
-      form.reset();
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => {
+          alert("Service envoyé !");
+          form.reset();
+        })
+        .catch(error => {
+          alert("Erreur réseau ou serveur");
+          console.error("Erreur !", error.message);
+        });
     });
   </script>
 </body>
