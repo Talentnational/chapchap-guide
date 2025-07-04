@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json');
+
 // Répertoire où stocker les images
 $uploadDir = 'images/';
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'jfif'];
@@ -40,6 +42,7 @@ if (!empty($_FILES['images'])) {
 
 // Créer le nouvel élément
 $newService = [
+    "id" => uniqid(), // identifiant unique
     "categorie" => $categorie,
     "nom" => $nom,
     "region" => $region,
@@ -47,16 +50,19 @@ $newService = [
     "quartier" => $quartier,
     "adresse" => $adresse,
     "description" => $description,
-    "images" => $imagePaths
+    "images" => $imagePaths,
+    "status" => "pending",
+    "date" => date("Y-m-d H:i:s")
 ];
 
 // Ajouter le nouveau service à la liste
 $services[] = $newService;
 
 // Sauvegarder dans services.json
-file_put_contents($jsonFile, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-// Redirection
-header("Location: admin.html?success=1");
+if (file_put_contents($jsonFile, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+    echo json_encode(["success" => true, "message" => "Service enregistré en attente de validation."]);
+} else {
+    echo json_encode(["success" => false, "message" => "Erreur lors de l'enregistrement."]);
+}
 exit();
 ?>
