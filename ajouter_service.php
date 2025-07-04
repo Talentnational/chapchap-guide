@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: application/json');
-
 // Répertoire où stocker les images
 $uploadDir = 'images/';
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'jfif'];
@@ -40,9 +38,9 @@ if (!empty($_FILES['images'])) {
     }
 }
 
-// Créer le nouvel élément
+// Créer le nouvel élément avec un ID unique et status "pending"
 $newService = [
-    "id" => uniqid(), // identifiant unique
+    "id" => uniqid(),
     "categorie" => $categorie,
     "nom" => $nom,
     "region" => $region,
@@ -59,10 +57,9 @@ $newService = [
 $services[] = $newService;
 
 // Sauvegarder dans services.json
-if (file_put_contents($jsonFile, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
-    echo json_encode(["success" => true, "message" => "Service enregistré en attente de validation."]);
-} else {
-    echo json_encode(["success" => false, "message" => "Erreur lors de l'enregistrement."]);
-}
+file_put_contents($jsonFile, json_encode($services, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+// Redirection vers confirmation
+header("Location: merci.html?envoi=ok");
 exit();
 ?>
