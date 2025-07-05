@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ajouter un service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <form id="serviceForm">
-    <input name="categorie" placeholder="Catégorie" required><br>
-    <input name="nom" placeholder="Nom du service" required><br>
-    <input name="region" placeholder="Région" required><br>
-    <input name="ville" placeholder="Ville" required><br>
-    <input name="quartier" placeholder="Quartier" required><br>
-    <input name="adresse" placeholder="Adresse" required><br>
-    <textarea name="description" placeholder="Description" required></textarea><br>
-    <input name="images" placeholder="Lien image" required><br>
-    <button type="submit">Envoyer</button>
+  <h1>Ajouter un service</h1>
+  <form id="form-service">
+    <label>Catégorie</label>
+    <input type="text" name="categorie" required />
+
+    <label>Nom</label>
+    <input type="text" name="nom" required />
+
+    <label>Région</label>
+    <input type="text" name="region" required />
+
+    <label>Ville</label>
+    <input type="text" name="ville" required />
+
+    <label>Quartier</label>
+    <input type="text" name="quartier" required />
+
+    <label>Adresse</label>
+    <input type="text" name="adresse" required />
+
+    <label>Description</label>
+    <textarea name="description" required></textarea>
+
+    <label>Image (URL seulement pour l’instant)</label>
+    <input type="text" name="images" placeholder="https://..." />
+
+    <button type="submit">Ajouter le service</button>
   </form>
 
-  <script>
-    document.getElementById("serviceForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = {
-        categorie: form.categorie.value,
-        nom: form.nom.value,
-        region: form.region.value,
-        ville: form.ville.value,
-        quartier: form.quartier.value,
-        adresse: form.adresse.value,
-        description: form.description.value,
-        images: form.images.value
-      };
-
-      fetch("https://script.google.com/macros/s/AKfycbxAfwRZuymJ8g4SzWHNXT4KY9_3n83kLd97xL0nyUquIQ-jg41FmfgBmFfx89Uin4lL/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(response => response.text())
-      .then(data => {
-        alert("Service envoyé !");
-        form.reset();
-      })
-      .catch(error => {
-        alert("Erreur d’envoi.");
-      });
-    });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <script src="/admin/ajouter-service.js"></script>
 </body>
 </html>
