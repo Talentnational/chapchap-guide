@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ajouter un service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, textarea, select {
+      width: 100%; margin: 10px 0; padding: 10px;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px; background: green;
+      color: white; border: none; border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Ajouter un service</h2>
+
+  <form id="formulaire">
+    <select name="categorie" required>
+      <option value="">-- Catégorie --</option>
+      <option value="hotel">Hôtel</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="pharmacie">Pharmacie</option>
+    </select>
+
+    <input type="text" name="nom" placeholder="Nom du service" required />
+    <input type="text" name="region" placeholder="Région" required />
+    <input type="text" name="ville" placeholder="Ville" required />
+    <input type="text" name="quartier" placeholder="Quartier" required />
+    <input type="text" name="adresse" placeholder="Adresse" required />
+    <textarea name="description" placeholder="Description du service" required></textarea>
+    <label>Photo principale :</label>
+    <input type="file" name="image" accept="image/*" required />
+
+    <button type="submit">Publier</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById('formulaire');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      message.textContent = "Envoi en cours...";
+
+      try {
+        const res = await fetch('/api/ajouter-service.js', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          message.textContent = "Service ajouté avec succès !";
+          form.reset();
+        } else {
+          message.textContent = "Erreur : " + data.error;
+        }
+      } catch (err) {
+        message.textContent = "Erreur de connexion.";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
