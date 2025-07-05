@@ -1,41 +1,70 @@
-// api/ajouter-service.js
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Méthode non autorisée' });
+const supabase = createClient(
+  "https://zsnovjyzgdyhvuctwozz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
+
+// Récupère le formulaire
+document.getElementById("form-ajout").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const nom = form.nom.value;
+  const categorie = form.categorie.value;
+  const region = form.region.value;
+  const ville = form.ville.value;
+  const quartier = form.quartier.value;
+  const adresse = form.adresse.value;
+  const description = form.description.value;
+  const imagesInput = form.images.files;
+
+  if (!imagesInput.length) {
+    alert("Veuillez sélectionner au moins une image.");
+    return;
   }
 
-  const { categorie, nom, region, ville, quartier, adresse, description } = req.body;
+  let uploadedImageURLs = [];
 
-  const supabaseUrl = 'https://zsnovjyzgdyhvuctwozz.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzbm92anl6Z2R5aHZ1Y3R3b3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTczMTQsImV4cCI6MjA2NzIzMzMxNH0.r2QCyhhdZS5Ksmjh3is5bK8PAOH8LWEFMlzJV0IwaU4';
+  for (let i = 0; i < imagesInput.length; i++) {
+    const file = imagesInput[i];
+    const filePath = `${Date.now()}_${file.name}`;
 
-  const response = await fetch(`${supabaseUrl}/rest/v1/services`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': supabaseKey,
-      'Authorization': `Bearer ${supabaseKey}`,
-      'Prefer': 'return=representation'
-    },
-    body: JSON.stringify({
-      categorie,
+    const { data, error } = await supabase.storage
+      .from("images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Erreur upload image :", error.message);
+      alert("Échec de l'upload de l'image.");
+      return;
+    }
+
+    // Génère l’URL publique de l’image
+    const imageURL = `${supabase.storage.from("images").getPublicUrl(filePath).data.publicUrl}`;
+    uploadedImageURLs.push(imageURL);
+  }
+
+  // Ajoute le service à la table
+  const { error: insertError } = await supabase.from("services").insert([
+    {
       nom,
+      categorie,
       region,
       ville,
       quartier,
       adresse,
       description,
-      status: 'pending',
-      created_at: new Date().toISOString()
-    })
-  });
+      images: uploadedImageURLs,
+      status: "pending",
+    }
+  ]);
 
-  const data = await response.json();
-
-  if (response.ok) {
-    return res.status(200).json({ message: 'Service ajouté avec succès', data });
+  if (insertError) {
+    console.error("Erreur enregistrement :", insertError.message);
+    alert("Erreur lors de l’ajout du service.");
   } else {
-    return res.status(500).json({ message: 'Erreur lors de l’ajout', error: data });
+    alert("Service ajouté avec succès !");
+    form.reset();
   }
-}
+});
