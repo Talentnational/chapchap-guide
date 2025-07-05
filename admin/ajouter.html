@@ -1,130 +1,110 @@
+<!-- ✅ Fichier: admin/ajouter.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ajouter un service</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       padding: 20px;
-      background-color: #f2f2f2;
     }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    label {
+      display: block;
+      margin-top: 10px;
     }
-    input, select, textarea, button {
+    input, select, textarea {
       width: 100%;
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1em;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
     }
     button {
-      background-color: #28a745;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007BFF;
       color: white;
-      font-weight: bold;
+      border: none;
       cursor: pointer;
     }
     button:hover {
-      background-color: #218838;
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
+  <h1>Ajouter un service</h1>
+  <form id="serviceForm">
+    <label>Catégorie
+      <select name="categorie" required>
+        <option value="hotel">Hôtel</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="pharmacie">Pharmacie</option>
+      </select>
+    </label>
 
-  <h2 style="text-align: center;">Ajouter un service</h2>
+    <label>Nom
+      <input type="text" name="nom" required>
+    </label>
 
-  <form id="ajouterForm">
-    <label>Catégorie</label>
-    <select name="categorie" required>
-      <option value="hotel">Hôtel</option>
-      <option value="restaurant">Restaurant</option>
-      <option value="pharmacie">Pharmacie</option>
-    </select>
+    <label>Région
+      <select name="region" required>
+        <option value="Nord">Nord</option>
+        <option value="Sud">Sud</option>
+        <option value="Est">Est</option>
+        <option value="Ouest">Ouest</option>
+        <option value="Centre">Centre</option>
+      </select>
+    </label>
 
-    <label>Nom</label>
-    <input type="text" name="nom" required />
+    <label>Ville
+      <input type="text" name="ville" required>
+    </label>
 
-    <label>Région</label>
-    <select name="region" id="regionSelect" required>
-      <option value="">Sélectionnez une région</option>
-      <option value="Nord">Nord</option>
-      <option value="Sud">Sud</option>
-      <option value="Est">Est</option>
-      <option value="Ouest">Ouest</option>
-      <option value="Centre">Centre</option>
-    </select>
+    <label>Quartier
+      <input type="text" name="quartier" required>
+    </label>
 
-    <label>Ville</label>
-    <select name="ville" id="villeSelect" required></select>
+    <label>Adresse
+      <input type="text" name="adresse" required>
+    </label>
 
-    <label>Quartier</label>
-    <input type="text" name="quartier" required />
+    <label>Description
+      <textarea name="description"></textarea>
+    </label>
 
-    <label>Adresse</label>
-    <input type="text" name="adresse" required />
-
-    <label>Description</label>
-    <textarea name="description" required></textarea>
+    <label>Image URL (séparées par des virgules)
+      <input type="text" name="images" placeholder="ex: image1.jpg,image2.jpg">
+    </label>
 
     <button type="submit">Ajouter le service</button>
   </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    // 🔐 Clés Supabase
-    const supabaseUrl = "https://zsnovjyzgdyhvuctwozz.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzbm92anl6Z2R5aHZ1Y3R3b3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTczMTQsImV4cCI6MjA2NzIzMzMxNH0.r2QCyhhdZS5Ksmjh3is5bK8PAOH8LWEFMlzJV0IwaU4";
-
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-    // Gérer les villes dynamiquement selon la région
-    const villesParRegion = {
-      "Nord": ["Korhogo", "Ferké", "Boundiali"],
-      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
-      "Est": ["Bondoukou", "Agnibilékrou"],
-      "Ouest": ["Man", "Duékoué", "Guiglo"],
-      "Centre": ["Yamoussoukro", "Bongouanou", "Bouaké"]
-    };
-
-    document.getElementById("regionSelect").addEventListener("change", function () {
-      const region = this.value;
-      const villes = villesParRegion[region] || [];
-      const villeSelect = document.getElementById("villeSelect");
-
-      villeSelect.innerHTML = '<option value="">Sélectionnez une ville</option>';
-      villes.forEach(ville => {
-        const opt = document.createElement("option");
-        opt.value = ville;
-        opt.textContent = ville;
-        villeSelect.appendChild(opt);
-      });
-    });
-
-    // Ajouter le service à Supabase
-    document.getElementById("ajouterForm").addEventListener("submit", async function (e) {
+    document.getElementById('serviceForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const formData = new FormData(this);
+      const formData = new FormData(e.target);
       const data = {};
-      formData.forEach((value, key) => { data[key] = value });
+      formData.forEach((value, key) => {
+        if (key === 'images') {
+          data[key] = value.split(',').map(img => img.trim());
+        } else {
+          data[key] = value;
+        }
+      });
 
-      const { error } = await supabase.from("services").insert([data]);
+      const res = await fetch('/api/ajouter-service.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
 
-      if (error) {
-        alert("Erreur : " + error.message);
-        console.error(error);
-      } else {
-        alert("Service ajouté avec succès !");
-        this.reset();
-      }
+      const result = await res.json();
+      alert(result.message || 'Service ajouté !');
     });
   </script>
 </body>
