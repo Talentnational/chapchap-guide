@@ -1,70 +1,44 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  "https://zsnovjyzgdyhvuctwozz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  'https://zsnovjyzgdyhvuctwozz.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzbm92anl6Z2R5aHZ1Y3R3b3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTczMTQsImV4cCI6MjA2NzIzMzMxNH0.r2QCyhhdZS5Ksmjh3is5bK8PAOH8LWEFMlzJV0IwaU4'
 );
 
-// Récupère le formulaire
-document.getElementById("form-ajout").addEventListener("submit", async (e) => {
-  e.preventDefault();
+export async function POST(req) {
+  const formData = await req.formData();
+  const image = formData.get('image');
 
-  const form = e.target;
-  const nom = form.nom.value;
-  const categorie = form.categorie.value;
-  const region = form.region.value;
-  const ville = form.ville.value;
-  const quartier = form.quartier.value;
-  const adresse = form.adresse.value;
-  const description = form.description.value;
-  const imagesInput = form.images.files;
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from('services')
+    .upload(`images/${Date.now()}_${image.name}`, image, {
+      cacheControl: '3600',
+      upsert: false,
+    });
 
-  if (!imagesInput.length) {
-    alert("Veuillez sélectionner au moins une image.");
-    return;
+  if (uploadError) {
+    return new Response(JSON.stringify({ error: 'Erreur upload image' }), { status: 500 });
   }
 
-  let uploadedImageURLs = [];
+  const imageUrl = `https://zsnovjyzgdyhvuctwozz.supabase.co/storage/v1/object/public/services/${uploadData.path}`;
 
-  for (let i = 0; i < imagesInput.length; i++) {
-    const file = imagesInput[i];
-    const filePath = `${Date.now()}_${file.name}`;
-
-    const { data, error } = await supabase.storage
-      .from("images")
-      .upload(filePath, file);
-
-    if (error) {
-      console.error("Erreur upload image :", error.message);
-      alert("Échec de l'upload de l'image.");
-      return;
-    }
-
-    // Génère l’URL publique de l’image
-    const imageURL = `${supabase.storage.from("images").getPublicUrl(filePath).data.publicUrl}`;
-    uploadedImageURLs.push(imageURL);
-  }
-
-  // Ajoute le service à la table
-  const { error: insertError } = await supabase.from("services").insert([
+  const { error } = await supabase.from('services').insert([
     {
-      nom,
-      categorie,
-      region,
-      ville,
-      quartier,
-      adresse,
-      description,
-      images: uploadedImageURLs,
-      status: "pending",
-    }
+      categorie: formData.get('categorie'),
+      nom: formData.get('nom'),
+      region: formData.get('region'),
+      ville: formData.get('ville'),
+      quartier: formData.get('quartier'),
+      adresse: formData.get('adresse'),
+      description: formData.get('description'),
+      images: [imageUrl],
+      status: 'valide',
+    },
   ]);
 
-  if (insertError) {
-    console.error("Erreur enregistrement :", insertError.message);
-    alert("Erreur lors de l’ajout du service.");
-  } else {
-    alert("Service ajouté avec succès !");
-    form.reset();
+  if (error) {
+    return new Response(JSON.stringify({ error: 'Erreur enregistrement base' }), { status: 500 });
   }
-});
+
+  return new Response(JSON.stringify({ message: 'OK' }), { status: 200 });
+}
