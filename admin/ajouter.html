@@ -1,79 +1,118 @@
-<form id="ajouter-form" enctype="multipart/form-data">
-  <label>Catégorie: <input name="categorie" required></label><br>
-  <label>Nom: <input name="nom" required></label><br>
-  <label>Région: <input name="region" required></label><br>
-  <label>Ville: <input name="ville" required></label><br>
-  <label>Quartier: <input name="quartier" required></label><br>
-  <label>Adresse: <input name="adresse" required></label><br>
-  <label>Description: <textarea name="description" required></textarea></label><br>
-  <label>Images: <input type="file" name="images" accept="image/*" multiple required></label><br>
-  <button type="submit">Ajouter le service</button>
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ajouter un service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, textarea, select {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+    }
+    button {
+      padding: 0.7rem;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Ajouter un service</h2>
+  <form id="ajouter-form" enctype="multipart/form-data">
+    <label>Catégorie:
+      <select name="categorie" required>
+        <option value="hotel">Hôtel</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="pharmacie">Pharmacie</option>
+      </select>
+    </label>
 
-<p id="resultat"></p>
+    <label>Nom: <input name="nom" required /></label>
+    <label>Région:
+      <select name="region" required>
+        <option value="Nord">Nord</option>
+        <option value="Sud">Sud</option>
+        <option value="Est">Est</option>
+        <option value="Ouest">Ouest</option>
+        <option value="Centre">Centre</option>
+      </select>
+    </label>
 
-<script type="module">
-  const form = document.getElementById('ajouter-form');
-  const resultat = document.getElementById('resultat');
+    <label>Ville: <input name="ville" required /></label>
+    <label>Quartier: <input name="quartier" required /></label>
+    <label>Adresse: <input name="adresse" required /></label>
+    <label>Description:
+      <textarea name="description" required></textarea>
+    </label>
+    <label>Images:
+      <input type="file" name="images" accept="image/*" multiple required />
+    </label>
 
-  const SUPABASE_URL = "https://zsnovjyzgdyhvuctwozz.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-  const BUCKET = "services-images";
+    <button type="submit">Ajouter le service</button>
+  </form>
 
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  <p id="resultat"></p>
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  <script type="module">
+    const form = document.getElementById("ajouter-form");
+    const resultat = document.getElementById("resultat");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(form);
-    const images = formData.getAll("images");
+    const SUPABASE_URL = "https://zsnovjyzgdyhvuctwozz.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzbm92anl6Z2R5aHZ1Y3R3b3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTczMTQsImV4cCI6MjA2NzIzMzMxNH0.r2QCyhhdZS5Ksmjh3is5bK8PAOH8LWEFMlzJV0IwaU4";
+    const BUCKET = "services-images";
 
-    const uploadedImageUrls = [];
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    for (const image of images) {
-      const fileName = `${Date.now()}-${image.name}`;
-      const { data, error } = await supabase.storage
-        .from(BUCKET)
-        .upload(fileName, image);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-      if (error) {
-        resultat.textContent = "Erreur lors de l'envoi de l'image";
-        return;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const images = formData.getAll("images");
+      const uploadedUrls = [];
+
+      for (const img of images) {
+        const fileName = `${Date.now()}-${img.name}`;
+        const { error } = await supabase.storage.from(BUCKET).upload(fileName, img);
+        if (error) {
+          resultat.textContent = "Erreur d'upload image";
+          return;
+        }
+        const { data } = supabase.storage.from(BUCKET).getPublicUrl(fileName);
+        uploadedUrls.push(data.publicUrl);
       }
 
-      const { data: publicUrl } = supabase
-        .storage
-        .from(BUCKET)
-        .getPublicUrl(fileName);
+      const response = await fetch("/api/ajouter-service", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          categorie: formData.get("categorie"),
+          nom: formData.get("nom"),
+          region: formData.get("region"),
+          ville: formData.get("ville"),
+          quartier: formData.get("quartier"),
+          adresse: formData.get("adresse"),
+          description: formData.get("description"),
+          images: uploadedUrls,
+        }),
+      });
 
-      uploadedImageUrls.push(publicUrl.publicUrl);
-    }
-
-    // Envoyer les données + URLs au backend Supabase REST API
-    const response = await fetch("/api/ajouter-service", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        categorie: formData.get("categorie"),
-        nom: formData.get("nom"),
-        region: formData.get("region"),
-        ville: formData.get("ville"),
-        quartier: formData.get("quartier"),
-        adresse: formData.get("adresse"),
-        description: formData.get("description"),
-        images: uploadedImageUrls
-      }),
+      const result = await response.json();
+      resultat.textContent = response.ok
+        ? "Service ajouté avec succès !"
+        : "Erreur : " + result.message;
+      if (response.ok) form.reset();
     });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      resultat.textContent = "Service ajouté avec succès !";
-      form.reset();
-    } else {
-      resultat.textContent = "Erreur : " + result.message;
-    }
-  });
-</script>
+  </script>
+</body>
+</html>
