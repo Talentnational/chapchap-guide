@@ -6,42 +6,64 @@
   <title>Ajouter un service</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       padding: 20px;
+      background-color: #f2f2f2;
     }
-    label {
-      display: block;
-      margin-top: 10px;
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input, select, textarea {
+    input, select, textarea, button {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
     }
     button {
-      margin-top: 20px;
-      background-color: green;
+      background-color: #28a745;
       color: white;
-      padding: 10px;
-      border: none;
+      font-weight: bold;
       cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <h1>Ajouter un service</h1>
-  <form id="form-service">
+
+  <h2 style="text-align: center;">Ajouter un service</h2>
+
+  <form id="ajouterForm">
     <label>Catégorie</label>
-    <input type="text" name="categorie" required />
+    <select name="categorie" required>
+      <option value="hotel">Hôtel</option>
+      <option value="restaurant">Restaurant</option>
+      <option value="pharmacie">Pharmacie</option>
+    </select>
 
     <label>Nom</label>
     <input type="text" name="nom" required />
 
     <label>Région</label>
-    <input type="text" name="region" required />
+    <select name="region" id="regionSelect" required>
+      <option value="">Sélectionnez une région</option>
+      <option value="Nord">Nord</option>
+      <option value="Sud">Sud</option>
+      <option value="Est">Est</option>
+      <option value="Ouest">Ouest</option>
+      <option value="Centre">Centre</option>
+    </select>
 
     <label>Ville</label>
-    <input type="text" name="ville" required />
+    <select name="ville" id="villeSelect" required></select>
 
     <label>Quartier</label>
     <input type="text" name="quartier" required />
@@ -52,12 +74,58 @@
     <label>Description</label>
     <textarea name="description" required></textarea>
 
-    <label>Image (URL seulement)</label>
-    <input type="text" name="images" placeholder="https://..." />
-
     <button type="submit">Ajouter le service</button>
   </form>
 
-  <script src="/admin/ajouter-service.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // 🔐 Clés Supabase
+    const supabaseUrl = "https://zsnovjyzgdyhvuctwozz.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzbm92anl6Z2R5aHZ1Y3R3b3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2NTczMTQsImV4cCI6MjA2NzIzMzMxNH0.r2QCyhhdZS5Ksmjh3is5bK8PAOH8LWEFMlzJV0IwaU4";
+
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Gérer les villes dynamiquement selon la région
+    const villesParRegion = {
+      "Nord": ["Korhogo", "Ferké", "Boundiali"],
+      "Sud": ["Abidjan", "Grand-Bassam", "Dabou"],
+      "Est": ["Bondoukou", "Agnibilékrou"],
+      "Ouest": ["Man", "Duékoué", "Guiglo"],
+      "Centre": ["Yamoussoukro", "Bongouanou", "Bouaké"]
+    };
+
+    document.getElementById("regionSelect").addEventListener("change", function () {
+      const region = this.value;
+      const villes = villesParRegion[region] || [];
+      const villeSelect = document.getElementById("villeSelect");
+
+      villeSelect.innerHTML = '<option value="">Sélectionnez une ville</option>';
+      villes.forEach(ville => {
+        const opt = document.createElement("option");
+        opt.value = ville;
+        opt.textContent = ville;
+        villeSelect.appendChild(opt);
+      });
+    });
+
+    // Ajouter le service à Supabase
+    document.getElementById("ajouterForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => { data[key] = value });
+
+      const { error } = await supabase.from("services").insert([data]);
+
+      if (error) {
+        alert("Erreur : " + error.message);
+        console.error(error);
+      } else {
+        alert("Service ajouté avec succès !");
+        this.reset();
+      }
+    });
+  </script>
 </body>
 </html>
