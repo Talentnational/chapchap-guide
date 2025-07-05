@@ -1,111 +1,79 @@
-<!-- ✅ Fichier: admin/ajouter.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ajouter un service</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+<form id="ajouter-form" enctype="multipart/form-data">
+  <label>Catégorie: <input name="categorie" required></label><br>
+  <label>Nom: <input name="nom" required></label><br>
+  <label>Région: <input name="region" required></label><br>
+  <label>Ville: <input name="ville" required></label><br>
+  <label>Quartier: <input name="quartier" required></label><br>
+  <label>Adresse: <input name="adresse" required></label><br>
+  <label>Description: <textarea name="description" required></textarea></label><br>
+  <label>Images: <input type="file" name="images" accept="image/*" multiple required></label><br>
+  <button type="submit">Ajouter le service</button>
+</form>
+
+<p id="resultat"></p>
+
+<script type="module">
+  const form = document.getElementById('ajouter-form');
+  const resultat = document.getElementById('resultat');
+
+  const SUPABASE_URL = "https://zsnovjyzgdyhvuctwozz.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+  const BUCKET = "services-images";
+
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const images = formData.getAll("images");
+
+    const uploadedImageUrls = [];
+
+    for (const image of images) {
+      const fileName = `${Date.now()}-${image.name}`;
+      const { data, error } = await supabase.storage
+        .from(BUCKET)
+        .upload(fileName, image);
+
+      if (error) {
+        resultat.textContent = "Erreur lors de l'envoi de l'image";
+        return;
+      }
+
+      const { data: publicUrl } = supabase
+        .storage
+        .from(BUCKET)
+        .getPublicUrl(fileName);
+
+      uploadedImageUrls.push(publicUrl.publicUrl);
     }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <h1>Ajouter un service</h1>
-  <form id="serviceForm">
-    <label>Catégorie
-      <select name="categorie" required>
-        <option value="hotel">Hôtel</option>
-        <option value="restaurant">Restaurant</option>
-        <option value="pharmacie">Pharmacie</option>
-      </select>
-    </label>
 
-    <label>Nom
-      <input type="text" name="nom" required>
-    </label>
-
-    <label>Région
-      <select name="region" required>
-        <option value="Nord">Nord</option>
-        <option value="Sud">Sud</option>
-        <option value="Est">Est</option>
-        <option value="Ouest">Ouest</option>
-        <option value="Centre">Centre</option>
-      </select>
-    </label>
-
-    <label>Ville
-      <input type="text" name="ville" required>
-    </label>
-
-    <label>Quartier
-      <input type="text" name="quartier" required>
-    </label>
-
-    <label>Adresse
-      <input type="text" name="adresse" required>
-    </label>
-
-    <label>Description
-      <textarea name="description"></textarea>
-    </label>
-
-    <label>Image URL (séparées par des virgules)
-      <input type="text" name="images" placeholder="ex: image1.jpg,image2.jpg">
-    </label>
-
-    <button type="submit">Ajouter le service</button>
-  </form>
-
-  <script>
-    document.getElementById('serviceForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const formData = new FormData(e.target);
-      const data = {};
-      formData.forEach((value, key) => {
-        if (key === 'images') {
-          data[key] = value.split(',').map(img => img.trim());
-        } else {
-          data[key] = value;
-        }
-      });
-
-      const res = await fetch('/api/ajouter-service.js', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      const result = await res.json();
-      alert(result.message || 'Service ajouté !');
+    // Envoyer les données + URLs au backend Supabase REST API
+    const response = await fetch("/api/ajouter-service", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        categorie: formData.get("categorie"),
+        nom: formData.get("nom"),
+        region: formData.get("region"),
+        ville: formData.get("ville"),
+        quartier: formData.get("quartier"),
+        adresse: formData.get("adresse"),
+        description: formData.get("description"),
+        images: uploadedImageUrls
+      }),
     });
-  </script>
-</body>
-</html>
+
+    const result = await response.json();
+
+    if (response.ok) {
+      resultat.textContent = "Service ajouté avec succès !";
+      form.reset();
+    } else {
+      resultat.textContent = "Erreur : " + result.message;
+    }
+  });
+</script>
